@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29709.97
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS", "TMS\TMS.csproj", "{0B9A4745-D0A8-4DF9-B288-45776FFB157E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTMS", "ConsoleTMS\ConsoleTMS.csproj", "{798090F4-A595-4C34-BA53-44E7C46B8D0A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0B9A4745-D0A8-4DF9-B288-45776FFB157E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0B9A4745-D0A8-4DF9-B288-45776FFB157E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0B9A4745-D0A8-4DF9-B288-45776FFB157E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0B9A4745-D0A8-4DF9-B288-45776FFB157E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {1A857923-D669-41F2-AC87-7D294AB8AF2A}
+	EndGlobalSection
+EndGlobal

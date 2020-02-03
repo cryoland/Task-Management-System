@@ -1,0 +1,40 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@{
+    ViewData["Title"] = "Add Employee";
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <a asp-controller="staff" asp-action="index">Employees</a> >
+    <span>Add Employee</span>
+</div>
+
+<h1>Add Employee</h1>
+
+<form asp-controller="staff" asp-action="add" method="post">
+    <div>
+        <label>
+            ShortName:
+            <input placeholder="title" type="text" name="shortname" required />
+        </label>
+    </div>
+    <div>
+        <label>
+            FullName
+            <input placeholder="title" type="text" name="fullname" required />
+        </label>
+    </div>
+    <div>
+        <label>
+            Select Role
+            <select name="assigneeId" required>
+                @foreach (var item in Enum.GetValues(typeof(TMS.Models.EmployeeRole)).Cast<TMS.Models.EmployeeRole>())
+                {
+                    <option value="@((int)item)">@item.ToString()</option>
+                }
+            </select>
+        </label>
+    </div>
+    <input class="btn" type="submit" value="Add" />
+</form>

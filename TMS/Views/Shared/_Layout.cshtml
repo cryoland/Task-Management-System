@@ -1,0 +1,27 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/css/main.css" rel="stylesheet" />
+</head>
+<body>
+    <header>
+        <a class="logo" asp-controller="Home" asp-action="Index"></a>
+        @if (User.Identity.IsAuthenticated)
+        {
+        <div class="profile">
+            Logged as: 
+            [@User.Identity.Name]
+            <a asp-controller="Account" asp-action="Logout">Log out</a>
+        </div>
+        }
+    </header>
+    <div class="container">
+        @RenderBody()
+    </div>
+    <footer>
+    </footer>
+</body>
+</html>

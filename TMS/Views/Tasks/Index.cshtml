@@ -1,0 +1,28 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<TMS.Models.QTask>
+@{
+    ViewData["Title"] = "Tasks";
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <span>Tasks</span>
+</div>
+
+<h1>Tasks</h1>
+
+<table class="table">
+    <tr><td>Title</td><td>Assignee</td><td>Reporter</td><td>Status</td></tr>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td><a asp-controller="tasks" asp-action="detailed" asp-route-id="@item.Id">@item.Name</a></td>
+            <td>@item.Assignee.FullName</td>
+            <td>@item.Reporter.FullName</td>
+            <td>@item.Status</td>
+        </tr>
+    }
+</table>
+
+<a class="btn task-add noselect" asp-controller="tasks" asp-action="add">New task</a>

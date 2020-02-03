@@ -1,0 +1,52 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model TMS.Models.Employees
+@{
+    int? id = Model?.Id;
+    string title = (id == null) ? "Employee" : $"Employee#{id.ToString()}";
+    ViewData["Title"] = title;
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <a asp-controller="staff" asp-action="index">Employees</a> >
+    <span>@Model.FullName [Edit mode]</span>
+</div>
+
+<h1>Employee Info</h1>
+
+@if (id != null)
+{
+    <form asp-controller="staff" asp-action="edit" method="post">
+        <div>
+            <label>
+                ShortName:
+                <input placeholder="title" type="text" name="shortname" required value="@Model.ShortName" />
+            </label>
+        </div>
+        <div>
+            <label>
+                FullName
+                <input placeholder="title" type="text" name="fullname" required value="@Model.FullName" />
+            </label>
+        </div>
+        <div>
+            <label>
+                Select Role
+                <select name="role" required>
+                    @foreach (var item in Enum.GetValues(typeof(TMS.Models.EmployeeRole)).Cast<TMS.Models.EmployeeRole>())
+                    {
+                        <option value="@((int)item + 1)" selected="@(Model.Role.Id.Equals((int)item + 1))">@item.ToString()</option>
+                    }
+                </select>
+            </label>
+        </div>
+        <input type="hidden" name="employyeId" value="@Model.Id" />
+        <input class="btn" type="submit" value="Update" />
+    </form>
+
+    <form asp-controller="staff" asp-action="delete" method="post">
+        <input type="hidden" name="employyeId" value="@Model.Id" />
+        <input class="btn" type="submit" value="Remove" />
+    </form>
+}

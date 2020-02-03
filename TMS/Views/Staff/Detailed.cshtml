@@ -1,0 +1,32 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using TMS.Models;
+@model TMS.Models.Employees
+@{
+    int? id = Model?.Id;
+    string title = (id == null) ? "Employee" : $"Employee#{id.ToString()}";
+    ViewData["Title"] = title;
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <a asp-controller="staff" asp-action="index">Employees</a> >
+    <span>@Model.FullName</span>
+</div>
+
+<h1>Employee Info</h1>
+
+
+@if (id != null)
+{
+    <div>Employee details</div>
+    <table class="table">
+        <tr><td>ShortName</td><td>FullName</td><td>Role</td></tr>
+        <tr>
+            <td>@Model.ShortName</td>
+            <td>@Model.FullName</td>
+            <td>@((EmployeeRole)Model.Role.Name)</td>
+        </tr>
+    </table>
+    <a class="btn task-add noselect" asp-controller="staff" asp-action="edit" asp-route-id="@Model.Id">Edit</a>
+}

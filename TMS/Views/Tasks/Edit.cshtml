@@ -1,0 +1,69 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model (TMS.Models.QTask, List<TMS.Models.Employees>)
+@{
+    ViewData["Title"] = "Edit task";
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <a asp-controller="tasks" asp-action="index">Tasks</a> >
+    <span>@Model.Item1.Name [Edit mode]</span>
+</div>
+
+<h1>@Model.Item1.Name</h1>
+
+<form asp-controller="tasks" asp-action="edit" method="post">
+    <div>
+        <label>
+            Title:
+            <input placeholder="title" type="text" name="title" required value="@Model.Item1.Name" />
+        </label>
+    </div>
+    <div>
+        <label>
+            Description
+            <textarea placeholder="description" name="desc">@Model.Item1.Description</textarea>
+        </label>
+    </div>
+    <div>
+        <label>
+            Select assignee
+            <select name="assigneeId" required>
+                @foreach (var item in Model.Item2)
+                {
+                    <option value="@item.Id" selected="@(item.Id == Model.Item1.AssigneeId)">@item.FullName</option>
+                }
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            Select reporter
+            <select name="reporterId" required>
+                @foreach (var item in Model.Item2)
+                {
+                    <option value="@item.Id" selected="@(item.Id == Model.Item1.ReporterId)">@item.FullName</option>
+                }
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            Priority
+            <select name="priority" required>
+                @foreach (var item in Enum.GetValues(typeof(TMS.Models.TaskPriority)).Cast<TMS.Models.TaskPriority>())
+                {
+                    <option value="@((int)item)" selected="@(@Model.Item1.Priority.Equals(item))">@item.ToString()</option>
+                }
+            </select>
+        </label>
+    </div>
+    <input type="hidden" name="taskId" value="@Model.Item1.Id" />
+    <input class="btn" type="submit" value="Update" />
+</form>
+
+<form asp-controller="tasks" asp-action="delete" method="post">
+    <input type="hidden" name="taskId" value="@Model.Item1.Id" />
+    <input class="btn" type="submit" value="Remove" />
+</form>

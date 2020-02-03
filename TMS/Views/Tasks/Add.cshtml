@@ -1,0 +1,63 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model IEnumerable<TMS.Models.Employees>
+@{
+    ViewData["Title"] = "Add task";
+    Layout = "_Layout";
+}
+
+<div class="breadcrumbs">     
+    <a asp-controller="home" asp-action="index">Home</a> >
+    <a asp-controller="tasks" asp-action="index">Tasks</a> >
+    <span>Add task</span>
+</div>
+
+<h1>Add task</h1>
+
+<form asp-controller="tasks" asp-action="add" method="post">
+    <div>
+        <label>
+            Title:
+            <input placeholder="title" type="text" name="title" required />
+        </label>
+    </div>
+    <div>
+        <label>
+            Description
+            <textarea placeholder="description" name="desc"></textarea>
+        </label>
+    </div>
+    <div>
+        <label>
+            Select assignee
+            <select name="assigneeId" required>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.FullName</option>
+                }
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            Select reporter
+            <select name="reporterId" required>
+                @foreach (var item in Model)
+                {
+                    <option value="@item.Id">@item.FullName</option>
+                }
+            </select>
+        </label>
+    </div>
+    <div>
+        <label>
+            Priority
+            <select name="priority" required>
+                @foreach (var item in Enum.GetValues(typeof(TMS.Models.TaskPriority)).Cast<TMS.Models.TaskPriority>())
+                {
+                    <option value="@((int)item)">@item.ToString()</option>
+                }
+            </select>
+        </label>
+    </div>
+    <input type="submit" value="Create" />
+</form>
