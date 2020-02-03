@@ -16,19 +16,25 @@
     <div>
         <label>
             ShortName:
-            <input placeholder="title" type="text" name="shortname" required />
+            <input placeholder="ShortName" type="text" name="shortname" required />
         </label>
     </div>
     <div>
         <label>
             FullName
-            <input placeholder="title" type="text" name="fullname" required />
+            <input placeholder="FullName" type="text" name="fullname" required />
+        </label>
+    </div>
+    <div>
+        <label>
+            E-mail
+            <input placeholder="E-mail" type="text" name="email" required />
         </label>
     </div>
     <div>
         <label>
             Select Role
-            <select name="assigneeId" required>
+            <select name="role" required>
                 @foreach (var item in Enum.GetValues(typeof(TMS.Models.EmployeeRole)).Cast<TMS.Models.EmployeeRole>())
                 {
                     <option value="@((int)item)">@item.ToString()</option>

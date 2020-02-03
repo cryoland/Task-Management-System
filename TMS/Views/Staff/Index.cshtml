@@ -20,9 +20,12 @@
         <tr>
             <td>@item.ShortName</td>
             <td><a asp-controller="staff" asp-action="detailed" asp-route-id="@item.Id">@item.FullName</a></td>
-            <td>@((EmployeeRole)item.Role.Name)</td>
+            <td>@((EmployeeRole)item.Role?.Name)</td>
         </tr>
     }
 </table>
 
-<a class="btn task-add noselect" asp-controller="staff" asp-action="add">New Employee</a>
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn task-add noselect" asp-controller="staff" asp-action="add">New Employee</a>
+}

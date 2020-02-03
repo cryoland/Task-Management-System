@@ -38,10 +38,10 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employees user = await db.Employees.FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+                Employees user = await db.Employees.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user.FullName); // аутентификация
+                    await Authenticate(user); // аутентификация
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -63,9 +63,9 @@ namespace TMS.Controllers
                     db.Employees.Add(new Employees { Email = model.Email, Password = model.Password, ShortName = model.ShortName, FullName = model.FullName });
                     await db.SaveChangesAsync();
 
-                    await Authenticate(model.FullName); // аутентификация
+                    //await Authenticate(model.FullName); // аутентификация
 
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Login");
                 }
                 else
                     ModelState.AddModelError("", "Некорректные логин и(или) пароль");
@@ -73,10 +73,14 @@ namespace TMS.Controllers
             return View(model);
         }
 
-        private async Task Authenticate(string userName)
+        private async Task Authenticate(Employees user)
         {
             // создаем один claim
-            var claims = new List<Claim> { new Claim(ClaimsIdentity.DefaultNameClaimType, userName) };
+            var claims = new List<Claim> 
+            { 
+                new Claim(ClaimsIdentity.DefaultNameClaimType, user.FullName),
+                new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name.ToString())
+            };
             // создаем объект ClaimsIdentity
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
             // установка аутентификационных куки

@@ -66,17 +66,18 @@ namespace TMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int? taskId, string title, string desc, int assigneeId, int reporterId, int priority)
+        public IActionResult Edit(int? taskId, string title, string desc, int? assigneeId, int? reporterId, int? priority, int? status)
         {
             if (taskId != null)
             {
                 var qtask = db.QTasks.FirstOrDefault(t => t.Id == taskId);
-                qtask.Name = title;
-                qtask.Description = desc;
-                qtask.AssigneeId = assigneeId;
-                qtask.ReporterId = reporterId;
-                qtask.Priority = (TaskPriority)priority;
-                db.SaveChanges();
+                    qtask.Name = string.IsNullOrEmpty(title) ? qtask.Name : title;
+                    qtask.Description = string.IsNullOrEmpty(title) ? qtask.Name : desc;
+                    qtask.AssigneeId = assigneeId ?? qtask.AssigneeId;
+                    qtask.ReporterId = reporterId ?? qtask.ReporterId;
+                    qtask.Priority = (TaskPriority)(priority ?? (int)qtask.Priority);
+                    qtask.Status = (Models.TaskStatus)(status ?? (int)qtask.Status);
+                db.SaveChanges(); 
                 return Redirect(Url.Action("Detailed", "Tasks", taskId));
             }
             return RedirectToAction("Index");

@@ -1,11 +1,14 @@
 ﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@using TMS.Models;
 @model IEnumerable<TMS.Models.Employees>
 @{
     ViewData["Title"] = "Add task";
-    Layout = "_Layout";
+    Layout = "_Layout";    
+    ViewBag.Reporter = Model.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id;
+    ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
 }
 
-<div class="breadcrumbs">     
+<div class="breadcrumbs">
     <a asp-controller="home" asp-action="index">Home</a> >
     <a asp-controller="tasks" asp-action="index">Tasks</a> >
     <span>Add task</span>
@@ -37,17 +40,24 @@
             </select>
         </label>
     </div>
-    <div>
-        <label>
-            Select reporter
-            <select name="reporterId" required>
-                @foreach (var item in Model)
-                {
-                    <option value="@item.Id">@item.FullName</option>
-                }
-            </select>
-        </label>
-    </div>
+    @if (ViewBag.IsAdmin)
+    {
+        <div>
+            <label>
+                Select reporter
+                <select name="reporterId" required>
+                    @foreach (var item in Model)
+                    {
+                        <option value="@item.Id">@item.FullName</option>
+                    }
+                </select>
+            </label>
+        </div>
+    }
+    else
+    {
+        <input type="hidden" name="reporterId" value="@ViewBag.Reporter" />
+    }
     <div>
         <label>
             Priority
