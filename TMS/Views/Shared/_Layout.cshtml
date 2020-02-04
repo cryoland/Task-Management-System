@@ -4,6 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link href="~/css/main.css" rel="stylesheet" />
 </head>
 <body>
@@ -11,11 +12,11 @@
         <a class="logo" asp-controller="Home" asp-action="Index"></a>
         @if (User.Identity.IsAuthenticated)
         {
-        <div class="profile">
-            Logged as: 
-            [@User.Identity.Name]
-            <a asp-controller="Account" asp-action="Logout">Log out</a>
-        </div>
+            <div class="profile">
+                Logged as:
+                [@User.Identity.Name]
+                <a asp-controller="Account" asp-action="Logout">Log out</a>
+            </div>
         }
     </header>
     <div class="container">
@@ -23,5 +24,8 @@
     </div>
     <footer>
     </footer>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
 </body>
 </html>
