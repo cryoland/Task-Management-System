@@ -4,8 +4,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query;
 using TMS.Models;
+using TMS.ViewModels;
 
 namespace TMS.Controllers
 {
@@ -19,10 +22,17 @@ namespace TMS.Controllers
         }
         public async Task<IActionResult> Index()
         {
-            return View(await db.QTasks
+            var tasks = db.QTasks
                 .Include(a => a.Assignee)
-                .Include(r => r.Reporter)
-                .ToListAsync());
+                .Include(r => r.Reporter);
+
+            IQueryable<QTask> result = tasks;
+
+            if (!User.IsInRole(EmployeeRole.Admin.ToString()))
+            {
+                result = tasks.Where(u => u.Reporter.FullName.Equals(User.Identity.Name) || u.Assignee.FullName.Equals(User.Identity.Name));
+            }
+            return View(await result.ToListAsync());
         }
 
         [HttpGet]
@@ -30,7 +40,26 @@ namespace TMS.Controllers
         {
             if(id != null)
             {
-                return View(await db.QTasks.Where(t => t.Id == id).FirstOrDefaultAsync());
+                var tasks = db.QTasks.Where(t => t.Id == id);
+                IQueryable<QTask> result = tasks;
+
+                // админу доступны любые задачи
+                if (User.IsInRole(EmployeeRole.Admin.ToString()))
+                {
+                    return View(await tasks.FirstOrDefaultAsync());
+                }
+
+                // фильтр: создатель или исполнитель 
+                result = tasks.Where(u => u.Reporter.FullName.Equals(User.Identity.Name) || u.Assignee.FullName.Equals(User.Identity.Name));
+                                             
+                if (result.Count() > 0)
+                {
+                    return View(await result.FirstOrDefaultAsync());                   
+                }
+                else
+                {
+                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
+                }
             }            
             return RedirectToAction("Index");
         }
@@ -44,7 +73,19 @@ namespace TMS.Controllers
         {
             if (id != null)
             {
-                return View((await db.QTasks.Where(t => t.Id == id).FirstOrDefaultAsync(), await db.Employees.ToListAsync()));
+                var task = await db.QTasks.Where(t => t.Id == id).FirstOrDefaultAsync();
+                var employees = db.Employees;
+
+                ViewBag.Task = task;
+                ViewBag.IsReporter = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
+                ViewBag.IsAssignee = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.AssigneeId);
+                ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
+
+                var employeesList = await employees.ToListAsync();
+                ViewBag.Assignees = new SelectList(employeesList, "Id", "FullName", employeesList.Where(e => e.Id.Equals(task.AssigneeId)).FirstOrDefault());
+                ViewBag.Reporters = new SelectList(employeesList, "Id", "FullName", employeesList.Where(e => e.Id.Equals(task.ReporterId)).FirstOrDefault());
+
+                return View();
             }
             return RedirectToAction("Index");
         }
@@ -66,19 +107,19 @@ namespace TMS.Controllers
         }
 
         [HttpPost]
-        public IActionResult Edit(int? taskId, string title, string desc, int? assigneeId, int? reporterId, int? priority, int? status)
+        public IActionResult Edit(TaskEditModel model)
         {
-            if (taskId != null)
+            if(ModelState.IsValid)
             {
-                var qtask = db.QTasks.FirstOrDefault(t => t.Id == taskId);
-                    qtask.Name = string.IsNullOrEmpty(title) ? qtask.Name : title;
-                    qtask.Description = string.IsNullOrEmpty(title) ? qtask.Name : desc;
-                    qtask.AssigneeId = assigneeId ?? qtask.AssigneeId;
-                    qtask.ReporterId = reporterId ?? qtask.ReporterId;
-                    qtask.Priority = (TaskPriority)(priority ?? (int)qtask.Priority);
-                    qtask.Status = (Models.TaskStatus)(status ?? (int)qtask.Status);
-                db.SaveChanges(); 
-                return Redirect(Url.Action("Detailed", "Tasks", taskId));
+                var qtask = db.QTasks.FirstOrDefault(t => t.Id == model.TaskId);
+                qtask.Name = string.IsNullOrEmpty(model.Title) ? qtask.Name : model.Title;
+                qtask.Description = string.IsNullOrEmpty(model.Description) ? qtask.Name : model.Description;
+                qtask.AssigneeId = model.AssigneeId ?? qtask.AssigneeId;
+                qtask.ReporterId = model.ReporterId ?? qtask.ReporterId;
+                qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
+                qtask.Status = (Models.TaskStatus)(model.Status ?? (int)qtask.Status);
+                db.SaveChanges();
+                return Redirect(Url.Action("Detailed", "Tasks", model.TaskId));
             }
             return RedirectToAction("Index");
         }

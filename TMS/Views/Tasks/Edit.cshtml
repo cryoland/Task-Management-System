@@ -1,60 +1,45 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@using TMS.Models;
-@model (TMS.Models.QTask, List<TMS.Models.Employees>)
+﻿@using TMS.ViewModels;
+@model TaskEditModel
 @{
     ViewData["Title"] = "Edit task";
     Layout = "_Layout";
-    ViewBag.Reporter = Model.Item2.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(Model.Item1.ReporterId);
-    ViewBag.Assignee = Model.Item2.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(Model.Item1.AssigneeId);
-    ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
+
+    //ViewBag.Task
+    //ViewBag.Employees
+    //ViewBag.Reporter
+    //ViewBag.Assignee
+    //ViewBag.IsAdmin
 }
 <div class="breadcrumbs">
     <a asp-controller="home" asp-action="index">Home</a> >
     <a asp-controller="tasks" asp-action="index">Tasks</a> >
-    <span>@Model.Item1.Name [Edit mode]</span>
+    <span>@ViewBag.Task.Name [Edit mode]</span>
 </div>
 
-<h1>@Model.Item1.Name</h1>
+<h1>@ViewBag.Task.Name</h1>
 
 <form asp-controller="tasks" asp-action="edit" method="post">
-    @if (ViewBag.IsAdmin || ViewBag.Reporter)
+    @if (ViewBag.IsAdmin || ViewBag.IsReporter)
     {
         <div>
-            <label>
-                Title:
-                <input placeholder="title" type="text" name="title" required value="@Model.Item1.Name" />
-            </label>
+            <label asp-for="Title" class="control-label"></label>
+            <input asp-for="Title" class="form-control" />
+            <span asp-validation-for="Title" class="text-danger"></span>
         </div>
         <div>
-            <label>
-                Description
-                <textarea placeholder="description" name="desc">@Model.Item1.Description</textarea>
-            </label>
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
         </div>
         <div>
-            <label>
-                Select assignee
-                <select name="assigneeId" required>
-                    @foreach (var item in Model.Item2)
-                    {
-                        <option value="@item.Id" selected="@(item.Id == Model.Item1.AssigneeId)">@item.FullName</option>
-                    }
-                </select>
-            </label>
+            <label asp-for="AssigneeId" class="control-label"></label>
+            <select name="AssigneeId" asp-items="@ViewBag.Assignees"></select>
         </div>
         @if (ViewBag.IsAdmin)
         {
-            <div>
-                <label>
-                    Select reporter
-                    <select name="reporterId" required>
-                        @foreach (var item in Model.Item2)
-                        {
-                            <option value="@item.Id" selected="@(item.Id == Model.Item1.ReporterId)">@item.FullName</option>
-                        }
-                    </select>
-                </label>
-            </div>
+        <div>
+            <label asp-for="ReporterId" class="control-label"></label>
+            <select name="ReporterId" asp-items="@ViewBag.Reporters"></select>
+        </div>
         }
         <div>
             <label>
@@ -62,13 +47,13 @@
                 <select name="priority" required>
                     @foreach (var item in Enum.GetValues(typeof(TMS.Models.TaskPriority)).Cast<TMS.Models.TaskPriority>())
                     {
-                        <option value="@((int)item)" selected="@(Model.Item1.Priority.Equals(item))">@item.ToString()</option>
+                        <option value="@((int)item)" selected="@(ViewBag.Task.Priority.Equals(item))">@item.ToString()</option>
                     }
                 </select>
             </label>
         </div>
     }
-    @if (ViewBag.IsAdmin || ViewBag.Assignee || ViewBag.Reporter)
+    @if (ViewBag.IsAdmin || ViewBag.IsAssignee || ViewBag.IsReporter)
     {
         <div>
             <label>
@@ -76,12 +61,12 @@
                 <select name="status" required>
                     @foreach (var item in Enum.GetValues(typeof(TMS.Models.TaskStatus)).Cast<TMS.Models.TaskStatus>())
                     {
-                        <option value="@((int)item)" selected="@(Model.Item1.Status.Equals(item))">@item.ToString()</option>
+                        <option value="@((int)item)" selected="@(ViewBag.Task.Status.Equals(item))">@item.ToString()</option>
                     }
                 </select>
             </label>
         </div>
-        <input type="hidden" name="taskId" value="@Model.Item1.Id" />
+        <input type="hidden" name="taskId" value="@ViewBag.Task.Id" />
         <input class="btn" type="submit" value="Update" />
     }
     else
@@ -90,10 +75,10 @@
     }
 </form>
 
-@if (ViewBag.IsAdmin || ViewBag.Reporter)
+@if (ViewBag.IsAdmin || ViewBag.IsReporter)
 {
     <form asp-controller="tasks" asp-action="delete" method="post">
-        <input type="hidden" name="taskId" value="@Model.Item1.Id" />
+        <input type="hidden" name="taskId" value="@ViewBag.Task.Id" />
         <input class="btn" type="submit" value="Remove" />
     </form>
 }

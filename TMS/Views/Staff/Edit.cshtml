@@ -1,5 +1,4 @@
-﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
-@model TMS.Models.Employees
+﻿@model TMS.Models.Employees
 @{
     int? id = Model?.Id;
     string title = (id == null) ? "Employee" : $"Employee#{id.ToString()}";

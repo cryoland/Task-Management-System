@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TMS.Models
 {
     public class Employees
     {
+        [BindProperty]
         [Key]
         public int Id { get; set; }
         public string ShortName { get; set; }
