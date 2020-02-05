@@ -32,7 +32,7 @@ namespace TMS
         /// </summary>
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
-        {
+        {            
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<TMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
