@@ -3,15 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using TMS.Models;
 
 namespace TMS.ViewModels
 {
-    public class TaskEditModel
+    public class TaskEditModelHybrid
     {
         public int TaskId { get; set; }
 
         [Display(Name = "Title")]
-        [Required(ErrorMessage = "Не указано название")]
         public string Title { get; set; }
 
         [Display(Name = "Description")]
@@ -28,5 +29,11 @@ namespace TMS.ViewModels
 
         [Display(Name = "Status")]
         public int? Status { get; set; }
+
+        public IEnumerable<SelectListItem> AssigneeList { get; set; }
+        public IEnumerable<SelectListItem> ReporterList { get; set; }
+        public IEnumerable<SelectListItem> PriorityList { get; set; }
+        public IEnumerable<SelectListItem> StatusList { get; set; }
+        public QTask Task { get; set; }
     }
 }

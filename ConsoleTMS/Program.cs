@@ -31,7 +31,7 @@ namespace ConsoleTMS
             {
                 Name = "Task#0",
                 Description = "Test task to explore features of EF Core",
-                Status = TaskStatus.New,
+                Status = QTaskStatus.New,
                 Priority = TaskPriority.Default,
                 Assignee = e2,
                 Reporter = e1,
@@ -40,7 +40,7 @@ namespace ConsoleTMS
             {
                 Name = "Task#1",
                 Description = "Task to solve major problems in project",
-                Status = TaskStatus.New,
+                Status = QTaskStatus.New,
                 Priority = TaskPriority.Major,
                 Assignee = e2,
                 Reporter = e1,

@@ -9,7 +9,6 @@ namespace TMS.Models
 {
     public class Employees
     {
-        [BindProperty]
         [Key]
         public int Id { get; set; }
         public string ShortName { get; set; }

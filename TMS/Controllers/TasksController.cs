@@ -20,6 +20,7 @@ namespace TMS.Controllers
         {
             db = context;
         }
+
         public async Task<IActionResult> Index()
         {
             var tasks = db.QTasks
@@ -30,7 +31,7 @@ namespace TMS.Controllers
 
             if (!User.IsInRole(EmployeeRole.Admin.ToString()))
             {
-                result = tasks.Where(u => u.Reporter.FullName.Equals(User.Identity.Name) || u.Assignee.FullName.Equals(User.Identity.Name));
+                result = tasks.Where(t => t.Reporter.FullName.Equals(User.Identity.Name) || t.Assignee.FullName.Equals(User.Identity.Name));
             }
             return View(await result.ToListAsync());
         }
@@ -40,32 +41,34 @@ namespace TMS.Controllers
         {
             if(id != null)
             {
-                var tasks = db.QTasks.Where(t => t.Id == id);
-                IQueryable<QTask> result = tasks;
-
-                // админу доступны любые задачи
-                if (User.IsInRole(EmployeeRole.Admin.ToString()))
-                {
-                    return View(await tasks.FirstOrDefaultAsync());
-                }
-
-                // фильтр: создатель или исполнитель 
-                result = tasks.Where(u => u.Reporter.FullName.Equals(User.Identity.Name) || u.Assignee.FullName.Equals(User.Identity.Name));
+                var task = db.QTasks.Where(t => t.Id == id);
+                var result = task.Where(
+                                    u => u.Reporter.FullName.Equals(User.Identity.Name) || 
+                                    u.Assignee.FullName.Equals(User.Identity.Name) || 
+                                    User.IsInRole(EmployeeRole.Admin.ToString()));
                                              
-                if (result.Count() > 0)
+                if (result.Count() == 0)
                 {
-                    return View(await result.FirstOrDefaultAsync());                   
+                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };              
                 }
-                else
-                {
-                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
-                }
+
+                return View(await result.FirstOrDefaultAsync());
             }            
             return RedirectToAction("Index");
         }
+
         public async Task<IActionResult> Add()
         {
-            return View(await db.Employees.ToListAsync());
+            ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
+            var employeesList = new SelectList(await db.Employees.ToListAsync(), "Id", "FullName");
+            var model = new TaskAddModelHybrid
+            {
+                ReporterId = db.Employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id,                
+                AssigneeList = employeesList,
+                ReporterList = employeesList,
+                PriorityList = TaskEnum.PriorityList()
+            };                       
+            return View(model);
         }
 
         [HttpGet]
@@ -73,41 +76,57 @@ namespace TMS.Controllers
         {
             if (id != null)
             {
-                var task = await db.QTasks.Where(t => t.Id == id).FirstOrDefaultAsync();
+                var result = db.QTasks.Where(t => t.Id == id)
+                                      .Where(
+                                        u => u.Reporter.FullName.Equals(User.Identity.Name) || 
+                                        u.Assignee.FullName.Equals(User.Identity.Name) || 
+                                        User.IsInRole(EmployeeRole.Admin.ToString()));
+                if (result.Count() == 0)
+                {
+                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
+                }
+                var task = await result.FirstOrDefaultAsync();
                 var employees = db.Employees;
-
-                ViewBag.Task = task;
-                ViewBag.IsReporter = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
-                ViewBag.IsAssignee = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.AssigneeId);
-                ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
-
                 var employeesList = await employees.ToListAsync();
-                ViewBag.Assignees = new SelectList(employeesList, "Id", "FullName", employeesList.Where(e => e.Id.Equals(task.AssigneeId)).FirstOrDefault());
-                ViewBag.Reporters = new SelectList(employeesList, "Id", "FullName", employeesList.Where(e => e.Id.Equals(task.ReporterId)).FirstOrDefault());
 
-                return View();
+                ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
+                ViewBag.IsReporter = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
+
+                var model = new TaskEditModelHybrid
+                {
+                    Task = task,
+                    AssigneeList = new SelectList(employeesList, "Id", "FullName", task.AssigneeId),
+                    ReporterList = new SelectList(employeesList, "Id", "FullName", task.ReporterId),
+                    PriorityList = TaskEnum.PriorityList((int)task.Priority),
+                    StatusList = TaskEnum.StatusList((int)task.Status),
+                };
+
+                return View(model);
             }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Add(string title, string desc, int assigneeId, int reporterId, int priority)
+        public IActionResult Add(TaskAddModelHybrid model)
         {
-            var task = new QTask
+            if(ModelState.IsValid)
             {
-                Name = title,
-                Description = desc,
-                AssigneeId = assigneeId,
-                ReporterId = reporterId,
-                Priority = (TaskPriority)priority
-            };
-            db.QTasks.Add(task);
-            db.SaveChanges();
+                var task = new QTask
+                {
+                    Name = model.Title,
+                    Description = model.Description,
+                    AssigneeId = model.AssigneeId,
+                    ReporterId = model.ReporterId,
+                    Priority = (TaskPriority)model.Priority
+                };
+                db.QTasks.Add(task);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
         [HttpPost]
-        public IActionResult Edit(TaskEditModel model)
+        public IActionResult Edit(TaskEditModelHybrid model)
         {
             if(ModelState.IsValid)
             {
@@ -117,7 +136,7 @@ namespace TMS.Controllers
                 qtask.AssigneeId = model.AssigneeId ?? qtask.AssigneeId;
                 qtask.ReporterId = model.ReporterId ?? qtask.ReporterId;
                 qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
-                qtask.Status = (Models.TaskStatus)(model.Status ?? (int)qtask.Status);
+                qtask.Status = (QTaskStatus)(model.Status ?? (int)qtask.Status);
                 db.SaveChanges();
                 return Redirect(Url.Action("Detailed", "Tasks", model.TaskId));
             }

@@ -15,24 +15,15 @@ table, tr, td {
   /* Non-prefixed version, currently supported by Chrome, Opera and Firefox */ }
 
 .btn {
-  align-items: center;
-  background-color: #ffffff;
+  background-color: #fff;
   border: 1px #000 solid;
-  color: #000;
-  cursor: pointer;
-  display: flex;
   font-family: sans-serif;
   font-size: 14px;
   height: 30px;
-  justify-content: center;
-  margin: 10px 0;
-  text-align: center;
-  text-decoration: none;
-  width: 75px; }
+  text-decoration: none; }
   .btn:hover {
     background-color: #eeeeee; }
   .btn:active {
-    font-size: 13px;
     background-color: #e0e0e0; }
 
 .logo {
