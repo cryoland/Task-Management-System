@@ -21,19 +21,48 @@ namespace TMS.Controllers
             db = context;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortorder)
         {
             var tasks = db.QTasks
                 .Include(a => a.Assignee)
                 .Include(r => r.Reporter);
 
-            IQueryable<QTask> result = tasks;
+            var model = new TaskIndexModel
+            {
+                PrioritySort = sortorder == "priority_asc" ? "priority_desc" : "priority_asc",
+                NameSort = string.IsNullOrEmpty(sortorder) ? "name_desc" : "",
+                StatusSort = sortorder == "status_asc" ? "status_desc" : "status_asc",
+            };
 
+            IQueryable <QTask> result = tasks;
             if (!User.IsInRole(EmployeeRole.Admin.ToString()))
             {
                 result = tasks.Where(t => t.Reporter.FullName.Equals(User.Identity.Name) || t.Assignee.FullName.Equals(User.Identity.Name));
             }
-            return View(await result.ToListAsync());
+            
+            switch (sortorder)
+            {
+                case "priority_asc":
+                    result = result.OrderBy(p => p.Priority);
+                    break;
+                case "priority_desc":
+                    result = result.OrderByDescending(p => p.Priority);
+                    break;
+                case "status_asc":
+                    result = result.OrderBy(p => p.Status);
+                    break;
+                case "status_desc":
+                    result = result.OrderByDescending(p => p.Status);
+                    break;
+                case "name_desc":
+                    result = result.OrderByDescending(p => p.Name);
+                    break;
+                default:
+                    break;
+            }
+            model.TaskList = await result.AsNoTracking().ToListAsync();
+
+            return View(model);
         }
 
         [HttpGet]

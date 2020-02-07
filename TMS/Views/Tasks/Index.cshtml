@@ -1,4 +1,4 @@
-﻿@model IEnumerable<TMS.Models.QTask>
+﻿@model TMS.ViewModels.TaskIndexModel;
 @{
     ViewData["Title"] = "Tasks";
     Layout = "_Layout";
@@ -12,8 +12,8 @@
 <h1>Tasks</h1>
 
 <table class="table">
-    <tr><td>Title</td><td>Assignee</td><td>Reporter</td><td>Priority</td><td>Status</td></tr>
-    @foreach (var item in Model)
+    <tr><th><a asp-action="Index" asp-route-sortOrder="@Model.NameSort">Title</a></th><th>Assignee</th><th>Reporter</th><th><a asp-action="Index" asp-route-sortOrder="@Model.PrioritySort">Priority</a></th><th><a asp-action="Index" asp-route-sortOrder="@Model.StatusSort">Status</a></th></tr>
+    @foreach (var item in Model.TaskList)
     {
     <tr>
         <td><a asp-controller="tasks" asp-action="detailed" asp-route-id="@item.Id">@item.Name</a></td>
