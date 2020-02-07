@@ -1,57 +1,39 @@
-﻿@model TMS.Models.Employees
+﻿@model TMS.ViewModels.StaffEditModelHybrid;
 @{
-    int? id = Model?.Id;
-    string title = (id == null) ? "Employee" : $"Employee#{id.ToString()}";
-    ViewData["Title"] = title;
+    ViewData["Title"] = "Employee Info";
     Layout = "_Layout";
 }
-
 <div class="breadcrumbs">
     <a asp-controller="home" asp-action="index">Home</a> >
     <a asp-controller="staff" asp-action="index">Employees</a> >
     <span>@Model.FullName [Edit mode]</span>
 </div>
-
 <h1>Employee Info</h1>
-
-@if (id != null)
-{
 <form asp-controller="staff" asp-action="edit" method="post">
     <div>
-        <label>
-            ShortName:
-            <input placeholder="ShortName" type="text" name="shortname" required value="@Model.ShortName" />
-        </label>
+        <label asp-for="ShortName" class="control-label"></label>
+        <input asp-for="ShortName" class="form-control" />
+        <span asp-validation-for="ShortName" class="text-danger"></span>
     </div>
     <div>
-        <label>
-            FullName
-            <input placeholder="FullName" type="text" name="fullname" required value="@Model.FullName" />
-        </label>
+        <label asp-for="FullName" class="control-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
     </div>
     <div>
-        <label>
-            E-mail
-            <input placeholder="E-mail" type="text" name="email" required value="@Model.Email" />
-        </label>
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
     </div>
     <div>
-        <label>
-            Select Role
-            <select name="role" required>
-                @foreach (var item in Enum.GetValues(typeof(TMS.Models.EmployeeRole)).Cast<TMS.Models.EmployeeRole>())
-                {
-                    <option value="@((int)item + 1)" selected="@(Model.Role != null && Model.Role.Id.Equals((int)item + 1))">@item.ToString()</option>
-                }
-            </select>
-        </label>
+        <label asp-for="Role" class="control-label"></label>
+        <select asp-for="Role" asp-items="@Model.RoleList"></select>
+        <span asp-validation-for="Role" class="text-danger"></span>
     </div>
-    <input type="hidden" name="employyeId" value="@Model.Id" />
+    <input type="hidden" asp-for="StaffId" value="@Model.StaffId" />
     <input class="btn" type="submit" value="Update" />
 </form>
-
-    <form asp-controller="staff" asp-action="delete" method="post">
-        <input type="hidden" name="employyeId" value="@Model.Id" />
-        <input class="btn" type="submit" value="Remove" />
-    </form>
-}
+<form asp-controller="staff" asp-action="delete" method="post">
+    <input type="hidden" name="employyeId" value="@Model.StaffId" />
+    <input class="btn" type="submit" value="Remove" />
+</form>

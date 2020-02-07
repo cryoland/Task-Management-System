@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TMS.Models;
+using TMS.ViewModels;
 
 namespace TMS.Controllers
 {
@@ -37,7 +38,17 @@ namespace TMS.Controllers
         {
             if (id != null)
             {
-                return View(await db.Employees.Where(t => t.Id == id).Include(r => r.Role).FirstOrDefaultAsync());
+                var result = await db.Employees.Where(t => t.Id == id).Include(r => r.Role).FirstOrDefaultAsync();
+                var model = new StaffEditModelHybrid
+                {
+                     StaffId = result.Id,
+                     ShortName = result.ShortName,
+                     FullName = result.FullName,
+                     Email = result.Email,
+                     Role = (int)result.Role.Name,
+                     RoleList = EmployeeEnum.RoleList((int)result.Role.Name)
+                };
+                return View(model);
             }
             return RedirectToAction("Index");
         }
@@ -45,39 +56,41 @@ namespace TMS.Controllers
         [Authorize(Roles = "Admin")]
         public IActionResult Add()
         {
-            return View();
+            var model = new StaffAddModelHybrid { RoleList = EmployeeEnum.RoleList() };
+            return View(model);
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Add(string shortname, string fullname, string email, int role)
+        public IActionResult Add(StaffAddModelHybrid model)
         {
-            Role _role = db.Roles.FirstOrDefault(r => r.Id == role);
-            db.Employees.Add(new Employees
+            if(ModelState.IsValid)
             {
-                ShortName = shortname,
-                FullName = fullname,
-                Email = email,
-                Role = _role
-            });
-            db.SaveChanges();
+                db.Employees.Add(new Employees
+                {
+                    ShortName = model.ShortName,
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    Role = db.Roles.FirstOrDefault(r => r.Id == model.Role)
+                });
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Edit(int? employyeId, string shortname, string fullname, string email, int role)
+        public IActionResult Edit(StaffEditModelHybrid model)
         {
-            if (employyeId != null)
+            if (ModelState.IsValid)
             {
-                Role _role = db.Roles.FirstOrDefault(r => r.Id == role);
-                var employye = db.Employees.FirstOrDefault(e => e.Id == employyeId);
-                employye.ShortName = shortname;
-                employye.FullName = fullname;
-                employye.Email = email;
-                employye.Role = _role;
+                var employye = db.Employees.FirstOrDefault(e => e.Id == model.StaffId);
+                employye.ShortName = model.ShortName;
+                employye.FullName = model.FullName;
+                employye.Email = model.Email;
+                employye.Role = db.Roles.FirstOrDefault(r => r.Name == (EmployeeRole)model.Role);
                 db.SaveChanges();
-                return Redirect(Url.Action("Detailed", "Staff", employyeId));
+                return Redirect(Url.Action("Detailed", "Staff", model.StaffId));
             }
             return RedirectToAction("Index");
         }
