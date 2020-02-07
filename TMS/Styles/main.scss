@@ -37,3 +37,64 @@
     background-position: center center;
     background-size: contain;
 }
+
+$task-icon-size: 20px;
+
+td[class^="task"] {
+    position: relative;
+
+    &:after {
+        display: block;
+        width: $task-icon-size;
+        height: $task-icon-size;
+        font-weight: 700;
+        text-align: center;
+        line-height: $task-icon-size;
+        position: absolute;
+        right: 10px;
+        margin-top: -$task-icon-size;
+        border-width: 1px;
+        border-style: solid;
+        box-sizing: content-box;
+    }
+}
+
+.task-priority-Major {
+    background-color: rgba(255, 0, 0, 0.10);
+
+    &:after {
+        content: '\21';
+        color: red;
+        border-color: red;
+    }
+}
+
+.task-status-New {
+    background-color: rgba(0, 255, 255, 0.10);
+
+    &:after {
+        content: '\26A0';
+        color: rgba(0, 0, 180, 0.5);
+        border-color: transparent;
+    }
+}
+
+.task-status-InProgress {
+    background-color: rgba(255, 255, 0, 0.10);
+
+    &:after {
+        content: '\2694';
+        color: rgba(0, 180, 0, 0.5);
+        border-color: transparent;
+    }
+}
+
+.task-status-Done {
+    background-color: rgba(0, 255, 0, 0.10);
+
+    &:after {
+        content: '\2713';
+        color: rgba(0, 0, 180, 0.5);
+        border-color: rgba(0, 0, 180, 0.5);
+    }
+}

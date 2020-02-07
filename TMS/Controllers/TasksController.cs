@@ -27,19 +27,8 @@ namespace TMS.Controllers
                 .Include(a => a.Assignee)
                 .Include(r => r.Reporter);
 
-            var model = new TaskIndexModel
-            {
-                PrioritySort = sortorder == "priority_asc" ? "priority_desc" : "priority_asc",
-                NameSort = string.IsNullOrEmpty(sortorder) ? "name_desc" : "",
-                StatusSort = sortorder == "status_asc" ? "status_desc" : "status_asc",
-            };
+            IQueryable<QTask> result = tasks;
 
-            IQueryable <QTask> result = tasks;
-            if (!User.IsInRole(EmployeeRole.Admin.ToString()))
-            {
-                result = tasks.Where(t => t.Reporter.FullName.Equals(User.Identity.Name) || t.Assignee.FullName.Equals(User.Identity.Name));
-            }
-            
             switch (sortorder)
             {
                 case "priority_asc":
@@ -60,7 +49,20 @@ namespace TMS.Controllers
                 default:
                     break;
             }
-            model.TaskList = await result.AsNoTracking().ToListAsync();
+
+            var model = new TaskIndexModel
+            {
+                PrioritySort = sortorder == "priority_asc" ? "priority_desc" : "priority_asc",
+                NameSort = string.IsNullOrEmpty(sortorder) ? "name_desc" : "",
+                StatusSort = sortorder == "status_asc" ? "status_desc" : "status_asc",
+                AssigneeTaskList = await result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
+                ReporterTaskList = await result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
+            };
+
+            if (User.IsInRole(EmployeeRole.Admin.ToString()))
+            {
+                model.OtherTaskList = (await result.ToArrayAsync()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
+            }
 
             return View(model);
         }
