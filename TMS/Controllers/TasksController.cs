@@ -17,15 +17,13 @@ namespace TMS.Controllers
     public class TasksController : Controller
     {
         private readonly TMSContext db;
-        private readonly ITaskQueryResultSorting<QTask> sorter;
 
-        public TasksController(TMSContext context, ITaskQueryResultSorting<QTask> queryResultSorting)
+        public TasksController(TMSContext context)
         {
             db = context;
-            sorter = queryResultSorting;
         }
 
-        public async Task<IActionResult> Index(string sortorder)
+        public async Task<IActionResult> Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
         {
             var tasks = db.QTasks
                 .Include(a => a.Assignee)
