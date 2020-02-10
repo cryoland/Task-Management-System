@@ -14,6 +14,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
 using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using TMS.Services;
 
 namespace TMS
 {
@@ -32,7 +33,8 @@ namespace TMS
         /// </summary>
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
-        {            
+        {
+            services.AddScoped<ITaskQueryResultSorting<QTask>, TaskQueryResultSorting>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<TMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

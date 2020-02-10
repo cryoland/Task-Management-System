@@ -9,7 +9,7 @@
 *.user
 *.userosscache
 *.sln.docstates
-wwwroot/css/*.css
+*.css
 
 
 # User-specific files (MonoDevelop/Xamarin Studio)

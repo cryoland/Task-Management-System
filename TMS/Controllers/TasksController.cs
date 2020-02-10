@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Query;
 using TMS.Models;
+using TMS.Services;
 using TMS.ViewModels;
 
 namespace TMS.Controllers
@@ -16,9 +17,12 @@ namespace TMS.Controllers
     public class TasksController : Controller
     {
         private readonly TMSContext db;
-        public TasksController(TMSContext context)
+        private readonly ITaskQueryResultSorting<QTask> sorter;
+
+        public TasksController(TMSContext context, ITaskQueryResultSorting<QTask> queryResultSorting)
         {
             db = context;
+            sorter = queryResultSorting;
         }
 
         public async Task<IActionResult> Index(string sortorder)
@@ -27,34 +31,13 @@ namespace TMS.Controllers
                 .Include(a => a.Assignee)
                 .Include(r => r.Reporter);
 
-            IQueryable<QTask> result = tasks;
-
-            switch (sortorder)
-            {
-                case "priority_asc":
-                    result = result.OrderBy(p => p.Priority);
-                    break;
-                case "priority_desc":
-                    result = result.OrderByDescending(p => p.Priority);
-                    break;
-                case "status_asc":
-                    result = result.OrderBy(p => p.Status);
-                    break;
-                case "status_desc":
-                    result = result.OrderByDescending(p => p.Status);
-                    break;
-                case "name_desc":
-                    result = result.OrderByDescending(p => p.Name);
-                    break;
-                default:
-                    break;
-            }
+            IQueryable<QTask> result = sorter.Sort(tasks, sortorder);
 
             var model = new TaskIndexModel
             {
-                PrioritySort = sortorder == "priority_asc" ? "priority_desc" : "priority_asc",
-                NameSort = string.IsNullOrEmpty(sortorder) ? "name_desc" : "",
-                StatusSort = sortorder == "status_asc" ? "status_desc" : "status_asc",
+                PrioritySort = sortorder == TaskSort.PriotityAsc ? TaskSort.PriotityDesc : TaskSort.PriotityAsc,
+                NameSort = string.IsNullOrEmpty(sortorder) ? TaskSort.NameDesc : string.Empty,
+                StatusSort = sortorder == TaskSort.StatusAsc ? TaskSort.StatusDesc : TaskSort.StatusAsc,
                 AssigneeTaskList = await result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
                 ReporterTaskList = await result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
             };
