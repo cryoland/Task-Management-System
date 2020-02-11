@@ -35,6 +35,7 @@ namespace TMS
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddScoped<ITaskQueryResultSorting<QTask>, TaskQueryResultSorting>();
+            services.AddScoped<IManualDataContext, TMSContext>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<TMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

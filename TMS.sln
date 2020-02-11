@@ -3,9 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS", "TMS\TMS.csproj", "{0B9A4745-D0A8-4DF9-B288-45776FFB157E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS", "TMS\TMS.csproj", "{0B9A4745-D0A8-4DF9-B288-45776FFB157E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleTMS", "ConsoleTMS\ConsoleTMS.csproj", "{798090F4-A595-4C34-BA53-44E7C46B8D0A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleTMS", "ConsoleTMS\ConsoleTMS.csproj", "{798090F4-A595-4C34-BA53-44E7C46B8D0A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Tests", "TMS.Tests\TMS.Tests.csproj", "{7CA7C8D0-AE47-4D92-B6AE-C2FF4BCE560F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,10 @@ Global
 		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{798090F4-A595-4C34-BA53-44E7C46B8D0A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CA7C8D0-AE47-4D92-B6AE-C2FF4BCE560F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CA7C8D0-AE47-4D92-B6AE-C2FF4BCE560F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CA7C8D0-AE47-4D92-B6AE-C2FF4BCE560F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CA7C8D0-AE47-4D92-B6AE-C2FF4BCE560F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

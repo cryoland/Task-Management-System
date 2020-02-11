@@ -14,8 +14,8 @@ namespace TMS.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly TMSContext db;
-        public AccountController(TMSContext context)
+        private readonly IManualDataContext db;
+        public AccountController(IManualDataContext context)
         {
             db = context;
         }

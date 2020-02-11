@@ -13,8 +13,8 @@ namespace TMS.Controllers
     [Authorize]
     public class StaffController : Controller
     {
-        private readonly TMSContext db;
-        public StaffController(TMSContext context)
+        private readonly IManualDataContext db;
+        public StaffController(IManualDataContext context)
         {
             db = context;
         }
@@ -73,7 +73,7 @@ namespace TMS.Controllers
                     Email = model.Email,
                     Role = db.Roles.FirstOrDefault(r => r.Id == model.Role)
                 });
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
@@ -89,7 +89,7 @@ namespace TMS.Controllers
                 employye.FullName = model.FullName;
                 employye.Email = model.Email;
                 employye.Role = db.Roles.FirstOrDefault(r => r.Name == (EmployeeRole)model.Role);
-                db.SaveChanges();
+                db.SaveChangesAsync();
                 return Redirect(Url.Action("Detailed", "Staff", model.StaffId));
             }
             return RedirectToAction("Index");
@@ -103,7 +103,7 @@ namespace TMS.Controllers
             {
                 var employye = db.Employees.FirstOrDefault(e => e.Id == employyeId);
                 db.Employees.Remove(employye);
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }

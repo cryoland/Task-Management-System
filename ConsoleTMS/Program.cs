@@ -20,12 +20,12 @@ namespace ConsoleTMS
             var r3 = new Role { Name = EmployeeRole.Developer };
 
             context.Roles.AddRange(new List<Role>() { r1, r2, r3 });
-            context.SaveChanges();
+            context.SaveChangesAsync();
 
             var e1 = new Employees { ShortName = "D.V.", FullName = "Dmitry Dmitrievich Vasilev", Role = r1, Email = "d.vasilev@test.ru", Password = "d.vasilev@test.ru" };
             var e2 = new Employees { ShortName = "E.G.", FullName = "Evgeny Alekseevich Grigoriev", Role = r2, Email = "e.grigoriev@test.ru", Password = "e.grigoriev@test.ru" };
             context.Employees.AddRange(new List<Employees> { e1, e2 });
-            context.SaveChanges(); // must have before cause of IDs must be rewritten for prevent its duplication
+            context.SaveChangesAsync(); // must have before cause of IDs must be rewritten for prevent its duplication
 
             var t1 = new QTask
             {
@@ -47,7 +47,7 @@ namespace ConsoleTMS
             };
             context.QTasks.AddRange(new List<QTask> { t1, t2 });
 
-            context.SaveChanges();
+            context.SaveChangesAsync();
             args = null;
         }
     }

@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Query;
 using TMS.Models;
 using TMS.Services;
 using TMS.ViewModels;
@@ -16,14 +13,14 @@ namespace TMS.Controllers
     [Authorize]
     public class TasksController : Controller
     {
-        private readonly TMSContext db;
+        private readonly IManualDataContext db;
 
-        public TasksController(TMSContext context)
+        public TasksController(IManualDataContext context)
         {
             db = context;
         }
 
-        public async Task<IActionResult> Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
+        public IActionResult Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
         {
             var tasks = db.QTasks
                 .Include(a => a.Assignee)
@@ -36,13 +33,13 @@ namespace TMS.Controllers
                 PrioritySort = sortorder == TaskSort.PriotityAsc ? TaskSort.PriotityDesc : TaskSort.PriotityAsc,
                 NameSort = string.IsNullOrEmpty(sortorder) ? TaskSort.NameDesc : string.Empty,
                 StatusSort = sortorder == TaskSort.StatusAsc ? TaskSort.StatusDesc : TaskSort.StatusAsc,
-                AssigneeTaskList = await result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
-                ReporterTaskList = await result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToArrayAsync(),
+                AssigneeTaskList = result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToList(),
+                ReporterTaskList = result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToList(),
             };
 
             if (User.IsInRole(EmployeeRole.Admin.ToString()))
             {
-                model.OtherTaskList = (await result.ToArrayAsync()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
+                model.OtherTaskList = (result.ToList()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
             }
 
             return View(model);
@@ -132,7 +129,7 @@ namespace TMS.Controllers
                     Priority = (TaskPriority)model.Priority
                 };
                 db.QTasks.Add(task);
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
@@ -149,7 +146,7 @@ namespace TMS.Controllers
                 qtask.ReporterId = model.ReporterId ?? qtask.ReporterId;
                 qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
                 qtask.Status = (QTaskStatus)(model.Status ?? (int)qtask.Status);
-                db.SaveChanges();
+                db.SaveChangesAsync();
                 return Redirect(Url.Action("Detailed", "Tasks", model.TaskId));
             }
             return RedirectToAction("Index");
@@ -162,7 +159,7 @@ namespace TMS.Controllers
             {
                 var qtask = db.QTasks.FirstOrDefault(t => t.Id == taskId);
                 db.QTasks.Remove(qtask);
-                db.SaveChanges();
+                db.SaveChangesAsync();
             }
             return RedirectToAction("Index");
         }
