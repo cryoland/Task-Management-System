@@ -31,17 +31,20 @@ namespace TMS.Tests.Common
             // Create a mock ControllerContext
             var controllerContextMock = new Mock<ControllerContext>();
 
-            var dbsetItems = TestFunctions.CreateDbSet(await TestData.GetAsyncQTasksList());
+            var taskList = await TestData.GetAsyncQTasksList();
+            var dbsetItems = TestFunctions.CreateDbSet(taskList);            
 
             // Mocking DbSet
-            dbContext.SetupGet(x => x.QTasks).Returns(dbsetItems);
+            dbContext.SetupGet(x => x.QTasks).Returns(dbsetItems.Object);
+
             // Mocking DataSorter
-            TaskQuerySorterMock.Setup(sorter => sorter.Sort(dbsetItems, "")).Returns(dbsetItems);
+            TaskQuerySorterMock.Setup(s => s.Sort(It.IsAny<IQueryable<QTask>>(), It.IsAny<string>())).Returns(taskList.AsQueryable());
+
             // Mocking HttpContext
             contextMock.SetupGet(ctx => ctx.User).Returns(TestFunctions.GetUser(EmployeeRole.Admin));
-            contextMock.SetupGet(ctx => ctx.User.Identity.Name).Returns(EmployeeRole.Developer.ToString());
+            contextMock.SetupGet(ctx => ctx.User.Identity.Name).Returns(EmployeeRole.Admin.ToString());
             contextMock.SetupGet(ctx => ctx.User.Identity.IsAuthenticated).Returns(true);
-            contextMock.Setup(ctx => ctx.User.IsInRole(EmployeeRole.Admin.ToString())).Returns(false);
+            contextMock.Setup(ctx => ctx.User.IsInRole(EmployeeRole.Admin.ToString())).Returns(true);
 
             var controller = new TasksController(dbContext.Object)
             {
@@ -49,7 +52,7 @@ namespace TMS.Tests.Common
             };
 
             // Act
-            var result = controller.Index("", TaskQuerySorterMock.Object);
+            var result = controller.Index(string.Empty, TaskQuerySorterMock.Object);
 
             // Assert
             Assert.Equal(1, 1);

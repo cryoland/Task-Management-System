@@ -12,7 +12,7 @@ namespace TMS.Tests.Helpers
         /// <summary>
         /// Creates a mock DbSet from IEnumerable
         /// </summary>
-        public static DbSet<T> CreateDbSet<T>(IEnumerable<T> data) where T : class
+        public static Mock<DbSet<T>> CreateDbSet<T>(IEnumerable<T> data) where T : class
         {
             var queryable = data.AsQueryable();
             var mockSet = new Mock<DbSet<T>>();
@@ -21,7 +21,7 @@ namespace TMS.Tests.Helpers
             mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
             //mockSet.As<IAsyncEnumerable<T>>().Setup(m => m.GetAsyncEnumerator(default)).Returns(new TestAsyncEnumerator<T>(queryable.GetEnumerator()));
-            return mockSet.Object;
+            return mockSet;
         }
 
         public static ClaimsPrincipal GetUser(EmployeeRole role)

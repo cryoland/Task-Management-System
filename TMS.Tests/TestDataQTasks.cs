@@ -13,13 +13,19 @@ namespace TMS.Tests
             {
                new QTask { Id = 1, Name = "Name1", Description = "Description1", Priority = TaskPriority.Default,
                         Assignee = new Employees { FullName = EmployeeRole.Manager.ToString() }, 
-                        AssigneeId = 1, Reporter = null, ReporterId = 3, Status = QTaskStatus.New },
+                        AssigneeId = 1,
+                        Reporter = new Employees { FullName = EmployeeRole.Admin.ToString() },
+                        ReporterId = 3, Status = QTaskStatus.New },
                new QTask { Id = 2, Name = "Name2", Description = "Description2", Priority = TaskPriority.Major,
                         Assignee = new Employees { FullName = EmployeeRole.Admin.ToString() },
-                        AssigneeId = 2, Reporter = null, ReporterId = 2, Status = QTaskStatus.New },
+                        AssigneeId = 2,
+                        Reporter = new Employees { FullName = EmployeeRole.Developer.ToString() },
+                        ReporterId = 2, Status = QTaskStatus.New },
                new QTask { Id = 3, Name = "Name3", Description = "Description3", Priority = TaskPriority.Default,
                         Assignee = new Employees { FullName = EmployeeRole.Developer.ToString() },
-                        AssigneeId = 3, Reporter = null, ReporterId = 1, Status = QTaskStatus.New },
+                        AssigneeId = 3,
+                        Reporter = new Employees { FullName = EmployeeRole.Manager.ToString() },
+                        ReporterId = 1, Status = QTaskStatus.New },
             });
         }
     }
