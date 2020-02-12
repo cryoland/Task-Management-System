@@ -20,7 +20,7 @@ namespace TMS.Controllers
             db = context;
         }
 
-        public IActionResult Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
+        public async Task<IActionResult> Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
         {
             var tasks = db.QTasks
                 .Include(a => a.Assignee)
@@ -33,13 +33,13 @@ namespace TMS.Controllers
                 PrioritySort = sortorder == TaskSort.PriotityAsc ? TaskSort.PriotityDesc : TaskSort.PriotityAsc,
                 NameSort = string.IsNullOrEmpty(sortorder) ? TaskSort.NameDesc : string.Empty,
                 StatusSort = sortorder == TaskSort.StatusAsc ? TaskSort.StatusDesc : TaskSort.StatusAsc,
-                AssigneeTaskList = result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToList(),
-                ReporterTaskList = result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToList(),
+                AssigneeTaskList = await result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToListAsync(),
+                ReporterTaskList = await result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToListAsync()
             };
 
             if (User.IsInRole(EmployeeRole.Admin.ToString()))
             {
-                model.OtherTaskList = (result.ToList()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
+                model.OtherTaskList = (await result.ToListAsync()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
             }
 
             return View(model);
@@ -48,21 +48,21 @@ namespace TMS.Controllers
         [HttpGet]
         public async Task<IActionResult> Detailed(int? id)
         {
-            if(id != null)
+            if (id != null)
             {
                 var task = db.QTasks.Where(t => t.Id == id);
                 var result = task.Where(
-                                    u => u.Reporter.FullName.Equals(User.Identity.Name) || 
-                                    u.Assignee.FullName.Equals(User.Identity.Name) || 
+                                    u => u.Reporter.FullName.Equals(User.Identity.Name) ||
+                                    u.Assignee.FullName.Equals(User.Identity.Name) ||
                                     User.IsInRole(EmployeeRole.Admin.ToString()));
-                                             
+
                 if (result.Count() == 0)
                 {
-                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };              
+                    return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
                 }
 
                 return View(await result.FirstOrDefaultAsync());
-            }            
+            }
             return RedirectToAction("Index");
         }
 

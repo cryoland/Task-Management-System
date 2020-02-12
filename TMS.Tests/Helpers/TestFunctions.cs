@@ -1,9 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 using Moq;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using TMS.Models;
+using TMS.Tests.Helpers.TestClasses;
 
 namespace TMS.Tests.Helpers
 {
@@ -20,7 +22,6 @@ namespace TMS.Tests.Helpers
             mockSet.As<IQueryable<T>>().Setup(m => m.Expression).Returns(queryable.Expression);
             mockSet.As<IQueryable<T>>().Setup(m => m.ElementType).Returns(queryable.ElementType);
             mockSet.As<IQueryable<T>>().Setup(m => m.GetEnumerator()).Returns(() => queryable.GetEnumerator());
-            //mockSet.As<IAsyncEnumerable<T>>().Setup(m => m.GetAsyncEnumerator(default)).Returns(new TestAsyncEnumerator<T>(queryable.GetEnumerator()));
             return mockSet;
         }
 
