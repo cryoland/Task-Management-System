@@ -41,17 +41,6 @@ namespace TMS
                         options.LoginPath = new PathString("/Account/Login");
                     });
             services.AddControllersWithViews();
-
-            #region test
-            //services.AddDistributedMemoryCache(); /*вкл распределенное кэширование*/
-            //services.AddAuthentication();
-            //services.AddSession(options =>
-            //{
-            //    options.Cookie.Name = ".TMS.Session";
-            //    options.IdleTimeout = TimeSpan.FromSeconds(3600);
-            //    //options.Cookie.IsEssential = true;
-            //}); /* вкл поддержка сессий */
-            #endregion
         }
 
         /// <summary>
@@ -64,15 +53,10 @@ namespace TMS
                 app.UseDeveloperExceptionPage();
             }
 
-            //app.UseSession();
-            //app.UseSessionManagement();
-
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
             app.UseAuthentication();
             app.UseAuthorization();
-
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
@@ -89,32 +73,6 @@ namespace TMS
                      }
                 );
             });
-
-            #region test
-            //app.UseRouting();
-            //app.UseEndpoints(endpoints =>
-            //{
-            //    endpoints.MapControllerRoute(
-            //        name: "default",
-            //        pattern: "{controller}/{action}/{id?}",
-            //        defaults: new
-            //        {
-            //            controller = "Home",
-            //            action = "Index",
-            //        });
-            //});
-
-            //app.Run(async (context) =>
-            //{
-            //    if (context.Session.Keys.Contains("name"))
-            //        await context.Response.WriteAsync($"Hello {context.Session.GetString("name")}!");
-            //    else
-            //    {
-            //        context.Session.SetString("name", "User");
-            //        await context.Response.WriteAsync("Hello World!");
-            //    }
-            //});
-            #endregion
         }
     }
 }
