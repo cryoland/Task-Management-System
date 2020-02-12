@@ -5,16 +5,16 @@ dotnet clean
 dotnet build /p:DebugType=Full
 
 REM Instrument assemblies in our test project to detect hits for source files from our main project
-dotnet minicover instrument --workdir ../ --assemblies TMS.Tests/**/bin/**/*.dll --sources TMS/**/*.cs --exclude-sources TMS/*.cs
+minicover instrument --workdir ../ --assemblies TMS.Tests/**/bin/**/*.dll --sources TMS/**/*.cs --exclude-sources TMS/*.cs --exclude-sources TMS/**/Migrations/*cs
 
 REM Reset previous counters
-dotnet minicover reset --workdir ../
+minicover reset --workdir ../
 
 REM Run the tests
 dotnet test --no-build
 
 REM Uninstrument assemblies in case we want to deploy
-dotnet minicover uninstrument --workdir ../
+minicover uninstrument --workdir ../
 
 REM Print the console report
-dotnet minicover report --workdir ../ --threshold 70
+minicover report --workdir ../ --threshold 70
