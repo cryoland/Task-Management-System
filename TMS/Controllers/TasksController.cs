@@ -147,7 +147,7 @@ namespace TMS.Controllers
                 qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
                 qtask.Status = (QTaskStatus)(model.Status ?? (int)qtask.Status);
                 db.SaveChangesAsync();
-                return Redirect(Url.Action("Detailed", "Tasks", model.TaskId));
+                return RedirectToAction("Detailed", "Tasks", model.TaskId);
             }
             return RedirectToAction("Index");
         }

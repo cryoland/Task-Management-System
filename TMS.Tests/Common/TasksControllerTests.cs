@@ -10,6 +10,7 @@ using TMS.Services;
 using TMS.Tests.Helpers;
 using TMS.Tests.Helpers.TestClasses;
 using TMS.ViewModels;
+using System.Threading.Tasks;
 
 namespace TMS.Tests.Common
 {
@@ -223,6 +224,62 @@ namespace TMS.Tests.Common
             Assert.Null(redirect);
             Assert.NotEqual(EmployeeRole.Admin.ToString(), model.Task.Assignee.FullName);
             Assert.NotEqual(EmployeeRole.Admin.ToString(), model.Task.Reporter.FullName);
+        }
+
+        [Fact]
+        public async void RedirectIfEditTaskWithInvalidModel()
+        {
+            var role = EmployeeRole.Admin;
+            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+
+            // Create a mock DbContext.
+            var dbContext = new Mock<IManualDataContext>();
+            dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
+
+            var controller = new TasksController(dbContext.Object)
+            {
+                ControllerContext = new ControllerContext(new ActionContext(FakeHttpContextBuilder.Build(role).Object, new RouteData(), new ControllerActionDescriptor()))
+            };
+            controller.ModelState.AddModelError("Invalid model", "Model is not valid");
+            
+            IActionResult result = controller.Edit(new TaskEditModelHybrid());
+
+            Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Index", (result as RedirectToActionResult).ActionName);
+        }
+
+        [Fact]
+        public async void SuccessIfEditTaskWithValidModel()
+        {
+            var role = EmployeeRole.Admin;
+            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+
+            // Create a mock DbContext.
+            var dbContext = new Mock<IManualDataContext>();
+            dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
+            dbContext.Setup(c => c.SaveChangesAsync(default)).Returns(() => Task.Factory.StartNew<int>(() => 0)).Verifiable();
+
+            var controller = new TasksController(dbContext.Object)
+            {
+                ControllerContext = new ControllerContext(new ActionContext(FakeHttpContextBuilder.Build(role).Object, new RouteData(), new ControllerActionDescriptor()))
+            };
+
+            var inputModel = new TaskEditModelHybrid
+            {
+                TaskId = 4,
+                Title = "Modified",
+                Description = "ModDesc",
+                AssigneeId = 1,
+                ReporterId = 3,
+                Priority = (int)TaskPriority.Major,
+                Status = (int)QTaskStatus.InProgress
+            };
+
+            IActionResult result = controller.Edit(inputModel);
+
+            Assert.IsType<RedirectToActionResult>(result);
+            Assert.Equal("Detailed", (result as RedirectToActionResult).ActionName);
+            Assert.Equal("Tasks", (result as RedirectToActionResult).ControllerName);
         }
     }
 }

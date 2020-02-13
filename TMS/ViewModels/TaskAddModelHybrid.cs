@@ -15,15 +15,15 @@ namespace TMS.ViewModels
 
         [Display(Name = "Select assignee")]
         [Required(ErrorMessage = "Не указан исполнитель")]
-        public int AssigneeId { get; set; }
+        public int? AssigneeId { get; set; }
 
         [Display(Name = "Select reporter")]
         [Required(ErrorMessage = "Не указан автор")]
-        public int ReporterId { get; set; }
+        public int? ReporterId { get; set; }
 
         [Display(Name = "Priority")]
         [Required(ErrorMessage = "Не указан приоритет")]
-        public int Priority { get; set; }
+        public int? Priority { get; set; }
 
         public IEnumerable<SelectListItem> AssigneeList { get; set; }
         public IEnumerable<SelectListItem> ReporterList { get; set; }
