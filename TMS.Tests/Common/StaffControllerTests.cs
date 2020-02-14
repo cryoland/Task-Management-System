@@ -22,7 +22,7 @@ namespace TMS.Tests.Common
         [Fact]
         public async void ShowListOfEmployees()
         {
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -44,7 +44,7 @@ namespace TMS.Tests.Common
         [Fact]
         public async void ShowEmployeeDetailed()
         {
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -65,7 +65,7 @@ namespace TMS.Tests.Common
         [Fact]
         public async void AttemptToShowNonExistedEmployee()
         {
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
             var dbContext = new Mock<IManualDataContext>();
@@ -90,7 +90,7 @@ namespace TMS.Tests.Common
         {
             var id = 1;
             var role = EmployeeRole.Admin;
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();

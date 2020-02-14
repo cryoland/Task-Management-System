@@ -21,7 +21,7 @@ namespace TMS.Tests.Common
         {
             // Testing Role
             var role = EmployeeRole.Admin;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -62,7 +62,7 @@ namespace TMS.Tests.Common
         {
             // Testing Role
             var role = EmployeeRole.Developer;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -101,7 +101,7 @@ namespace TMS.Tests.Common
         public async void TaskCanBeViewedOnlyByAssigneeOrReporter()
         {
             var role = EmployeeRole.Developer;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -133,7 +133,7 @@ namespace TMS.Tests.Common
         public async void AlienTaskCanBeViewedByAdmin()
         {
             var role = EmployeeRole.Admin;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -167,8 +167,8 @@ namespace TMS.Tests.Common
             var role = EmployeeRole.Manager;
             var correctTaskId = 1;
 
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -202,8 +202,8 @@ namespace TMS.Tests.Common
             var role = EmployeeRole.Admin;
             var alienTaskId = 4;
 
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
-            var employeeDbSet = (await TestData.GetAsyncEmployeeList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
+            var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
             var dbContext = new Mock<IManualDataContext>();
@@ -230,7 +230,7 @@ namespace TMS.Tests.Common
         public async void RedirectIfEditTaskWithInvalidModel()
         {
             var role = EmployeeRole.Admin;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
             var dbContext = new Mock<IManualDataContext>();
@@ -252,7 +252,7 @@ namespace TMS.Tests.Common
         public async void SuccessIfEditTaskWithValidModel()
         {
             var role = EmployeeRole.Admin;
-            var tasksDbSet = (await TestData.GetAsyncQTasksList()).AsQueryable().BuildMockDbSet();
+            var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
             var dbContext = new Mock<IManualDataContext>();
