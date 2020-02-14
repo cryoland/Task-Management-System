@@ -13,14 +13,14 @@ namespace TMS.Controllers
     [Authorize]
     public class TasksController : Controller
     {
-        private readonly IManualDataContext db;
+        private readonly ITMSRepository db;
 
-        public TasksController(IManualDataContext context)
+        public TasksController(ITMSRepository context)
         {
             db = context;
         }
 
-        public async Task<IActionResult> Index(string sortorder, [FromServices]ITaskQueryResultSorting<QTask> sorter)
+        public async Task<IActionResult> Index(string sortorder, [FromServices]IDataSorter<QTask> sorter)
         {
             var tasks = db.QTasks
                 .Include(a => a.Assignee)
@@ -129,7 +129,7 @@ namespace TMS.Controllers
                     Priority = (TaskPriority)model.Priority
                 };
                 db.QTasks.Add(task);
-                db.SaveChangesAsync();
+                db.SaveAsync();
             }
             return RedirectToAction("Index");
         }
@@ -146,7 +146,7 @@ namespace TMS.Controllers
                 qtask.ReporterId = model.ReporterId ?? qtask.ReporterId;
                 qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
                 qtask.Status = (QTaskStatus)(model.Status ?? (int)qtask.Status);
-                db.SaveChangesAsync();
+                db.SaveAsync();
                 return RedirectToAction("Detailed", "Tasks", model.TaskId);
             }
             return RedirectToAction("Index");
@@ -159,7 +159,7 @@ namespace TMS.Controllers
             {
                 var qtask = db.QTasks.FirstOrDefault(t => t.Id == taskId);
                 db.QTasks.Remove(qtask);
-                db.SaveChangesAsync();
+                db.SaveAsync();
             }
             return RedirectToAction("Index");
         }

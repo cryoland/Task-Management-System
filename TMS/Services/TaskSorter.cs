@@ -3,7 +3,7 @@ using TMS.Models;
 
 namespace TMS.Services
 {
-    public class TaskQueryResultSorting : ITaskQueryResultSorting<QTask>
+    public class TaskSorter : IDataSorter<QTask>
     {
         public IQueryable<QTask> Sort(IQueryable<QTask> result, string query)
         {

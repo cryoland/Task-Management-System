@@ -11,21 +11,21 @@ namespace ConsoleTMS
     {
         static void Main(string[] args)
         {
-            DbContextOptionsBuilder<TMSContext> optionsBuilder = new DbContextOptionsBuilder<TMSContext>();
+            DbContextOptionsBuilder<TMSRepository> optionsBuilder = new DbContextOptionsBuilder<TMSRepository>();
                 optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb; Database=TMSdb; Trusted_Connection=True;");
-            using var context = new TMSContext(optionsBuilder.Options);
+            using var context = new TMSRepository(optionsBuilder.Options);
 
             var r1 = new Role { Name = EmployeeRole.Admin };
             var r2 = new Role { Name = EmployeeRole.Manager };
             var r3 = new Role { Name = EmployeeRole.Developer };
 
             context.Roles.AddRange(new List<Role>() { r1, r2, r3 });
-            context.SaveChangesAsync();
+            context.SaveAsync();
 
             var e1 = new Employees { ShortName = "D.V.", FullName = "Dmitry Dmitrievich Vasilev", Role = r1, Email = "d.vasilev@test.ru", Password = "d.vasilev@test.ru" };
             var e2 = new Employees { ShortName = "E.G.", FullName = "Evgeny Alekseevich Grigoriev", Role = r2, Email = "e.grigoriev@test.ru", Password = "e.grigoriev@test.ru" };
             context.Employees.AddRange(new List<Employees> { e1, e2 });
-            context.SaveChangesAsync(); // must have before cause of IDs must be rewritten for prevent its duplication
+            context.SaveAsync(); // must have before cause of IDs must be rewritten for prevent its duplication
 
             var t1 = new QTask
             {
@@ -47,7 +47,7 @@ namespace ConsoleTMS
             };
             context.QTasks.AddRange(new List<QTask> { t1, t2 });
 
-            context.SaveChangesAsync();
+            context.SaveAsync();
             args = null;
         }
     }

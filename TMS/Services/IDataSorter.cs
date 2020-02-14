@@ -2,7 +2,7 @@
 
 namespace TMS.Services
 {
-    public interface ITaskQueryResultSorting<T>
+    public interface IDataSorter<T>
     {
         IQueryable<T> Sort(IQueryable<T> data, string query);
     }

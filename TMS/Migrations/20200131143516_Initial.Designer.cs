@@ -9,7 +9,7 @@ using TMS.Models;
 
 namespace TMS.Migrations
 {
-    [DbContext(typeof(TMSContext))]
+    [DbContext(typeof(TMSRepository))]
     [Migration("20200131143516_Initial")]
     partial class Initial
     {

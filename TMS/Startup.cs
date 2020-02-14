@@ -29,10 +29,10 @@ namespace TMS
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddScoped<ITaskQueryResultSorting<QTask>, TaskQueryResultSorting>();
-            services.AddScoped<IManualDataContext, TMSContext>();
+            services.AddScoped<IDataSorter<QTask>, TaskSorter>();
+            services.AddScoped<ITMSRepository, TMSRepository>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
-            services.AddDbContext<TMSContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<TMSRepository>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
                     .AddCookie(options =>
                     {

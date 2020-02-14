@@ -1,36 +1,28 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Threading;
 using System.Threading.Tasks;
+using TMS.Services;
 
 namespace TMS.Models
 {
-    public interface IManualDataContext
-    {
-        DbSet<QTask> QTasks { get; set; }
-        DbSet<Employees> Employees { get; set; }
-        DbSet<Role> Roles { get; set; }
-        int SaveChanges();
-        Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
-    }
-
-    public partial class TMSContext : DbContext, IManualDataContext
+    public partial class TMSRepository : DbContext, ITMSRepository
     {
         public DbSet<QTask> QTasks { get; set; }
         public DbSet<Employees> Employees { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public TMSContext() { }
-        public override int SaveChanges()
-        {
-            return base.SaveChanges();
-        }
-        public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-        {
-            return base.SaveChangesAsync();
-        }
-        public TMSContext(DbContextOptions<TMSContext> options)
+        public TMSRepository() { }
+        public TMSRepository(DbContextOptions<TMSRepository> options) 
             : base(options)
         {
             Database.EnsureCreated();
+        }
+        public int Save()
+        {
+            return base.SaveChanges();
+        }
+        public Task<int> SaveAsync(CancellationToken cancellationToken = default)
+        {
+            return base.SaveChangesAsync();
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

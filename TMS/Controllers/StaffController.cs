@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using TMS.Models;
+using TMS.Services;
 using TMS.ViewModels;
 
 namespace TMS.Controllers
@@ -11,8 +12,8 @@ namespace TMS.Controllers
     [Authorize]
     public class StaffController : Controller
     {
-        private readonly IManualDataContext db;
-        public StaffController(IManualDataContext context)
+        private readonly ITMSRepository db;
+        public StaffController(ITMSRepository context)
         {
             db = context;
         }
@@ -71,7 +72,7 @@ namespace TMS.Controllers
                     Email = model.Email,
                     Role = db.Roles.FirstOrDefault(r => r.Id == model.Role)
                 });
-                db.SaveChangesAsync();
+                db.SaveAsync();
             }
             return RedirectToAction("Index");
         }
@@ -87,7 +88,7 @@ namespace TMS.Controllers
                 employye.FullName = model.FullName;
                 employye.Email = model.Email;
                 employye.Role = db.Roles.FirstOrDefault(r => r.Name == (EmployeeRole)model.Role);
-                db.SaveChangesAsync();
+                db.SaveAsync();
                 return Redirect(Url.Action("Detailed", "Staff", model.StaffId));
             }
             return RedirectToAction("Index");
@@ -101,7 +102,7 @@ namespace TMS.Controllers
             {
                 var employye = db.Employees.FirstOrDefault(e => e.Id == employyeId);
                 db.Employees.Remove(employye);
-                db.SaveChangesAsync();
+                db.SaveAsync();
             }
             return RedirectToAction("Index");
         }

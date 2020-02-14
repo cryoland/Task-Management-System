@@ -8,7 +8,7 @@ using TMS.Models;
 
 namespace TMS.Migrations
 {
-    [DbContext(typeof(TMSContext))]
+    [DbContext(typeof(TMSRepository))]
     partial class TMSContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

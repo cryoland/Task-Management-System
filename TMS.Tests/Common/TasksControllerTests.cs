@@ -28,7 +28,7 @@ namespace TMS.Tests.Common
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             // Create a mock DataSorter
-            var TaskQuerySorterMock = new Mock<ITaskQueryResultSorting<QTask>>();
+            var TaskQuerySorterMock = new Mock<IDataSorter<QTask>>();
             TaskQuerySorterMock.Setup(s => s.Sort(It.IsAny<IQueryable<QTask>>(), It.IsAny<string>())).Returns(tasksDbSet.Object);
 
             var controller = new TasksController(dbContext.Object)
@@ -69,7 +69,7 @@ namespace TMS.Tests.Common
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             // Create a mock DataSorter
-            var TaskQuerySorterMock = new Mock<ITaskQueryResultSorting<QTask>>();
+            var TaskQuerySorterMock = new Mock<IDataSorter<QTask>>();
             TaskQuerySorterMock.Setup(s => s.Sort(It.IsAny<IQueryable<QTask>>(), It.IsAny<string>())).Returns(tasksDbSet.Object);
 
             var controller = new TasksController(dbContext.Object)
