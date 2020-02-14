@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -44,36 +45,34 @@ namespace TMS.Controllers
             return View(model);
         }
 
-        // TODO: remake methods
-        /*
         [HttpGet]
         public async Task<IActionResult> Detailed(int? id)
         {
             if (id != null)
             {
-                var task = db.QTasks.Where(t => t.Id == id);
-                var result = task.Where(
-                                    u => u.Reporter.FullName.Equals(User.Identity.Name) ||
+                var task = await repositoryHandler.GetEntryByIDAsync(id.Value, u => u.Reporter.FullName.Equals(User.Identity.Name) ||
                                     u.Assignee.FullName.Equals(User.Identity.Name) ||
                                     User.IsInRole(EmployeeRole.Admin.ToString()));
 
-                if (result.Count() == 0)
+                if (task is null)
                 {
                     return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
                 }
 
-                return View(await result.FirstOrDefaultAsync());
+                return View(task);
             }
             return RedirectToAction("Index");
         }
 
-        public async Task<IActionResult> Add()
+        // TODO: implement EmployeeHandler        
+        public async Task<IActionResult> Add([FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
+            throw new NotImplementedException();
             ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
-            var employeesList = new SelectList(await db.Employees.ToListAsync(), "Id", "FullName");
+            var employeesList = new SelectList(await repoEmployee.GetAllEntriesAsync(), "Id", "FullName");
             var model = new TaskAddModelHybrid
             {
-                ReporterId = db.Employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id,                
+                ReporterId = (await repoEmployee.GetAllEntriesAsync(u => u.FullName.Equals(User.Identity.Name))).FirstOrDefault()?.Id,                
                 AssigneeList = employeesList,
                 ReporterList = employeesList,
                 PriorityList = TaskEnum.PriorityList()
@@ -81,26 +80,26 @@ namespace TMS.Controllers
             return View(model);
         }
 
+        // TODO: implement EmployeeHandler   
         [HttpGet]
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Edit(int? id, [FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
+            throw new NotImplementedException();
             if (id != null)
             {
-                var result = db.QTasks.Where(t => t.Id == id)
-                                      .Where(
-                                        u => u.Reporter.FullName.Equals(User.Identity.Name) || 
-                                        u.Assignee.FullName.Equals(User.Identity.Name) || 
-                                        User.IsInRole(EmployeeRole.Admin.ToString()));
-                if (result.Count() == 0)
+                var task = await repositoryHandler.GetEntryByIDAsync(id.Value, u => u.Reporter.FullName.Equals(User.Identity.Name) ||
+                                    u.Assignee.FullName.Equals(User.Identity.Name) ||
+                                    User.IsInRole(EmployeeRole.Admin.ToString()));
+
+                if (task is null)
                 {
                     return new ContentResult { StatusCode = 403, Content = "Forbidden", ContentType = "text/html" };
                 }
-                var task = await result.FirstOrDefaultAsync();
-                var employees = db.Employees;
-                var employeesList = await employees.ToListAsync();
+
+                var employeesList = await repoEmployee.GetAllEntriesAsync();
 
                 ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
-                ViewBag.IsReporter = employees.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
+                ViewBag.IsReporter = employeesList.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
 
                 var model = new TaskEditModelHybrid
                 {
@@ -129,12 +128,13 @@ namespace TMS.Controllers
                     ReporterId = model.ReporterId,
                     Priority = (TaskPriority)model.Priority
                 };
-                db.QTasks.Add(task);
-                db.SaveAsync();
+                repositoryHandler.CreateAsync(task);
             }
             return RedirectToAction("Index");
         }
 
+        // TODO: remake methods
+        /*
         [HttpPost]
         public IActionResult Edit(TaskEditModelHybrid model)
         {
