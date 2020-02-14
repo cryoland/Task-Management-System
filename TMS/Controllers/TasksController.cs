@@ -13,38 +13,39 @@ namespace TMS.Controllers
     [Authorize]
     public class TasksController : Controller
     {
-        private readonly ITMSRepository db;
+        private readonly IRepositoryHandler<QTask> repositoryHandler;
 
-        public TasksController(ITMSRepository context)
+        public TasksController(IRepositoryHandler<QTask> handler)
         {
-            db = context;
+            repositoryHandler = handler;
         }
 
         public async Task<IActionResult> Index(string sortorder, [FromServices]IDataSorter<QTask> sorter)
         {
-            var tasks = db.QTasks
-                .Include(a => a.Assignee)
-                .Include(r => r.Reporter);
-
-            IQueryable<QTask> result = sorter.Sort(tasks, sortorder);
+            var result = await repositoryHandler.GetAllEntriesAsync();
 
             var model = new TaskIndexModel
             {
                 PrioritySort = sortorder == TaskSort.PriotityAsc ? TaskSort.PriotityDesc : TaskSort.PriotityAsc,
                 NameSort = string.IsNullOrEmpty(sortorder) ? TaskSort.NameDesc : string.Empty,
                 StatusSort = sortorder == TaskSort.StatusAsc ? TaskSort.StatusDesc : TaskSort.StatusAsc,
-                AssigneeTaskList = await result.Where(t => t.Assignee.FullName.Equals(User.Identity.Name)).ToListAsync(),
-                ReporterTaskList = await result.Where(t => t.Reporter.FullName.Equals(User.Identity.Name)).ToListAsync()
+                AssigneeTaskList = await repositoryHandler.GetAllEntriesAsync(a => a.Assignee.FullName.Equals(User.Identity.Name)),
+                ReporterTaskList = await repositoryHandler.GetAllEntriesAsync(r => r.Reporter.FullName.Equals(User.Identity.Name)),
             };
 
             if (User.IsInRole(EmployeeRole.Admin.ToString()))
             {
-                model.OtherTaskList = (await result.ToListAsync()).Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
+                model.OtherTaskList = result.Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
             }
+
+            // TODO: adapt sorter
+            // IQueryable<QTask> result = sorter.Sort(tasks, sortorder);
 
             return View(model);
         }
 
+        // TODO: remake methods
+        /*
         [HttpGet]
         public async Task<IActionResult> Detailed(int? id)
         {
@@ -163,5 +164,6 @@ namespace TMS.Controllers
             }
             return RedirectToAction("Index");
         }
+        */
     }
 }
