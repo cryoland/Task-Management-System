@@ -14,6 +14,7 @@ using TMS.Tests.Helpers.TestClasses;
 using Microsoft.AspNetCore.Authorization;
 using System.Reflection;
 using TMS.ViewModels;
+using TMS.Services;
 
 namespace TMS.Tests.Common
 {
@@ -25,7 +26,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
             var controller = new StaffController(dbContext.Object)
@@ -47,7 +48,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
             var controller = new StaffController(dbContext.Object)
@@ -68,7 +69,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
             var controller = new StaffController(dbContext.Object)
@@ -93,7 +94,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
             var controller = new StaffController(dbContext.Object)

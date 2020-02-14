@@ -7,13 +7,14 @@ using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using TMS.Services;
 
 namespace TMS.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly IManualDataContext db;
-        public AccountController(IManualDataContext context)
+        private readonly ITMSRepository db;
+        public AccountController(ITMSRepository context)
         {
             db = context;
         }
@@ -59,7 +60,7 @@ namespace TMS.Controllers
                 {
                     // добавляем пользователя в бд
                     db.Employees.Add(new Employees { Email = model.Email, Password = model.Password, ShortName = model.ShortName, FullName = model.FullName });
-                    await db.SaveChangesAsync();
+                    await db.SaveAsync();
 
                     //await Authenticate(model.FullName); // аутентификация
 

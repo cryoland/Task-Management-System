@@ -24,7 +24,7 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             // Create a mock DataSorter
@@ -65,7 +65,7 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             // Create a mock DataSorter
@@ -104,7 +104,7 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             var controller = new TasksController(dbContext.Object)
@@ -136,7 +136,7 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             var controller = new TasksController(dbContext.Object)
@@ -171,7 +171,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
@@ -206,7 +206,7 @@ namespace TMS.Tests.Common
             var employeeDbSet = (await TestData.EmployeeGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
             dbContext.SetupGet(x => x.Employees).Returns(employeeDbSet.Object);
 
@@ -233,7 +233,7 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
 
             var controller = new TasksController(dbContext.Object)
@@ -255,9 +255,9 @@ namespace TMS.Tests.Common
             var tasksDbSet = (await TestData.QTasksGetListAsync()).AsQueryable().BuildMockDbSet();
 
             // Create a mock DbContext.
-            var dbContext = new Mock<IManualDataContext>();
+            var dbContext = new Mock<ITMSRepository>();
             dbContext.SetupGet(x => x.QTasks).Returns(tasksDbSet.Object);
-            dbContext.Setup(c => c.SaveChangesAsync(default)).Returns(() => Task.Factory.StartNew<int>(() => 0)).Verifiable();
+            dbContext.Setup(c => c.SaveAsync(default)).Returns(() => Task.Factory.StartNew<int>(() => 0)).Verifiable();
 
             var controller = new TasksController(dbContext.Object)
             {
