@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using TMS.Models;
 using TMS.Services;
 using TMS.ViewModels.Tasks;
+using AutoMapper;
 
 namespace TMS.Controllers
 {
@@ -16,10 +17,31 @@ namespace TMS.Controllers
     public class TasksController : Controller
     {
         private readonly IRepositoryHandler<QTask> repositoryHandler;
+        private readonly IMapper mapper;
 
         public TasksController(IRepositoryHandler<QTask> handler)
         {
             repositoryHandler = handler;
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<TaskAddModelHybrid, QTask>()
+                   .ForMember(to => to.Priority, from => from.MapFrom(m => (TaskPriority)m.Priority))
+                   .ForMember(to => to.Name, from => from.MapFrom(m => m.Title))
+                   .ForMember(to => to.Assignee, from => from.Ignore())
+                   .ForMember(to => to.Reporter, from => from.Ignore())
+                   .ForMember(to => to.Status, from => from.Ignore())
+                   .ForMember(to => to.Id, from => from.Ignore());
+                cfg.CreateMap<TaskEditModelHybrid, QTask>()
+                   .ForMember(to => to.Priority, from => from.MapFrom(m => m.Priority.HasValue ? (TaskPriority)m.Priority : TaskPriority.None))
+                   .ForMember(to => to.Status, from => from.MapFrom(m => m.Status.HasValue ? (QTaskStatus)m.Status : QTaskStatus.None))
+                   .ForMember(to => to.Name, from => from.MapFrom(m => m.Title))
+                   .ForMember(to => to.Id, from => from.MapFrom(m => m.TaskId))
+                   .ForMember(to => to.Assignee, from => from.Ignore())
+                   .ForMember(to => to.Reporter, from => from.Ignore());
+            });
+            configuration.AssertConfigurationIsValid();            
+            mapper = configuration.CreateMapper();
         }
 
         public async Task<IActionResult> Index(string sortorder, [FromServices]IDataSorter<QTask> sorter)
@@ -125,14 +147,7 @@ namespace TMS.Controllers
         {
             if(ModelState.IsValid)
             {
-                var task = new QTask
-                {
-                    Name = model.Title,
-                    Description = model.Description,
-                    AssigneeId = model.AssigneeId,
-                    ReporterId = model.ReporterId,
-                    Priority = (TaskPriority)model.Priority
-                };
+                var task = mapper.Map<QTask>(model);          
                 repositoryHandler.Create(task);
             }
             return RedirectToAction("Index");
@@ -143,16 +158,7 @@ namespace TMS.Controllers
         {
             if(ModelState.IsValid)
             {
-                var task = new QTask
-                {
-                    Id = model.TaskId,
-                    Name = model.Title,
-                    Description = model.Description,
-                    AssigneeId = model.AssigneeId,
-                    ReporterId = model.ReporterId,
-                    Priority = model.Priority.HasValue ? (TaskPriority)model.Priority : TaskPriority.None,
-                    Status = model.Status.HasValue ? (QTaskStatus)model.Status : QTaskStatus.None
-                };
+                var task = mapper.Map<QTask>(model);
                 repositoryHandler.Update(task);
                 return RedirectToAction("Detailed", "Tasks", model.TaskId);
             }
@@ -164,8 +170,7 @@ namespace TMS.Controllers
         {
             if (taskId != null)
             {
-                var task = new QTask { Id = taskId.Value };
-                repositoryHandler.Delete(task);
+                repositoryHandler.Delete(new QTask { Id = taskId.Value });
             }
             return RedirectToAction("Index");
         }
