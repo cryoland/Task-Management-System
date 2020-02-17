@@ -12,22 +12,20 @@ namespace TMS.Controllers
     [Authorize]
     public class StaffController : Controller
     {
-        private readonly ITMSRepository db;
-        public StaffController(ITMSRepository context)
+        private readonly IRepositoryHandler<Employees> repositoryHandler;
+        public StaffController(IRepositoryHandler<Employees> handler)
         {
-            db = context;
+            repositoryHandler = handler;
         }
         public async Task<IActionResult> Index()
         {
-            return View(await db.Employees
-                                .Include(r => r.Role)
-                                .ToListAsync());
+            return View(await repositoryHandler.GetAllEntriesAsync());
         }
         public async Task<IActionResult> Detailed(int? id)
         {
             if (id != null)
             {
-                return View(await db.Employees.Where(t => t.Id == id).Include(r => r.Role).FirstOrDefaultAsync());
+                return View(await repositoryHandler.GetEntryByIDAsync(id.Value));
             }
             return RedirectToAction("Index");
         }
@@ -37,7 +35,7 @@ namespace TMS.Controllers
         {
             if (id != null)
             {
-                var result = await db.Employees.Where(t => t.Id == id).Include(r => r.Role).FirstOrDefaultAsync();
+                var result = await repositoryHandler.GetEntryByIDAsync(id.Value);
                 var model = new StaffEditModelHybrid
                 {
                      StaffId = result.Id,
@@ -61,35 +59,38 @@ namespace TMS.Controllers
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Add(StaffAddModelHybrid model)
+        public async Task<IActionResult> Add(StaffAddModelHybrid model, [FromServices]IRepositoryHandler<Role> repoRole)
         {
             if(ModelState.IsValid)
             {
-                db.Employees.Add(new Employees
+                var employee = new Employees
                 {
                     ShortName = model.ShortName,
                     FullName = model.FullName,
                     Email = model.Email,
-                    Role = db.Roles.FirstOrDefault(r => r.Id == model.Role)
-                });
-                db.SaveAsync();
+                    Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role),
+                };
+                repositoryHandler.Create(employee);
             }
             return RedirectToAction("Index");
         }
 
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public IActionResult Edit(StaffEditModelHybrid model)
+        public async Task<IActionResult> Edit(StaffEditModelHybrid model, [FromServices]IRepositoryHandler<Role> repoRole)
         {
             if (ModelState.IsValid)
             {
-                var employye = db.Employees.FirstOrDefault(e => e.Id == model.StaffId);
-                employye.ShortName = model.ShortName;
-                employye.FullName = model.FullName;
-                employye.Email = model.Email;
-                employye.Role = db.Roles.FirstOrDefault(r => r.Name == (EmployeeRole)model.Role);
-                db.SaveAsync();
-                return Redirect(Url.Action("Detailed", "Staff", model.StaffId));
+                var employee = new Employees
+                {
+                    Id = model.StaffId,
+                    ShortName = model.ShortName,
+                    FullName = model.FullName,
+                    Email = model.Email,
+                    Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role),
+                };
+                repositoryHandler.Update(employee);
+                return RedirectToAction("Detailed", "Staff", model.StaffId);
             }
             return RedirectToAction("Index");
         }
@@ -100,9 +101,8 @@ namespace TMS.Controllers
         {
             if (employyeId != null)
             {
-                var employye = db.Employees.FirstOrDefault(e => e.Id == employyeId);
-                db.Employees.Remove(employye);
-                db.SaveAsync();
+                var employee = new Employees { Id = employyeId.Value };
+                repositoryHandler.Delete(employee);
             }
             return RedirectToAction("Index");
         }

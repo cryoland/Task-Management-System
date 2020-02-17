@@ -67,12 +67,11 @@ namespace TMS.Controllers
         // TODO: implement EmployeeHandler        
         public async Task<IActionResult> Add([FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
-            throw new NotImplementedException();
             ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
             var employeesList = new SelectList(await repoEmployee.GetAllEntriesAsync(), "Id", "FullName");
             var model = new TaskAddModelHybrid
             {
-                ReporterId = (await repoEmployee.GetAllEntriesAsync(u => u.FullName.Equals(User.Identity.Name))).FirstOrDefault()?.Id,                
+                ReporterId = (await repoEmployee.GetFirstEntityAsync(u => u.FullName.Equals(User.Identity.Name))).Id,            
                 AssigneeList = employeesList,
                 ReporterList = employeesList,
                 PriorityList = TaskEnum.PriorityList()
@@ -84,7 +83,6 @@ namespace TMS.Controllers
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, [FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
-            throw new NotImplementedException();
             if (id != null)
             {
                 var task = await repositoryHandler.GetEntryByIDAsync(id.Value, u => u.Reporter.FullName.Equals(User.Identity.Name) ||
@@ -99,7 +97,7 @@ namespace TMS.Controllers
                 var employeesList = await repoEmployee.GetAllEntriesAsync();
 
                 ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
-                ViewBag.IsReporter = employeesList.Where(u => u.FullName.Equals(User.Identity.Name)).FirstOrDefault().Id.Equals(task.ReporterId);
+                ViewBag.IsReporter = (await repoEmployee.GetFirstEntityAsync(u => u.FullName.Equals(User.Identity.Name))).Id.Equals(task.ReporterId);
 
                 var model = new TaskEditModelHybrid
                 {
@@ -128,26 +126,27 @@ namespace TMS.Controllers
                     ReporterId = model.ReporterId,
                     Priority = (TaskPriority)model.Priority
                 };
-                repositoryHandler.CreateAsync(task);
+                repositoryHandler.Create(task);
             }
             return RedirectToAction("Index");
         }
-
-        // TODO: remake methods
-        /*
+        
         [HttpPost]
         public IActionResult Edit(TaskEditModelHybrid model)
         {
             if(ModelState.IsValid)
             {
-                var qtask = db.QTasks.FirstOrDefault(t => t.Id == model.TaskId);
-                qtask.Name = string.IsNullOrEmpty(model.Title) ? qtask.Name : model.Title;
-                qtask.Description = string.IsNullOrEmpty(model.Description) ? qtask.Name : model.Description;
-                qtask.AssigneeId = model.AssigneeId ?? qtask.AssigneeId;
-                qtask.ReporterId = model.ReporterId ?? qtask.ReporterId;
-                qtask.Priority = (TaskPriority)(model.Priority ?? (int)qtask.Priority);
-                qtask.Status = (QTaskStatus)(model.Status ?? (int)qtask.Status);
-                db.SaveAsync();
+                var task = new QTask
+                {
+                    Id = model.TaskId,
+                    Name = model.Title,
+                    Description = model.Description,
+                    AssigneeId = model.AssigneeId,
+                    ReporterId = model.ReporterId,
+                    Priority = (TaskPriority)model.Priority,
+                    Status = (QTaskStatus)model.Status                    
+                };
+                repositoryHandler.Update(task);
                 return RedirectToAction("Detailed", "Tasks", model.TaskId);
             }
             return RedirectToAction("Index");
@@ -158,12 +157,10 @@ namespace TMS.Controllers
         {
             if (taskId != null)
             {
-                var qtask = db.QTasks.FirstOrDefault(t => t.Id == taskId);
-                db.QTasks.Remove(qtask);
-                db.SaveAsync();
+                var task = new QTask { Id = taskId.Value };
+                repositoryHandler.Delete(task);
             }
             return RedirectToAction("Index");
         }
-        */
     }
 }

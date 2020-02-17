@@ -26,6 +26,12 @@ namespace TMS.Services
         // Returns entities with specific condition async.
         Task<IEnumerable<TResult>> GetAllEntriesAsync(Expression<Func<TResult, bool>> predicate);
 
+        // Returns entities with specific condition.
+        TResult GetFirstEntity(Expression<Func<TResult, bool>> predicate);
+
+        // Returns entities with specific condition async.
+        Task<TResult> GetFirstEntityAsync(Expression<Func<TResult, bool>> predicate);
+
         // Return entity with its id.
         TResult GetEntryByID(int id);
 

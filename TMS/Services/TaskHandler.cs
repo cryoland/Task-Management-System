@@ -9,7 +9,7 @@ using TMS.ViewModels;
 
 namespace TMS.Services
 {
-    public class TaskHandler : TaskHandlerCore, IRepositoryHandler<QTask>
+    public class TaskHandler : HandlerCore, IRepositoryHandler<QTask>
     {
         public TaskHandler(ITMSRepository repository) : base(repository) { }
 
@@ -19,6 +19,7 @@ namespace TMS.Services
             if (entity != null)
             {
                 repository.QTasks.Add(entity);
+                repository.Save();
             }
             else
             {
@@ -31,7 +32,8 @@ namespace TMS.Services
         {
             if (entity != null)
             {
-                repository.QTasks.AddAsync(entity);
+                repository.QTasks.Add(entity);
+                repository.SaveAsync();
             }
             else
             {
@@ -75,6 +77,26 @@ namespace TMS.Services
                 .Include(r => r.Reporter)
                 .Where(predicate)
                 .ToListAsync();
+        }
+
+        // Returns entity with specific condition.
+        public QTask GetFirstEntity(Expression<Func<QTask, bool>> predicate)
+        {
+            return repository.QTasks
+                .Include(a => a.Assignee)
+                .Include(r => r.Reporter)
+                .Where(predicate)
+                .FirstOrDefault();
+        }
+
+        // Returns entity with specific condition.
+        public async Task<QTask> GetFirstEntityAsync(Expression<Func<QTask, bool>> predicate)
+        {
+            return await repository.QTasks
+                .Include(a => a.Assignee)
+                .Include(r => r.Reporter)
+                .Where(predicate)
+                .FirstOrDefaultAsync();
         }
 
         // Return entity with its id.
@@ -123,6 +145,7 @@ namespace TMS.Services
                     entityInDb.ReporterId = entity.ReporterId ?? entityInDb.ReporterId;
                     entityInDb.Priority = entity.Priority;
                     entityInDb.Status = entity.Status;
+                repository.Save();
             }
             else
             {
@@ -142,6 +165,7 @@ namespace TMS.Services
                     entityInDb.ReporterId = entity.ReporterId ?? entityInDb.ReporterId;
                     entityInDb.Priority = entity.Priority;
                     entityInDb.Status = entity.Status;
+                await repository.SaveAsync();
             }
             else
             {
@@ -158,6 +182,7 @@ namespace TMS.Services
                     .Where(t => t.Id == entity.Id)
                     .FirstOrDefault();
                 repository.QTasks.Remove(task);
+                repository.Save();
             }
             else
             {
@@ -174,6 +199,7 @@ namespace TMS.Services
                     .Where(t => t.Id == entity.Id)
                     .FirstOrDefaultAsync();
                 repository.QTasks.Remove(task);
+                await repository.SaveAsync();
             }
             else
             {

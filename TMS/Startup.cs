@@ -32,6 +32,8 @@ namespace TMS
             services.AddScoped<IDataSorter<QTask>, TaskSorter>();
             services.AddScoped<ITMSRepository, TMSRepository>();
             services.AddScoped<IRepositoryHandler<QTask>, TaskHandler>();
+            services.AddScoped<IRepositoryHandler<Employees>, EmployeeHandler>();
+            services.AddScoped<IRepositoryHandler<Role>, RoleHandler>();
             services.AddMvc(options => options.EnableEndpointRouting = false);
             services.AddDbContext<TMSRepository>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)

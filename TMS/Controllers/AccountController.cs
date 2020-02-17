@@ -13,10 +13,10 @@ namespace TMS.Controllers
 {
     public class AccountController : Controller
     {
-        private readonly ITMSRepository db;
-        public AccountController(ITMSRepository context)
+        private readonly IRepositoryHandler<Employees> repositoryHandler;
+        public AccountController(IRepositoryHandler<Employees> handler)
         {
-            db = context;
+            repositoryHandler = handler;
         }
 
         [HttpGet]
@@ -36,8 +36,8 @@ namespace TMS.Controllers
         public async Task<IActionResult> Login(LoginModel model)
         {
             if (ModelState.IsValid)
-            {
-                Employees user = await db.Employees.Include(u => u.Role).FirstOrDefaultAsync(u => u.Email == model.Email && u.Password == model.Password);
+            {              
+                Employees user = await repositoryHandler.GetFirstEntityAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
                     await Authenticate(user); // аутентификация
@@ -55,12 +55,19 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                Employees user = await db.Employees.FirstOrDefaultAsync(u => u.Email == model.Email);
+                Employees user = await repositoryHandler.GetFirstEntityAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
                     // добавляем пользователя в бд
-                    db.Employees.Add(new Employees { Email = model.Email, Password = model.Password, ShortName = model.ShortName, FullName = model.FullName });
-                    await db.SaveAsync();
+                    var employee = new Employees
+                    {
+                        Email = model.Email,
+                        Password = model.Password,
+                        ShortName = model.ShortName,
+                        FullName = model.FullName
+                    };
+
+                    repositoryHandler.Create(employee);
 
                     //await Authenticate(model.FullName); // аутентификация
 
