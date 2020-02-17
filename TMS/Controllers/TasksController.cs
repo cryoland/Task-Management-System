@@ -7,7 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TMS.Models;
 using TMS.Services;
-using TMS.ViewModels;
+using TMS.ViewModels.Tasks;
 
 namespace TMS.Controllers
 {
@@ -143,8 +143,8 @@ namespace TMS.Controllers
                     Description = model.Description,
                     AssigneeId = model.AssigneeId,
                     ReporterId = model.ReporterId,
-                    Priority = (TaskPriority)model.Priority,
-                    Status = (QTaskStatus)model.Status                    
+                    Priority = model.Priority.HasValue ? (TaskPriority)model.Priority : TaskPriority.None,
+                    Status = model.Status.HasValue ? (QTaskStatus)model.Status : QTaskStatus.None
                 };
                 repositoryHandler.Update(task);
                 return RedirectToAction("Detailed", "Tasks", model.TaskId);

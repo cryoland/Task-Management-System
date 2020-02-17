@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace TMS.ViewModels
+namespace TMS.ViewModels.Tasks
 {
-    public class TaskAddModelHybrid
+    public class TaskAddModelHybrid : TaskBaseModel
     {
         [Display(Name = "Title")]
         [Required(ErrorMessage = "Не указано название")]
@@ -24,9 +24,5 @@ namespace TMS.ViewModels
         [Display(Name = "Priority")]
         [Required(ErrorMessage = "Не указан приоритет")]
         public int? Priority { get; set; }
-
-        public IEnumerable<SelectListItem> AssigneeList { get; set; }
-        public IEnumerable<SelectListItem> ReporterList { get; set; }
-        public IEnumerable<SelectListItem> PriorityList { get; set; }
     }
 }

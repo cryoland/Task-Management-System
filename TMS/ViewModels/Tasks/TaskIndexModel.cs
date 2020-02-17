@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using TMS.Models;
 
-namespace TMS.ViewModels
+namespace TMS.ViewModels.Tasks
 {
     public class TaskIndexModel
     {

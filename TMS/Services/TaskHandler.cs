@@ -163,8 +163,8 @@ namespace TMS.Services
                     entityInDb.Description = string.IsNullOrEmpty(entity.Description) ? entityInDb.Name : entity.Description;
                     entityInDb.AssigneeId = entity.AssigneeId ?? entityInDb.AssigneeId;
                     entityInDb.ReporterId = entity.ReporterId ?? entityInDb.ReporterId;
-                    entityInDb.Priority = entity.Priority;
-                    entityInDb.Status = entity.Status;
+                    entityInDb.Priority = entity.Priority != TaskPriority.None ? entity.Priority : entityInDb.Priority;
+                    entityInDb.Status = entity.Status != QTaskStatus.None ? entity.Status : entityInDb.Status;
                 await repository.SaveAsync();
             }
             else

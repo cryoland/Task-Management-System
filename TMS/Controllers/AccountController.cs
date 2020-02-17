@@ -40,7 +40,7 @@ namespace TMS.Controllers
                 Employees user = await repositoryHandler.GetFirstEntityAsync(u => u.Email == model.Email && u.Password == model.Password);
                 if (user != null)
                 {
-                    await Authenticate(user); // аутентификация
+                    await Authenticate(user);
 
                     return RedirectToAction("Index", "Home");
                 }
@@ -58,7 +58,6 @@ namespace TMS.Controllers
                 Employees user = await repositoryHandler.GetFirstEntityAsync(u => u.Email == model.Email);
                 if (user == null)
                 {
-                    // добавляем пользователя в бд
                     var employee = new Employees
                     {
                         Email = model.Email,
@@ -68,8 +67,6 @@ namespace TMS.Controllers
                     };
 
                     repositoryHandler.Create(employee);
-
-                    //await Authenticate(model.FullName); // аутентификация
 
                     return RedirectToAction("Login");
                 }
@@ -81,15 +78,14 @@ namespace TMS.Controllers
 
         private async Task Authenticate(Employees user)
         {
-            // создаем один claim
             var claims = new List<Claim> 
             { 
                 new Claim(ClaimsIdentity.DefaultNameClaimType, user.FullName),
                 new Claim(ClaimsIdentity.DefaultRoleClaimType, user.Role?.Name.ToString())
             };
-            // создаем объект ClaimsIdentity
+
             ClaimsIdentity id = new ClaimsIdentity(claims, "ApplicationCookie", ClaimsIdentity.DefaultNameClaimType, ClaimsIdentity.DefaultRoleClaimType);
-            // установка аутентификационных куки
+
             await HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, new ClaimsPrincipal(id));
         }
 

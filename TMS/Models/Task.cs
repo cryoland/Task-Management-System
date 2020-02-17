@@ -21,6 +21,7 @@ namespace TMS.Models
 
     public enum QTaskStatus
     {
+        None = -1,
         New = 0,
         InProgress = 1,
         Done = 2
@@ -28,6 +29,7 @@ namespace TMS.Models
 
     public enum TaskPriority
     {
+        None = -1,
         Default = 0,
         Major = 1
     }
@@ -38,6 +40,7 @@ namespace TMS.Models
         {
             return new SelectList(Enum.GetValues(typeof(QTaskStatus))
                                                       .Cast<QTaskStatus>()
+                                                      .Where(s => !s.Equals(QTaskStatus.None))
                                                       .Select(s => new { Value = ((int)s).ToString(), Text = s.ToString() })
                                                       .ToList(), "Value", "Text", status ?? (int)QTaskStatus.New);
         }
@@ -45,6 +48,7 @@ namespace TMS.Models
         {
             return new SelectList(Enum.GetValues(typeof(TaskPriority))
                                                       .Cast<TaskPriority>()
+                                                      .Where(p => !p.Equals(TaskPriority.None))
                                                       .Select(p => new { Value = ((int)p).ToString(), Text = p.ToString() })
                                                       .ToList(), "Value", "Text", priority ?? (int)TaskPriority.Default);
         }
