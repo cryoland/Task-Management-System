@@ -1,11 +1,12 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using TMS.Models;
 
 namespace TMS.Services
 {
     public class TaskSorter : IDataSorter<QTask>
     {
-        public IQueryable<QTask> Sort(IQueryable<QTask> result, string query)
+        public IEnumerable<QTask> Sort(IEnumerable<QTask> result, string query)
         {
             switch (query)
             {

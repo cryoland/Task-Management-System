@@ -1,9 +1,9 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
 
 namespace TMS.Services
 {
     public interface IDataSorter<T>
     {
-        IQueryable<T> Sort(IQueryable<T> data, string query);
+        IEnumerable<T> Sort(IEnumerable<T> data, string query);
     }
 }

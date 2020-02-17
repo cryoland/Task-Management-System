@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -25,22 +26,30 @@ namespace TMS.Controllers
         {
             var result = await repositoryHandler.GetAllEntriesAsync();
 
+            IEnumerable<QTask> assigneeTasks = await repositoryHandler.GetAllEntriesAsync(a => a.Assignee.FullName.Equals(User.Identity.Name));
+            IEnumerable<QTask> reporterTasks = await repositoryHandler.GetAllEntriesAsync(r => r.Reporter.FullName.Equals(User.Identity.Name));
+            IEnumerable<QTask> otherTasks = result.Except(assigneeTasks).Except(reporterTasks);
+
+            if(!string.IsNullOrEmpty(sortorder))
+            {
+                assigneeTasks = sorter.Sort(assigneeTasks, sortorder);
+                reporterTasks = sorter.Sort(reporterTasks, sortorder);
+                otherTasks = sorter.Sort(otherTasks, sortorder);
+            }
+
             var model = new TaskIndexModel
             {
                 PrioritySort = sortorder == TaskSort.PriotityAsc ? TaskSort.PriotityDesc : TaskSort.PriotityAsc,
-                NameSort = string.IsNullOrEmpty(sortorder) ? TaskSort.NameDesc : string.Empty,
+                NameSort = sortorder == TaskSort.NameDesc ? string.Empty : TaskSort.NameDesc,
                 StatusSort = sortorder == TaskSort.StatusAsc ? TaskSort.StatusDesc : TaskSort.StatusAsc,
-                AssigneeTaskList = await repositoryHandler.GetAllEntriesAsync(a => a.Assignee.FullName.Equals(User.Identity.Name)),
-                ReporterTaskList = await repositoryHandler.GetAllEntriesAsync(r => r.Reporter.FullName.Equals(User.Identity.Name)),
+                AssigneeTaskList = assigneeTasks,
+                ReporterTaskList = reporterTasks,
             };
 
             if (User.IsInRole(EmployeeRole.Admin.ToString()))
             {
-                model.OtherTaskList = result.Except(model.AssigneeTaskList).Except(model.ReporterTaskList);
+                model.OtherTaskList = otherTasks;
             }
-
-            // TODO: adapt sorter
-            // IQueryable<QTask> result = sorter.Sort(tasks, sortorder);
 
             return View(model);
         }
@@ -63,8 +72,7 @@ namespace TMS.Controllers
             }
             return RedirectToAction("Index");
         }
-
-        // TODO: implement EmployeeHandler        
+      
         public async Task<IActionResult> Add([FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
             ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());
@@ -79,7 +87,6 @@ namespace TMS.Controllers
             return View(model);
         }
 
-        // TODO: implement EmployeeHandler   
         [HttpGet]
         public async Task<IActionResult> Edit(int? id, [FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
