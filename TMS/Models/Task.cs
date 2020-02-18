@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace TMS.Models
 {
@@ -17,40 +14,5 @@ namespace TMS.Models
         public Employees Assignee { get; set; }
         public int? ReporterId { get; set; }
         public Employees Reporter { get; set; }
-    }
-
-    public enum QTaskStatus
-    {
-        None = -1,
-        New = 0,
-        InProgress = 1,
-        Done = 2
-    }
-
-    public enum TaskPriority
-    {
-        None = -1,
-        Default = 0,
-        Major = 1
-    }
-
-    public static class TaskEnum
-    {
-        public static SelectList StatusList(int? status = null)
-        {
-            return new SelectList(Enum.GetValues(typeof(QTaskStatus))
-                                                      .Cast<QTaskStatus>()
-                                                      .Where(s => !s.Equals(QTaskStatus.None))
-                                                      .Select(s => new { Value = ((int)s).ToString(), Text = s.ToString() })
-                                                      .ToList(), "Value", "Text", status ?? (int)QTaskStatus.New);
-        }
-        public static SelectList PriorityList(int? priority = null)
-        {
-            return new SelectList(Enum.GetValues(typeof(TaskPriority))
-                                                      .Cast<TaskPriority>()
-                                                      .Where(p => !p.Equals(TaskPriority.None))
-                                                      .Select(p => new { Value = ((int)p).ToString(), Text = p.ToString() })
-                                                      .ToList(), "Value", "Text", priority ?? (int)TaskPriority.Default);
-        }
     }
 }

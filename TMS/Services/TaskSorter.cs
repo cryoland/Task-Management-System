@@ -31,13 +31,4 @@ namespace TMS.Services
             return result;
         }
     }
-
-    internal static class TaskSort
-    {
-        public const string PriotityAsc = "priority_asc";
-        public const string PriotityDesc = "priority_desc";
-        public const string StatusAsc = "status_asc";
-        public const string StatusDesc = "status_desc";
-        public const string NameDesc = "name_desc";
-    }
 }

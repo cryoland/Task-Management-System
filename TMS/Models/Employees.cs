@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TMS.Models
 {
@@ -18,23 +15,5 @@ namespace TMS.Models
         public string Password { get; set; }
         public int? RoleId { get; set; }
         public Role Role { get; set; }
-    }
-
-    public enum EmployeeRole
-    {
-        Admin = 0,
-        Manager = 1,
-        Developer = 2,
-    }
-
-    public static class EmployeeEnum
-    {
-        public static SelectList RoleList(int? role = null)
-        {
-            return new SelectList(Enum.GetValues(typeof(EmployeeRole))
-                                                      .Cast<EmployeeRole>()
-                                                      .Select(r => new { Value = ((int)r).ToString(), Text = r.ToString() })
-                                                      .ToList(), "Value", "Text", role ?? (int)EmployeeRole.Developer);
-        }
     }
 } 
