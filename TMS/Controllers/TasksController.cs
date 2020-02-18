@@ -32,6 +32,7 @@ namespace TMS.Controllers
                    .ForMember(to => to.Reporter, from => from.Ignore())
                    .ForMember(to => to.Status, from => from.Ignore())
                    .ForMember(to => to.Id, from => from.Ignore());
+
                 cfg.CreateMap<TaskEditModelHybrid, QTask>()
                    .ForMember(to => to.Priority, from => from.MapFrom(m => m.Priority.HasValue ? (TaskPriority)m.Priority : TaskPriority.None))
                    .ForMember(to => to.Status, from => from.MapFrom(m => m.Status.HasValue ? (QTaskStatus)m.Status : QTaskStatus.None))
@@ -40,10 +41,13 @@ namespace TMS.Controllers
                    .ForMember(to => to.Assignee, from => from.Ignore())
                    .ForMember(to => to.Reporter, from => from.Ignore());
             });
+
+            // TODO: remove following statement if not developer mode
             configuration.AssertConfigurationIsValid();            
             mapper = configuration.CreateMapper();
         }
 
+        [HttpGet]
         public async Task<IActionResult> Index(string sortorder, [FromServices]IDataSorter<QTask> sorter)
         {
             var result = await repositoryHandler.GetAllEntriesAsync();
@@ -94,7 +98,8 @@ namespace TMS.Controllers
             }
             return RedirectToAction("Index");
         }
-      
+
+        [HttpGet]
         public async Task<IActionResult> Add([FromServices]IRepositoryHandler<Employees> repoEmployee)
         {
             ViewBag.IsAdmin = User.IsInRole(EmployeeRole.Admin.ToString());

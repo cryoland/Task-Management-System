@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using TMS.Models;
 using TMS.Services;
 using TMS.ViewModels;
+using AutoMapper;
 
 namespace TMS.Controllers
 {
@@ -13,14 +14,49 @@ namespace TMS.Controllers
     public class StaffController : Controller
     {
         private readonly IRepositoryHandler<Employees> repositoryHandler;
+        private readonly IMapper mapper;
+
         public StaffController(IRepositoryHandler<Employees> handler)
         {
             repositoryHandler = handler;
+
+            var configuration = new MapperConfiguration(cfg =>
+            {
+                cfg.CreateMap<StaffAddModelHybrid, Employees>()
+                    .ForMember(to => to.Id, from => from.Ignore())
+                    .ForMember(to => to.ShortName, from => from.MapFrom(m => m.ShortName))
+                    .ForMember(to => to.FullName, from => from.MapFrom(m => m.FullName))
+                    .ForMember(to => to.Email, from => from.MapFrom(m => m.Email))
+                    .ForMember(to => to.Role, from => from.Ignore())
+                    .ForMember(to => to.RoleId, from => from.Ignore())
+                    .ForMember(to => to.Password, from => from.Ignore())
+                    .ForMember(to => to.AssignedQTasks, from => from.Ignore())
+                    .ForMember(to => to.ReporteredQTasks, from => from.Ignore());
+
+                cfg.CreateMap<StaffEditModelHybrid, Employees>()
+                    .ForMember(to => to.Id, from => from.MapFrom(m => m.StaffId))
+                    .ForMember(to => to.ShortName, from => from.MapFrom(m => m.ShortName))
+                    .ForMember(to => to.FullName, from => from.MapFrom(m => m.FullName))
+                    .ForMember(to => to.Email, from => from.MapFrom(m => m.Email))
+                    .ForMember(to => to.Role, from => from.Ignore())
+                    .ForMember(to => to.RoleId, from => from.Ignore())
+                    .ForMember(to => to.Password, from => from.Ignore())
+                    .ForMember(to => to.AssignedQTasks, from => from.Ignore())
+                    .ForMember(to => to.ReporteredQTasks, from => from.Ignore());
+            });
+
+            // TODO: remove following statement if not developer mode
+            configuration.AssertConfigurationIsValid();
+            mapper = configuration.CreateMapper();
         }
+
+        [HttpGet]
         public async Task<IActionResult> Index()
         {
             return View(await repositoryHandler.GetAllEntriesAsync());
         }
+
+        [HttpGet]
         public async Task<IActionResult> Detailed(int? id)
         {
             if (id != null)
@@ -31,6 +67,7 @@ namespace TMS.Controllers
         }
 
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public async Task<IActionResult> Edit(int? id)
         {
             if (id != null)
@@ -51,6 +88,7 @@ namespace TMS.Controllers
         }
         
         [Authorize(Roles = "Admin")]
+        [HttpGet]
         public IActionResult Add()
         {
             var model = new StaffAddModelHybrid { RoleList = EmployeeEnum.RoleList() };
@@ -63,13 +101,8 @@ namespace TMS.Controllers
         {
             if(ModelState.IsValid)
             {
-                var employee = new Employees
-                {
-                    ShortName = model.ShortName,
-                    FullName = model.FullName,
-                    Email = model.Email,
-                    Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role),
-                };
+                var employee = mapper.Map<Employees>(model);
+                employee.Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role);
                 repositoryHandler.Create(employee);
             }
             return RedirectToAction("Index");
@@ -81,14 +114,8 @@ namespace TMS.Controllers
         {
             if (ModelState.IsValid)
             {
-                var employee = new Employees
-                {
-                    Id = model.StaffId,
-                    ShortName = model.ShortName,
-                    FullName = model.FullName,
-                    Email = model.Email,
-                    Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role),
-                };
+                var employee = mapper.Map<Employees>(model);
+                employee.Role = await repoRole.GetFirstEntityAsync(r => r.Name == (EmployeeRole)model.Role);
                 repositoryHandler.Update(employee);
                 return RedirectToAction("Detailed", "Staff", model.StaffId);
             }
@@ -101,8 +128,7 @@ namespace TMS.Controllers
         {
             if (employyeId != null)
             {
-                var employee = new Employees { Id = employyeId.Value };
-                repositoryHandler.Delete(employee);
+                repositoryHandler.Delete(new Employees { Id = employyeId.Value });
             }
             return RedirectToAction("Index");
         }
