@@ -35,6 +35,7 @@ namespace TMS.Application.Issues.Commands.CreateIssue
                     Name = request.Name,
                     Description = request.Description,
                     Priority = request.Priority,
+                    Status = IssueStatus.New,
                     AssigneeId = request.AssigneeId,
                     ReporterId = request.ReporterId,
                 };
