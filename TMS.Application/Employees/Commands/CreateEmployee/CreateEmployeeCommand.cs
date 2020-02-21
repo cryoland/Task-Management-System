@@ -16,6 +16,8 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
 
         public string Password { get; set; }
 
+        public int RoleId { get; set; }
+
         public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, long>
         {
             private readonly IApplicationDbContext _context;
@@ -34,6 +36,7 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
                     Email = request.Email,
                     Password = request.Password,
                     Active = true,
+                    RoleId = request.RoleId,
                 };
 
                 _context.Employees.Add(entity);
