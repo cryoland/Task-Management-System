@@ -12,7 +12,7 @@ namespace TMS.Domain.Entities
         public bool Active { get; set; }
         public int RoleId { get; set; }
         public Role Role { get; set; }
-        public IEnumerable<Issue> AssignedQTasks { get; private set; } = new HashSet<Issue>();
-        public IEnumerable<Issue> ReporteredQTasks { get; private set; } = new HashSet<Issue>();
+        public IEnumerable<Issue> AssignedIssues { get; private set; } = new HashSet<Issue>();
+        public IEnumerable<Issue> ReporteredIssues { get; private set; } = new HashSet<Issue>();
     }
 }
