@@ -9,7 +9,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Services\Migrations\" />
+    <Folder Include="Services\" />
   </ItemGroup>
 
   <ItemGroup>
