@@ -1,0 +1,18 @@
+﻿@model TMS.Application.Employees.Queries.GetEmployeeList.EmployeeListVm;
+@{
+    ViewData["Title"] = "Index";
+}
+<h1>Index</h1>
+<table>
+    @foreach(var item in Model.Employees)
+    {
+        <tr>
+            <td>@item.EmployeeId</td>
+            <td>@item.ShortName</td>
+            <td>@item.FullName</td>
+            <td>@item.RoleName</td>
+            <td>@item.Email</td>
+            <td>@item.Active</td>
+        </tr>
+    }
+</table>
