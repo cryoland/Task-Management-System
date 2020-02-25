@@ -16,6 +16,9 @@ namespace TMS.Infrastructure.Persistence.Configurations
             builder.Property(t => t.FullName)
                 .HasMaxLength(100)
                 .IsRequired();
+            builder.HasOne(e => e.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(e => e.RoleId);
         }
     }
 }
