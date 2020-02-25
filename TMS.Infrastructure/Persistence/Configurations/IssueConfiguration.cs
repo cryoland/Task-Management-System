@@ -13,6 +13,13 @@ namespace TMS.Infrastructure.Persistence.Configurations
                .IsRequired();
             builder.Property(t => t.Description)
                .HasMaxLength(1024);
+            builder.HasOne(b => b.Assignee)
+                .WithMany(d => d.AssignedIssues)
+                .HasForeignKey(d => d.AssigneeId)
+                .OnDelete(DeleteBehavior.SetNull);
+            builder.HasOne(b => b.Reporter)
+                .WithMany(d => d.ReporteredIssues)
+                .HasForeignKey(d => d.ReporterId);
         }
     }
 }
