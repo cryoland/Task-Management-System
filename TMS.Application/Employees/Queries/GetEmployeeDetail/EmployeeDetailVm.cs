@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TMS.Application.Common.Mappings;
+using TMS.Application.Common.Models;
 using TMS.Domain.Entities;
 using TMS.Domain.Enumerations;
 
@@ -24,10 +25,10 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 
         public int RoleId { get; set; }
 
-        public IList<UserRoleDto> UserRoles =
+        public IList<FrameDto> UserRoles =
             Enum.GetValues(typeof(UserRole))
             .Cast<UserRole>()
-            .Select(r => new UserRoleDto { Value = (int)r, Name = r.ToString() })
+            .Select(r => new FrameDto { Value = (int)r, Name = r.ToString() })
             .ToList();
 
         public void Mapping(Profile profile)

@@ -1,6 +1,6 @@
-﻿namespace TMS.Application.Employees.Queries.GetEmployeeDetail
+﻿namespace TMS.Application.Common.Models
 {
-    public class UserRoleDto
+    public class FrameDto
     {
         public int Value { get; set; }
 
