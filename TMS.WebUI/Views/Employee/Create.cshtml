@@ -1,0 +1,11 @@
+﻿@model TMS.Application.Employees.Queries.GetEmployeeDetail.EmployeeDetailVm
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+@foreach(var item in @Model.UserRoles)
+{
+    <span>@item.Value</span> <span>@item.Name</span><br/>
+}

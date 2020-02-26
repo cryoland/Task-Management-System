@@ -1,7 +1,17 @@
-﻿
+﻿@model TMS.Application.Employees.Queries.GetEmployeeDetail.EmployeeDetailVm
 @{
     ViewData["Title"] = "Detailed";
 }
 
 <h1>Detailed</h1>
 
+<table>
+        <tr>
+            <td>@Model.EmployeeId</td>
+            <td>@Model.ShortName</td>
+            <td>@Model.FullName</td>
+            <td>@Model.RoleId</td>
+            <td>@Model.Email</td>
+            <td>@Model.Active</td>
+        </tr>
+</table>
