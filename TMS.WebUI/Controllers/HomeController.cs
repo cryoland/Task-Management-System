@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebUI.Controllers
+namespace TMS.WebUI.Controllers
 {
     [Authorize]
     public class HomeController : Controller
