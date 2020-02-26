@@ -1,17 +1,48 @@
-﻿@model TMS.Application.Employees.Queries.GetEmployeeDetail.EmployeeDetailVm
+﻿@using TMS.WebUI.Common;
+@model TMS.Application.Employees.Queries.GetEmployeeDetail.EmployeeDetailVm
 @{
-    ViewData["Title"] = "Edit";
+    ViewData["Title"] = "Employee Info";
 }
 
-<h1>Edit</h1>
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-controller="Employee" asp-action="Index">Employees</a> >
+    <span>@Model.FullName [Edit mode]</span>
+</div>
 
-<table>
-    <tr>
-        <td>@Model.EmployeeId</td>
-        <td>@Model.ShortName</td>
-        <td>@Model.FullName</td>
-        <td>@Model.RoleId</td>
-        <td>@Model.Email</td>
-        <td>@Model.Active</td>
-    </tr>
-</table>
+<h1>Employee Info</h1>
+
+<form asp-controller="Employee" asp-action="Update" method="post">
+    <div>
+        <label asp-for="ShortName" class="control-label"></label>
+        <input asp-for="ShortName" class="form-control" />
+        <span asp-validation-for="ShortName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="FullName" class="control-label"></label>
+        <input asp-for="FullName" class="form-control" />
+        <span asp-validation-for="FullName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Email" class="control-label"></label>
+        <input asp-for="Email" class="form-control" />
+        <span asp-validation-for="Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Password" class="control-label"></label>
+        <input asp-for="Password" class="form-control" />
+        <span asp-validation-for="Password" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="RoleId" class="control-label"></label>
+        <select asp-for="RoleId" asp-items="@Model.UserRoles.ToSelectList()"></select>
+        <span asp-validation-for="RoleId" class="text-danger"></span>
+    </div>
+    <input type="hidden" asp-for="EmployeeId" value="@Model.EmployeeId" />
+    <input class="btn" type="submit" value="Update" />
+</form>
+
+<form asp-controller="Employee" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="EmployeeId" value="@Model.EmployeeId" />
+    <input class="btn" type="submit" value="Remove" />
+</form>
