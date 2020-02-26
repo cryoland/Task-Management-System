@@ -4,7 +4,7 @@ namespace TMS.Domain.Entities
 {
     public class Employee
     {
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
         public string ShortName { get; set; }
         public string FullName { get; set; }
         public string Email { get; set; }

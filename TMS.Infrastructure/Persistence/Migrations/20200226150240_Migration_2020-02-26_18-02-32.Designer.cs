@@ -10,8 +10,8 @@ using TMS.Infrastructure.Persistence;
 namespace TMS.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200225103331_Init")]
-    partial class Init
+    [Migration("20200226150240_Migration_2020-02-26_18-02-32")]
+    partial class Migration_20200226_180232
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -23,9 +23,9 @@ namespace TMS.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("TMS.Domain.Entities.Employee", b =>
                 {
-                    b.Property<int>("EmployeeId")
+                    b.Property<long>("EmployeeId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<bool>("Active")
@@ -60,13 +60,13 @@ namespace TMS.Infrastructure.Persistence.Migrations
 
             modelBuilder.Entity("TMS.Domain.Entities.Issue", b =>
                 {
-                    b.Property<int>("IssueId")
+                    b.Property<long>("IssueId")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
+                        .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("AssigneeId")
-                        .HasColumnType("int");
+                    b.Property<long?>("AssigneeId")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(1024)")
@@ -80,8 +80,8 @@ namespace TMS.Infrastructure.Persistence.Migrations
                     b.Property<int>("Priority")
                         .HasColumnType("int");
 
-                    b.Property<int?>("ReporterId")
-                        .HasColumnType("int");
+                    b.Property<long?>("ReporterId")
+                        .HasColumnType("bigint");
 
                     b.Property<int>("Status")
                         .HasColumnType("int");

@@ -2,7 +2,7 @@
 
 namespace TMS.Infrastructure.Persistence.Migrations
 {
-    public partial class Init : Migration
+    public partial class Migration_20200226_180232 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -23,7 +23,7 @@ namespace TMS.Infrastructure.Persistence.Migrations
                 name: "Employees",
                 columns: table => new
                 {
-                    EmployeeId = table.Column<int>(nullable: false)
+                    EmployeeId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     ShortName = table.Column<string>(nullable: true),
                     FullName = table.Column<string>(maxLength: 100, nullable: false),
@@ -47,14 +47,14 @@ namespace TMS.Infrastructure.Persistence.Migrations
                 name: "Issues",
                 columns: table => new
                 {
-                    IssueId = table.Column<int>(nullable: false)
+                    IssueId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(maxLength: 80, nullable: false),
                     Description = table.Column<string>(maxLength: 1024, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
-                    AssigneeId = table.Column<int>(nullable: true),
-                    ReporterId = table.Column<int>(nullable: true)
+                    AssigneeId = table.Column<long>(nullable: true),
+                    ReporterId = table.Column<long>(nullable: true)
                 },
                 constraints: table =>
                 {
