@@ -12,7 +12,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 {
     public class GetEmployeeDetailQuery : IRequest<EmployeeDetailVm>
     {
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
         public class GetEmployeeDetailQueryHandler : IRequestHandler<GetEmployeeDetailQuery, EmployeeDetailVm>
         {

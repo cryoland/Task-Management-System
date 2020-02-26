@@ -11,7 +11,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 {
     public class EmployeeDetailVm : IMapFrom<Employee>
     {
-        public int EmployeeId { get; set; }
+        public long EmployeeId { get; set; }
 
         public string ShortName { get; set; }
 
