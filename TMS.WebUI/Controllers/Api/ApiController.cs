@@ -2,9 +2,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace TMS.WebUI.Controllers
+namespace TMS.WebUI.Controllers.Api
 {
-    public abstract class ApiController : Controller
+    [ApiController]
+    [Route("api/[controller]")]
+    public abstract class ApiController : ControllerBase
     {
         private IMediator _mediator;
 
