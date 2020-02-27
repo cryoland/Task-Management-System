@@ -10,7 +10,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Issues\Queries\" />
     <Folder Include="Roles\Queries\" />
   </ItemGroup>
 
