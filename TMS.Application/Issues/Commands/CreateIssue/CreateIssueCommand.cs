@@ -19,7 +19,7 @@ namespace TMS.Application.Issues.Commands.CreateIssue
 
         public int ReporterId { get; set; }
 
-        public class CreateIssueCommandHandler : IRequestHandler<CreateIssueCommand, long>
+        class CreateIssueCommandHandler : IRequestHandler<CreateIssueCommand, long>
         {
             private readonly IApplicationDbContext _context;
 

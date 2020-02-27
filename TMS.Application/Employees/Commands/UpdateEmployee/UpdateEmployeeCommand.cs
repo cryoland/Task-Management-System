@@ -1,7 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using TMS.Application.Common.Exceptions;
@@ -24,7 +21,7 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
 
         public int RoleId { get; set; }
 
-        public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
+        class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
         {
             private readonly IApplicationDbContext _context;
 
