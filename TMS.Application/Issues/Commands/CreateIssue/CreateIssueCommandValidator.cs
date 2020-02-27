@@ -9,6 +9,8 @@ namespace TMS.Application.Issues.Commands.CreateIssue
             RuleFor(i => i.Name)
                 .MaximumLength(64)
                 .NotEmpty();
+            RuleFor(i => i.Description)
+                .MaximumLength(256);
             RuleFor(i => i.AssigneeId)
                 .NotEmpty();
             RuleFor(i => i.ReporterId)
