@@ -7,6 +7,7 @@ using Microsoft.Extensions.Hosting;
 using TMS.Application;
 using TMS.Application.Common.Interfaces;
 using TMS.Infrastructure;
+using TMS.WebUI.Common;
 
 namespace TMS.WebUI_test
 {
@@ -44,6 +45,7 @@ namespace TMS.WebUI_test
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseRouting();
