@@ -16,7 +16,11 @@ namespace TMS.Application.Issues.Commands.UpdateIssue
             RuleFor(e => e.ReporterId)
                 .NotEmpty();
             RuleFor(e => e.Priority)
-                .NotEmpty();
+                .NotEmpty()
+                .IsInEnum();
+            RuleFor(e => e.Status)
+                .NotEmpty()
+                .IsInEnum();
         }
     }
 }

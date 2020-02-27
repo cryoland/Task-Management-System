@@ -2,13 +2,13 @@
 
 namespace TMS.Application.Issues.Commands.CreateIssue
 {
-    class CreateIssueCommandValidator : AbstractValidator<CreateIssueCommand>
+    public class CreateIssueCommandValidator : AbstractValidator<CreateIssueCommand>
     {
         public CreateIssueCommandValidator()
         {
             RuleFor(i => i.Name)
-                .MaximumLength(64)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(64);
             RuleFor(i => i.Description)
                 .MaximumLength(256);
             RuleFor(i => i.AssigneeId)
@@ -16,7 +16,8 @@ namespace TMS.Application.Issues.Commands.CreateIssue
             RuleFor(i => i.ReporterId)
                 .NotEmpty();
             RuleFor(i => i.Priority)
-                .NotEmpty();
+                .NotEmpty()
+                .IsInEnum();
         }
     }
 }
