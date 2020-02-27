@@ -7,11 +7,14 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
         public UpdateEmployeeCommandValidator()
         {
             RuleFor(e => e.Email)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(64);                
             RuleFor(e => e.Password)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(64);
             RuleFor(e => e.FullName)
-                .NotEmpty();
+                .NotEmpty()
+                .MaximumLength(64);
         }
     }
 }
