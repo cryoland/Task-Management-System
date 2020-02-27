@@ -11,7 +11,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeList
 {
     public class GetEmployeeListQuery : IRequest<EmployeeListVm>
     {
-        public class GetEmployeeListQueryHandler : IRequestHandler<GetEmployeeListQuery, EmployeeListVm>
+        class GetEmployeeListQueryHandler : IRequestHandler<GetEmployeeListQuery, EmployeeListVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
