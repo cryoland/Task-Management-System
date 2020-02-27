@@ -3,15 +3,25 @@
     ViewData["Title"] = "Detailed";
 }
 
-<h1>Detailed</h1>
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-controller="Employee" asp-action="Index">Employees</a> >
+    <span>@Model.FullName</span>
+</div>
 
-<table>
-        <tr>
-            <td>@Model.EmployeeId</td>
-            <td>@Model.ShortName</td>
-            <td>@Model.FullName</td>
-            <td>@Model.RoleId</td>
-            <td>@Model.Email</td>
-            <td>@Model.Active</td>
-        </tr>
+<h1>Employee Info</h1>
+
+<div>Employee details</div>
+
+<table class="table">
+    <tr><td>ShortName</td><td>FullName</td><td>Role</td><td>Email</td><td>Active</td></tr>
+    <tr>
+        <td>@Model.ShortName</td>
+        <td>@Model.FullName</td>
+        <td>@Model.RoleName</td>
+        <td>@Model.Email</td>
+        <td>@Model.Active</td>
+    </tr>
 </table>
+
+<a class="btn task-add noselect" asp-controller="Employee" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

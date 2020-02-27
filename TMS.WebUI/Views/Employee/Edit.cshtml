@@ -38,11 +38,11 @@
         <select asp-for="RoleId" asp-items="@Model.UserRoles.ToSelectList()"></select>
         <span asp-validation-for="RoleId" class="text-danger"></span>
     </div>
-    <input type="hidden" asp-for="EmployeeId" value="@Model.EmployeeId" />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
     <input class="btn" type="submit" value="Update" />
 </form>
 
 <form asp-controller="Employee" asp-action="Delete" method="post">
-    <input type="hidden" asp-for="EmployeeId" value="@Model.EmployeeId" />
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
     <input class="btn" type="submit" value="Remove" />
 </form>
