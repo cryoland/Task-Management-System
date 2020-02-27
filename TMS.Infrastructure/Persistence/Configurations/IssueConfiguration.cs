@@ -9,10 +9,10 @@ namespace TMS.Infrastructure.Persistence.Configurations
         public void Configure(EntityTypeBuilder<Issue> builder)
         {
             builder.Property(t => t.Name)
-               .HasMaxLength(80)
+               .HasMaxLength(64)
                .IsRequired();
             builder.Property(t => t.Description)
-               .HasMaxLength(1024);
+               .HasMaxLength(256);
             builder.HasOne(b => b.Assignee)
                 .WithMany(d => d.AssignedIssues)
                 .HasForeignKey(d => d.AssigneeId)
