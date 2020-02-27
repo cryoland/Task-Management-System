@@ -1,0 +1,32 @@
+﻿@model TMS.Application.Issues.Queries.GetIssueList.IssueListVm;
+@{
+    ViewData["Title"] = "Issues";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <span>Issues</span>
+</div>
+
+<h1>Issues</h1>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Assignee</th>
+        <th>Reporter</th>
+        <th>Priority</th>
+        <th>Status</th>
+    </tr>
+    @foreach (var item in Model.Issues)
+    {
+        <tr>
+            <td><a asp-controller="Issue" asp-action="Detailed" asp-route-id="@item.Id">@item.Name</a></td>
+            <td>@item.AssigneeName</td>
+            <td>@item.ReporterName</td>
+            <td class="task-priority-@item.PriorityName.">@item.PriorityName</td>
+            <td class="task-status-@item.StatusName">@item.StatusName</td>
+        </tr>
+    }
+</table>
+<a class="btn task-add noselect" asp-controller="Issue" asp-action="Create">New issue</a>

@@ -1,0 +1,33 @@
+﻿@model TMS.Application.Issues.Queries.GetIssueDetail.IssueDetailVm;
+@{
+    ViewData["Title"] = "Issue details";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-controller="Issue" asp-action="Index">Tasks</a> >
+    <span>Task details</span>
+</div>
+
+<h1>Issue# @Model.Id</h1>
+ 
+<div>Issue details</div>
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Assignee</th>
+        <th>Reporter</th>
+    </tr>
+    <tr>
+        <td>@Model.Name</td>
+        <td>@Model.Description</td>
+        <td>@Model.Priority</td>
+        <td>@Model.Status</td>
+        <td>@Model.AssigneeName</td>
+        <td>@Model.ReporterName</td>
+    </tr>
+</table>
+<a class="btn task-add noselect" asp-controller="Issue" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

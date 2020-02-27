@@ -1,0 +1,51 @@
+﻿@using TMS.WebUI.Common;
+@model TMS.Application.Issues.Queries.GetIssueDetail.IssueDetailForUpsertVm;
+@{
+    ViewData["Title"] = "Edit issue";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-controller="Issue" asp-action="Index">Issues</a> >
+    <span>@Model.Name [Edit mode]</span>
+</div>
+
+<h1>@Model.Name</h1>
+
+<form asp-controller="Issue" asp-action="Update" method="post">
+    <div>
+        <label asp-for="Name" class="control-label"></label>
+        <input asp-for="Name" class="form-control" value="@Model.Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Description" class="control-label"></label>
+        <input asp-for="Description" class="form-control" value="@Model.Description" />
+    </div>
+    <div>
+        <label asp-for="AssigneeId" class="control-label"></label>
+        <select asp-for="AssigneeId" asp-items="@Model.Employees.ToSelectList(Model.AssigneeId)"></select>
+    </div>
+
+    <div>
+        <label asp-for="ReporterId" class="control-label"></label>
+        <select asp-for="ReporterId" asp-items="@Model.Employees.ToSelectList(Model.ReporterId)"></select>
+    </div>
+
+    <div>
+        <label asp-for="Priority" class="control-label"></label>
+        <select asp-for="Priority" asp-items="@Model.IssuePriorityLevels.ToSelectList(Model.Priority)"></select>
+    </div>
+
+    <div>
+        <label asp-for="Status" class="control-label"></label>
+        <select asp-for="Status" asp-items="@Model.IssueStatuses.ToSelectList(Model.Status)"></select>
+    </div>
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input class="btn" type="submit" value="Update" />
+</form>
+
+<form asp-controller="Issue" asp-action="Delete" method="post">
+    <input type="hidden" asp-for="Id" value="@Model.Id" />
+    <input class="btn" type="submit" value="Remove" />
+</form>
