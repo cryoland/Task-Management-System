@@ -9,7 +9,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeList
 {
     public class EmployeeDto : IMapFrom<Employee>
     {
-        public long EmployeeId { get; set; }
+        public long Id { get; set; }
 
         public string ShortName { get; set; }
 
@@ -26,6 +26,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeList
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Employee, EmployeeDto>()
+                .ForMember(d => d.Id, opt => opt.MapFrom(e => e.EmployeeId))
                 .ForMember(d => d.RoleName, opt => opt.MapFrom(e => e.Role.RoleValue.ToString()));
         }                
     }

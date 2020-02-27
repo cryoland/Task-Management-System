@@ -11,7 +11,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 {
     public class EmployeeDetailVm : IMapFrom<Employee>
     {
-        public long EmployeeId { get; set; }
+        public long Id { get; set; }
 
         public string ShortName { get; set; }
 
@@ -25,6 +25,8 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 
         public int RoleId { get; set; }
 
+        public string RoleName { get; set; }
+
         public IList<FrameDto> UserRoles =
             Enum.GetValues(typeof(UserRole))
             .Cast<UserRole>()
@@ -34,7 +36,9 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Employee, EmployeeDetailVm>()
-                .ForMember(e => e.Active, opt => opt.Ignore());
+                .ForMember(d => d.Id, opt => opt.MapFrom(e => e.EmployeeId))
+                .ForMember(e => e.Active, opt => opt.Ignore())
+                .ForMember(d => d.RoleName, opt => opt.MapFrom(e => e.Role.RoleValue.ToString()));
         }
     }
 }

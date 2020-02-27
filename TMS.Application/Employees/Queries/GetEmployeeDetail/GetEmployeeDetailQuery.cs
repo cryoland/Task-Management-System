@@ -14,7 +14,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
     {
         public long EmployeeId { get; set; }
 
-        public class GetEmployeeDetailQueryHandler : IRequestHandler<GetEmployeeDetailQuery, EmployeeDetailVm>
+        class GetEmployeeDetailQueryHandler : IRequestHandler<GetEmployeeDetailQuery, EmployeeDetailVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
@@ -29,7 +29,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
             {
                 var vm = await _context.Employees
                     .ProjectTo<EmployeeDetailVm>(_mapper.ConfigurationProvider)
-                    .FirstOrDefaultAsync(p => p.EmployeeId == request.EmployeeId, cancellationToken);
+                    .FirstOrDefaultAsync(p => p.Id == request.EmployeeId, cancellationToken);
 
                 if (vm == null)
                 {
