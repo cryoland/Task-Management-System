@@ -2,23 +2,10 @@
 
 namespace TMS.Infrastructure.Persistence.Migrations
 {
-    public partial class Migration_20200226_180232 : Migration
+    public partial class Migration_20200228_222404 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "Roles",
-                columns: table => new
-                {
-                    RoleId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    RoleValue = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Roles", x => x.RoleId);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Employees",
                 columns: table => new
@@ -30,17 +17,11 @@ namespace TMS.Infrastructure.Persistence.Migrations
                     Email = table.Column<string>(maxLength: 80, nullable: false),
                     Password = table.Column<string>(nullable: false),
                     Active = table.Column<bool>(nullable: false),
-                    RoleId = table.Column<int>(nullable: false)
+                    Role = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Employees", x => x.EmployeeId);
-                    table.ForeignKey(
-                        name: "FK_Employees_Roles_RoleId",
-                        column: x => x.RoleId,
-                        principalTable: "Roles",
-                        principalColumn: "RoleId",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -49,8 +30,8 @@ namespace TMS.Infrastructure.Persistence.Migrations
                 {
                     IssueId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(maxLength: 80, nullable: false),
-                    Description = table.Column<string>(maxLength: 1024, nullable: true),
+                    Name = table.Column<string>(maxLength: 64, nullable: false),
+                    Description = table.Column<string>(maxLength: 256, nullable: true),
                     Status = table.Column<int>(nullable: false),
                     Priority = table.Column<int>(nullable: false),
                     AssigneeId = table.Column<long>(nullable: true),
@@ -63,20 +44,13 @@ namespace TMS.Infrastructure.Persistence.Migrations
                         name: "FK_Issues_Employees_AssigneeId",
                         column: x => x.AssigneeId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.SetNull);
+                        principalColumn: "EmployeeId");
                     table.ForeignKey(
                         name: "FK_Issues_Employees_ReporterId",
                         column: x => x.ReporterId,
                         principalTable: "Employees",
-                        principalColumn: "EmployeeId",
-                        onDelete: ReferentialAction.Restrict);
+                        principalColumn: "EmployeeId");
                 });
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Employees_RoleId",
-                table: "Employees",
-                column: "RoleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Issues_AssigneeId",
@@ -96,9 +70,6 @@ namespace TMS.Infrastructure.Persistence.Migrations
 
             migrationBuilder.DropTable(
                 name: "Employees");
-
-            migrationBuilder.DropTable(
-                name: "Roles");
         }
     }
 }

@@ -9,9 +9,7 @@ namespace TMS.Application.Common.Interfaces
     {
         DbSet<Employee> Employees { get; set; }
 
-        DbSet<Issue> Issues { get; set; }
-
-        DbSet<Role> Roles { get; set; }
+        DbSet<Issue> Issues { get; set; }        
 
         Task<int> SaveChangesAsync(CancellationToken cancellationToken);
     }

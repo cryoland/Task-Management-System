@@ -43,15 +43,13 @@ namespace TMS.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("RoleId")
+                    b.Property<int>("Role")
                         .HasColumnType("int");
 
                     b.Property<string>("ShortName")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("EmployeeId");
-
-                    b.HasIndex("RoleId");
 
                     b.ToTable("Employees");
                 });
@@ -67,13 +65,13 @@ namespace TMS.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint");
 
                     b.Property<string>("Description")
-                        .HasColumnType("nvarchar(1024)")
-                        .HasMaxLength(1024);
+                        .HasColumnType("nvarchar(256)")
+                        .HasMaxLength(256);
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
+                        .HasColumnType("nvarchar(64)")
+                        .HasMaxLength(64);
 
                     b.Property<int>("Priority")
                         .HasColumnType("int");
@@ -93,40 +91,17 @@ namespace TMS.Infrastructure.Persistence.Migrations
                     b.ToTable("Issues");
                 });
 
-            modelBuilder.Entity("TMS.Domain.Entities.Role", b =>
-                {
-                    b.Property<int>("RoleId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("RoleValue")
-                        .HasColumnType("int");
-
-                    b.HasKey("RoleId");
-
-                    b.ToTable("Roles");
-                });
-
-            modelBuilder.Entity("TMS.Domain.Entities.Employee", b =>
-                {
-                    b.HasOne("TMS.Domain.Entities.Role", "Role")
-                        .WithMany("Users")
-                        .HasForeignKey("RoleId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("TMS.Domain.Entities.Issue", b =>
                 {
                     b.HasOne("TMS.Domain.Entities.Employee", "Assignee")
                         .WithMany("AssignedIssues")
                         .HasForeignKey("AssigneeId")
-                        .OnDelete(DeleteBehavior.SetNull);
+                        .OnDelete(DeleteBehavior.NoAction);
 
                     b.HasOne("TMS.Domain.Entities.Employee", "Reporter")
                         .WithMany("ReporteredIssues")
-                        .HasForeignKey("ReporterId");
+                        .HasForeignKey("ReporterId")
+                        .OnDelete(DeleteBehavior.NoAction);
                 });
 #pragma warning restore 612, 618
         }

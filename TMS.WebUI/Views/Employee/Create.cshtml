@@ -33,9 +33,9 @@
         <span asp-validation-for="Password" class="text-danger"></span>
     </div>
     <div>
-        <label asp-for="RoleId" class="control-label"></label>
-        <select asp-for="RoleId" asp-items="@Model.UserRoles.ToSelectList()"></select>
-        <span asp-validation-for="RoleId" class="text-danger"></span>
+        <label asp-for="Role" class="control-label"></label>
+        <select asp-for="Role" asp-items="@Model.UserRoles.ToSelectList()"></select>
+        <span asp-validation-for="Role" class="text-danger"></span>
     </div>
     <input class="btn" type="submit" value="Add" />
 </form>

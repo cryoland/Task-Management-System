@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using TMS.Application.Common.Exceptions;
 using TMS.Application.Common.Interfaces;
 using TMS.Domain.Entities;
+using TMS.Domain.Enumerations;
 
 namespace TMS.Application.Employees.Commands.UpdateEmployee
 {
@@ -19,7 +20,9 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
 
         public string Password { get; set; }
 
-        public int RoleId { get; set; }
+        public bool Active { get; set; }
+
+        public UserRole Role { get; set; }
 
         class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
         {
@@ -43,7 +46,8 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
                 entity.FullName = request.FullName;
                 entity.Email = request.Email;
                 entity.Password = request.Password;
-                entity.RoleId = request.RoleId;
+                entity.Role = request.Role;
+                entity.Active = request.Active;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

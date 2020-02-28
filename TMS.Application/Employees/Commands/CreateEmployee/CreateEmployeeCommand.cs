@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using TMS.Application.Common.Interfaces;
 using TMS.Domain.Entities;
+using TMS.Domain.Enumerations;
 
 namespace TMS.Application.Employees.Commands.CreateEmployee
 {
@@ -16,7 +17,7 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
 
         public string Password { get; set; }
 
-        public int RoleId { get; set; }
+        public UserRole Role { get; set; }
 
         class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, long>
         {
@@ -36,7 +37,7 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
                     Email = request.Email,
                     Password = request.Password,
                     Active = true,
-                    RoleId = request.RoleId,
+                    Role = request.Role,
                 };
 
                 _context.Employees.Add(entity);

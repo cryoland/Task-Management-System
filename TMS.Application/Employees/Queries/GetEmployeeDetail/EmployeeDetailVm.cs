@@ -40,13 +40,15 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         [MaxLength(64, ErrorMessage = "Длина пароля до 64 символов")]
         public string Password { get; set; }
 
+        [Display(Name = "Active")]
+        [Range(typeof(bool), "true", "true")]
         public bool Active { get; set; }
 
-        public int RoleId { get; set; }
+        [Display(Name = "Select Role")]
+        public UserRole Role { get; set; }
 
         public string RoleName { get; set; }
 
-        [Display(Name = "Select Role")]
         public IList<FrameDto> UserRoles =
             Enum.GetValues(typeof(UserRole))
             .Cast<UserRole>()
@@ -57,7 +59,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         {
             profile.CreateMap<Employee, EmployeeDetailVm>()
                 .ForMember(d => d.Id, opt => opt.MapFrom(e => e.EmployeeId))
-                .ForMember(d => d.RoleName, opt => opt.MapFrom(e => e.Role.RoleValue.ToString()));
+                .ForMember(d => d.RoleName, opt => opt.MapFrom(e => e.Role.ToString()));
         }
     }
 }

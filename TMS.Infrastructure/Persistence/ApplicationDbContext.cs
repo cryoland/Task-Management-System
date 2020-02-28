@@ -18,8 +18,6 @@ namespace TMS.Infrastructure.Persistence
 
         public DbSet<Issue> Issues { get; set; }
 
-        public DbSet<Role> Roles { get; set; }
-
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
             return base.SaveChangesAsync(cancellationToken);
