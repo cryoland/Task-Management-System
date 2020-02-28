@@ -16,11 +16,11 @@ namespace TMS.Infrastructure.Persistence.Configurations
             builder.HasOne(b => b.Assignee)
                 .WithMany(d => d.AssignedIssues)
                 .HasForeignKey(d => d.AssigneeId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
             builder.HasOne(b => b.Reporter)
                 .WithMany(d => d.ReporteredIssues)
                 .HasForeignKey(d => d.ReporterId)
-                .OnDelete(DeleteBehavior.SetNull);
+                .OnDelete(DeleteBehavior.NoAction);
         }
     }
 }
