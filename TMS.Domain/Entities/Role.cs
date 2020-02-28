@@ -7,6 +7,6 @@ namespace TMS.Domain.Entities
     {
         public int RoleId { get; set; }
         public UserRole RoleValue { get; set; }
-        public IEnumerable<Employee> Users { get; set; } = new HashSet<Employee>();
+        public IEnumerable<Employee> Users { get; private set; } = new HashSet<Employee>();
     }
 }
