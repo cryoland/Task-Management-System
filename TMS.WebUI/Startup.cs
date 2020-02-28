@@ -9,7 +9,7 @@ using TMS.Application.Common.Interfaces;
 using TMS.Infrastructure;
 using TMS.WebUI.Common;
 
-namespace TMS.WebUI_test
+namespace TMS.WebUI
 {
     public class Startup
     {

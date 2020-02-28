@@ -7,7 +7,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using TMS.Infrastructure.Persistence;
 
-namespace TMS.WebUI_test
+namespace TMS.WebUI
 {
     public class Program
     {
