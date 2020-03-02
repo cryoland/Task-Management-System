@@ -1,16 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using IdentityServer4.EntityFramework.Options;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
 using TMS.Application.Common.Interfaces;
 using TMS.Domain.Entities;
+using TMS.Infrastructure.Identity;
 
 namespace TMS.Infrastructure.Persistence
 {
-    public class ApplicationDbContext : DbContext, IApplicationDbContext
-    { 
+    public class ApplicationDbContext : ApiAuthorizationDbContext<AppUser>, IApplicationDbContext
+    {
         public ApplicationDbContext(
-            DbContextOptions options) : base(options)
+            DbContextOptions options,
+            IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         {
         }
 
