@@ -47,7 +47,10 @@ namespace TMS.WebUI
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
-                    webBuilder.UseStartup<Startup>();
+                    webBuilder
+                    .UseStartup<Startup>()
+                    .UseIISIntegration()
+                    .UseKestrel();
                 });
     }
 }

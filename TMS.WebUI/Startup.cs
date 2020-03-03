@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -75,8 +76,18 @@ namespace TMS.WebUI
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                     name: "default",
+                     template: "{controller}/{action}/{id?}",
+                     defaults: new
+                     {
+                         controller = "Home",
+                         action = "Index"
+                     },
+                     constraints: new
+                     {
+                         id = new RegexRouteConstraint("\\d+")
+                     }
+                );
             });
         }
     }
