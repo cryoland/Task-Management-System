@@ -41,7 +41,7 @@ namespace TMS.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateEmployeeCommand command, [FromServices]RoleManager<IdentityRole> roleManager)
+        public async Task<ActionResult> Create(CreateEmployeeCommand command)
         {
             var dict = new ModelStateDictionary();
 
