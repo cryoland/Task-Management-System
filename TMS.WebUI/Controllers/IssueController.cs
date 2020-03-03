@@ -5,9 +5,11 @@ using TMS.Application.Issues.Commands.UpdateIssue;
 using TMS.Application.Issues.Commands.DeleteIssue;
 using TMS.Application.Issues.Queries.GetIssueDetail;
 using TMS.Application.Issues.Queries.GetIssueList;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TMS.WebUI.Controllers
 {
+    [Authorize]
     public class IssueController : ContentController
     {
         public async Task<ActionResult> Index()

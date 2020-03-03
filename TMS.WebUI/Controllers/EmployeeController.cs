@@ -1,4 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
@@ -11,6 +11,7 @@ using TMS.Application.Employees.Queries.GetEmployeeList;
 
 namespace TMS.WebUI.Controllers
 {
+    [Authorize(Roles = "Admin")]
     public class EmployeeController : ContentController
     {
         private readonly IIdentityService _identityService;
