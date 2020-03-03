@@ -1,14 +1,19 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
+using TMS.Domain.Entities;
+using TMS.Domain.Enumerations;
 using TMS.Infrastructure.Identity;
 
 namespace TMS.Infrastructure.Persistence
 {
     public class ApplicationDbContextSeed
     {
-        public static async Task SeedAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager)
+        public static async Task SeedAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
             const string password = "1_Aadmin@test.ru";
+
             var admin = new AppUser
             {
                 UserName = "admin@test.ru",
@@ -16,19 +21,20 @@ namespace TMS.Infrastructure.Persistence
                 EmailConfirmed = true,
             };
 
-            if (await roleManager.FindByNameAsync("admin") == null)
+            var adminEmployee = new Employee
             {
-                await roleManager.CreateAsync(new IdentityRole("admin"));
-            }
+                 FullName = "Mr. Admin",
+                 ShortName = "M.A.",                 
+            };
 
-            if (await roleManager.FindByNameAsync("manager") == null)
+            var roles = Enum.GetValues(typeof(UserRole)).Cast<UserRole>().ToList();
+            
+            foreach(var role in roles)
             {
-                await roleManager.CreateAsync(new IdentityRole("manager"));
-            }
-
-            if (await roleManager.FindByNameAsync("developer") == null)
-            {
-                await roleManager.CreateAsync(new IdentityRole("developer"));
+                if (await roleManager.FindByNameAsync(role.ToString()) == null)
+                {
+                    await roleManager.CreateAsync(new IdentityRole(role.ToString()));
+                }
             }
 
             if (await userManager.FindByEmailAsync(admin.Email) == null)
@@ -36,7 +42,10 @@ namespace TMS.Infrastructure.Persistence
                 IdentityResult result = await userManager.CreateAsync(admin, password);
                 if (result.Succeeded)
                 {
-                    await userManager.AddToRoleAsync(admin, "admin");
+                    adminEmployee.AppUserId = admin.Id;
+                    await userManager.AddToRoleAsync(admin, UserRole.Admin.ToString());
+                    await context.Employees.AddAsync(adminEmployee);
+                    await context.SaveChangesAsync();
                 }
             }
         }
