@@ -1,5 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 using System.Threading.Tasks;
+using TMS.Application.Common.Interfaces;
 using TMS.Application.Employees.Commands.CreateEmployee;
 using TMS.Application.Employees.Commands.DeleteEmployee;
 using TMS.Application.Employees.Commands.UpdateEmployee;
@@ -10,6 +13,13 @@ namespace TMS.WebUI.Controllers
 {
     public class EmployeeController : ContentController
     {
+        private readonly IIdentityService _identityService;
+
+        public EmployeeController(IIdentityService identityService) : base()
+        {
+            _identityService = identityService;
+        }
+
         public async Task<ActionResult> Index()
         {            
             return View(await Mediator.Send(new GetEmployeeListQuery()));
@@ -31,14 +41,50 @@ namespace TMS.WebUI.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Create(CreateEmployeeCommand command)
+        public async Task<ActionResult> Create(CreateEmployeeCommand command, [FromServices]RoleManager<IdentityRole> roleManager)
         {
-            var result = await Mediator.Send(command);
-            if(result > 0)
+            var dict = new ModelStateDictionary();
+
+            if (!await _identityService.IsUserExistAsync(command.Email))
             {
-                return RedirectToAction(nameof(this.Index));
+                var (Result, UserId) = await _identityService.CreateUserAsync(command.Email, command.Password);              
+
+                if (Result.Succeeded)
+                {
+                    await _identityService.AddRoleToUserAsync(UserId, command.Role.ToString());
+                    
+                    command.AppUserId = UserId;
+
+                    var result = await Mediator.Send(command);
+
+                    if (result > 0)
+                    {
+                        return RedirectToAction(nameof(this.Index));
+                    }
+                    else
+                    {
+                        dict.AddModelError("ValidationErr", result.ToString());
+                    }
+                }
+                else
+                {
+                    foreach(var error in Result.Errors)
+                    {
+                        dict.AddModelError("IdentityServiceErr", error);
+                    }
+                    return BadRequest(Result.Errors);
+                }
             }
-            return BadRequest(result);
+            else
+            {
+                dict.AddModelError("UserExistErr", $"User with email {command.Email} is already exist!");
+            }
+
+            if (dict.Count == 0)
+            {
+                dict.AddModelError("UnknErr", "Unhandled error");
+            }
+            return BadRequest(dict);
         }
 
         [HttpPost]
