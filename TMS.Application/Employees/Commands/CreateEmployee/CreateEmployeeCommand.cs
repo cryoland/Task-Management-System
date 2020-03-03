@@ -9,6 +9,8 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
 {
     public class CreateEmployeeCommand : IRequest<long>
     {
+        public string AppUserId { get; set; }
+
         public string ShortName { get; set; }
 
         public string FullName { get; set; }
@@ -34,10 +36,7 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
                 {
                     ShortName = request.ShortName,
                     FullName = request.FullName,
-                    Email = request.Email,
-                    Password = request.Password,
-                    Active = true,
-                    Role = request.Role,
+                    AppUserId = request.AppUserId,
                 };
 
                 _context.Employees.Add(entity);

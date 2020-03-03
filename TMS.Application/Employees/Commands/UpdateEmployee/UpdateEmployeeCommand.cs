@@ -44,10 +44,6 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
 
                 entity.ShortName = request.ShortName;
                 entity.FullName = request.FullName;
-                entity.Email = request.Email;
-                entity.Password = request.Password;
-                entity.Role = request.Role;
-                entity.Active = request.Active;
 
                 await _context.SaveChangesAsync(cancellationToken);
 

@@ -8,11 +8,6 @@ namespace TMS.Infrastructure.Persistence.Configurations
     {
         public void Configure(EntityTypeBuilder<Employee> builder)
         {
-            builder.Property(t => t.Email)
-                .HasMaxLength(80)
-                .IsRequired();
-            builder.Property(t => t.Password)
-                .IsRequired();
             builder.Property(t => t.FullName)
                 .HasMaxLength(100)
                 .IsRequired();

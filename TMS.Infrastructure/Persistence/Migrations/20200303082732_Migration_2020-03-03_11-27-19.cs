@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace TMS.Infrastructure.Persistence.Migrations
 {
-    public partial class Migration_20200302_181807 : Migration
+    public partial class Migration_20200303_112719 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -69,12 +69,9 @@ namespace TMS.Infrastructure.Persistence.Migrations
                 {
                     EmployeeId = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    AppUserId = table.Column<string>(nullable: true),
                     ShortName = table.Column<string>(nullable: true),
-                    FullName = table.Column<string>(maxLength: 100, nullable: false),
-                    Email = table.Column<string>(maxLength: 80, nullable: false),
-                    Password = table.Column<string>(nullable: false),
-                    Active = table.Column<bool>(nullable: false),
-                    Role = table.Column<int>(nullable: false)
+                    FullName = table.Column<string>(maxLength: 100, nullable: false)
                 },
                 constraints: table =>
                 {

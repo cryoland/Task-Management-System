@@ -10,8 +10,8 @@ using TMS.Infrastructure.Persistence;
 namespace TMS.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200302151815_Migration_2020-03-02_18-18-07")]
-    partial class Migration_20200302_181807
+    [Migration("20200303082732_Migration_2020-03-03_11-27-19")]
+    partial class Migration_20200303_112719
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -241,25 +241,13 @@ namespace TMS.Infrastructure.Persistence.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<bool>("Active")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(80)")
-                        .HasMaxLength(80);
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("FullName")
                         .IsRequired()
                         .HasColumnType("nvarchar(100)")
                         .HasMaxLength(100);
-
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Role")
-                        .HasColumnType("int");
 
                     b.Property<string>("ShortName")
                         .HasColumnType("nvarchar(max)");

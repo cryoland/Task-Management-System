@@ -58,8 +58,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         public void Mapping(Profile profile)
         {
             profile.CreateMap<Employee, EmployeeDetailVm>()
-                .ForMember(d => d.Id, opt => opt.MapFrom(e => e.EmployeeId))
-                .ForMember(d => d.RoleName, opt => opt.MapFrom(e => e.Role.ToString()));
+                .ForMember(d => d.Id, opt => opt.MapFrom(e => e.EmployeeId));
         }
     }
 }

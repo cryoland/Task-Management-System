@@ -16,18 +16,43 @@ namespace TMS.Infrastructure.Identity
             _userManager = userManager;
         }
 
+        public async Task<bool> IsUserExistAsync(string email)
+        {            
+            return await _userManager.FindByEmailAsync(email) != null;
+        }
+
         public async Task<string> GetUserNameAsync(string userId)
         {
             var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
             return user.UserName;
         }
+
+        public async Task<Result> AddRoleToUserAsync(string userId, string role)
+        {
+            IdentityResult result;
+
+            var appUser = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            if(appUser != null)
+            {
+                result = await _userManager.AddToRoleAsync(appUser, role);
+            }
+            else
+            {
+                result = new IdentityResult();
+            }
+
+            return result.ToApplicationResult();
+        }
+
         public async Task<(Result Result, string UserId)> CreateUserAsync(string userName, string password)
         {
             var user = new AppUser
             {
                 UserName = userName,
                 Email = userName,
+                EmailConfirmed = true,
             };
 
             var result = await _userManager.CreateAsync(user, password);
