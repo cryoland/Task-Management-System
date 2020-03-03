@@ -71,6 +71,7 @@ namespace TMS.WebUI
             app.UseIdentityServer();
             app.UseAuthorization();
 
+            app.UseUrlRewriterMiddleware();
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
