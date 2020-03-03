@@ -15,15 +15,14 @@
 </head>
 <body>
     <header>
-        <a class="logo" asp-controller="Home" asp-action="Index"></a>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <div class="profile">
-                Logged as:
-                [@User.Identity.Name]
-                <a asp-controller="Account" asp-action="Logout">Log out</a>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+                <a class="logo" asp-controller="Home" asp-action="Index"></a>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <partial name="_LoginPartial" />
+                </div>
             </div>
-        }
+        </nav>
     </header>
     <div class="container">
         @RenderBody()
@@ -33,5 +32,6 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.1/jquery.validate.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.11/jquery.validate.unobtrusive.js"></script>
+    @RenderSection("Scripts", required: false)
 </body>
 </html>

@@ -2,6 +2,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -35,10 +36,10 @@ namespace TMS.WebUI
 
             services.AddHttpContextAccessor();
 
-            services.AddControllersWithViews()
+            services
+                .AddMvc(options => options.EnableEndpointRouting = false)
+                .AddNewtonsoftJson()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
-
-            services.AddRazorPages();
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
@@ -59,6 +60,7 @@ namespace TMS.WebUI
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+
             app.UseCustomExceptionHandler();
             app.UseHttpsRedirection();
             app.UseStaticFiles();
@@ -69,12 +71,11 @@ namespace TMS.WebUI
             app.UseIdentityServer();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints =>
+            app.UseMvc(routes =>
             {
-                endpoints.MapControllerRoute(
+                routes.MapRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }
