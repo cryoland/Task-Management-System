@@ -1,8 +1,9 @@
-﻿using TMS.Domain.Enumerations;
+﻿using TMS.Domain.Common;
+using TMS.Domain.Enumerations;
 
 namespace TMS.Domain.Entities
 {
-    public class Issue
+    public class Issue : AuditableEntity
     {
         public long IssueId { get; set; }
 
