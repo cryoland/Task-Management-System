@@ -19,6 +19,10 @@ namespace TMS.WebUI.Common
             {
                 context.Response.Redirect($"/Identity/Account/Login{context.Request.QueryString}");
             }
+            else if (context.Request.Path == "/Account/AccessDenied")
+            {
+                context.Response.Redirect($"/Identity/Account/AccessDenied{context.Request.QueryString}");
+            }
             else
             {
                 await _next(context);
