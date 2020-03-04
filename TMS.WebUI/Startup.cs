@@ -1,6 +1,7 @@
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.Routing.Constraints;
@@ -10,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using TMS.Application;
 using TMS.Application.Common.Interfaces;
 using TMS.Infrastructure;
+using TMS.Infrastructure.Persistence;
 using TMS.WebUI.Common;
 using TMS.WebUI.Services;
 
@@ -37,6 +39,9 @@ namespace TMS.WebUI
 
             services.AddHttpContextAccessor();
 
+            services.AddHealthChecks()
+                .AddDbContextCheck<ApplicationDbContext>();
+
             services
                 .AddMvc(options => options.EnableEndpointRouting = false)
                 .AddNewtonsoftJson()
@@ -47,6 +52,8 @@ namespace TMS.WebUI
             {
                 options.SuppressModelStateInvalidFilter = true;
             });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +62,7 @@ namespace TMS.WebUI
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseDatabaseErrorPage();
             }
             else
             {
@@ -63,6 +71,7 @@ namespace TMS.WebUI
             }
 
             app.UseCustomExceptionHandler();
+            app.UseHealthChecks("/health");
             app.UseHttpsRedirection();
             app.UseStaticFiles();
 
