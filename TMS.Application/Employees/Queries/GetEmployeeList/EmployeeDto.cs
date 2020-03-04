@@ -8,6 +8,8 @@ namespace TMS.Application.Employees.Queries.GetEmployeeList
     {
         public long Id { get; set; }
 
+        public string AppUserId { get; set; }
+
         public string ShortName { get; set; }
 
         public string FullName { get; set; }

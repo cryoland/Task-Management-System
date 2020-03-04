@@ -13,7 +13,11 @@ namespace TMS.Application.Issues.Queries.GetIssueList
 
         public string Description { get; set; }
 
+        public long? AssigneeId { get; set; }
+
         public string AssigneeName { get; set; }
+
+        public long? ReporterId { get; set; }
 
         public string ReporterName { get; set; }
 

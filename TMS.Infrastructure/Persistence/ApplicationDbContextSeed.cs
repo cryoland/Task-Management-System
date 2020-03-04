@@ -8,7 +8,7 @@ using TMS.Infrastructure.Identity;
 
 namespace TMS.Infrastructure.Persistence
 {
-    public class ApplicationDbContextSeed
+    public sealed class ApplicationDbContextSeed
     {
         public static async Task SeedAsync(UserManager<AppUser> userManager, RoleManager<IdentityRole> roleManager, ApplicationDbContext context)
         {
