@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
+using MediatR;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -13,7 +14,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
 using TMS.Infrastructure.Identity;
+using TMS.Application.Employees.Commands.CreateEmployee;
 
 namespace TMS.WebUI.Areas.Identity.Pages.Account
 {
@@ -23,15 +26,19 @@ namespace TMS.WebUI.Areas.Identity.Pages.Account
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly ILogger<RegisterModel> _logger;
+        private readonly IMediator _mediator;
 
         public RegisterModel(
             UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
-            ILogger<RegisterModel> logger)
+            ILogger<RegisterModel> logger,
+            IMediator mediator
+            )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _mediator = mediator;
         }
 
         [BindProperty]
@@ -76,6 +83,8 @@ namespace TMS.WebUI.Areas.Identity.Pages.Account
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {
+                    await _mediator.Send(new CreateEmployeeCommand { AppUserId = user.Id, FullName = user.UserName });
+
                     _logger.LogInformation("User created a new account with password.");
 
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
