@@ -38,7 +38,7 @@ namespace TMS.WebUI.Controllers
             var result = await Mediator.Send(command);
             if (result > 0)
             {
-                return RedirectToAction(nameof(this.Index));
+                return LocalRedirect("~/Issues");
             }
             return BadRequest(result);
         }
