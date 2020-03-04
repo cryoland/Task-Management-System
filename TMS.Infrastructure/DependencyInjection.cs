@@ -13,6 +13,7 @@ using System.Security.Claims;
 using TMS.Application.Common.Interfaces;
 using TMS.Infrastructure.Identity;
 using TMS.Infrastructure.Persistence;
+using TMS.Infrastructure.Services;
 
 namespace TMS.Infrastructure
 {
@@ -59,8 +60,9 @@ namespace TMS.Infrastructure
             else
             {
                 services.AddIdentityServer()
-                    .AddApiAuthorization<AppUser, ApplicationDbContext>();   
+                    .AddApiAuthorization<AppUser, ApplicationDbContext>();
 
+                services.AddTransient<IDateTime, DateTimeService>();
                 services.AddTransient<IIdentityService, IdentityService>();
             }
 
