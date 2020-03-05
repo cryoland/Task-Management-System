@@ -20,46 +20,24 @@
         <th>Priority</th>
         <th>Status</th>
     </tr>
-    @if (Model.AssignedIssues != null && Model.AssignedIssues.Count() > 0)
+    @if (Model.IssueCatalog != null && Model.IssueCatalog.Count > 0)
     {
-        <tr><td class="font-weight-bold text-center" colspan="5">Task assigned to me:</td></tr>
-        foreach (var item in Model.AssignedIssues)
+        foreach (var category in Model.IssueCatalog)
         {
-            <tr>
-                <td><a asp-controller="issue" asp-action="detailed" asp-route-id="@item.Id">@item.Name</a></td>
-                <td>@item.AssigneeName</td>
-                <td>@item.ReporterName</td>
-                <td class="task-priority-@item.PriorityName">@item.PriorityName</td>
-                <td class="task-status-@item.StatusName">@item.StatusName</td>
-            </tr>
-        }
-    }
-    @if (Model.ReportedIssues != null && Model.ReportedIssues.Count() > 0)
-    {
-        <tr><td class="font-weight-bold text-center" colspan="5">Task reported by me:</td></tr>
-        foreach (var item in Model.ReportedIssues)
-        {
-            <tr>
-                <td><a asp-controller="issue" asp-action="detailed" asp-route-id="@item.Id">@item.Name</a></td>
-                <td>@item.AssigneeName</td>
-                <td>@item.ReporterName</td>
-                <td class="task-priority-@item.PriorityName">@item.PriorityName</td>
-                <td class="task-status-@item.StatusName">@item.StatusName</td>
-            </tr>
-        }
-    }
-    @if (Model.OtherIssues != null && Model.OtherIssues.Count() > 0)
-    {
-        <tr><td class="font-weight-bold text-center" colspan="5">Other tasks:</td></tr>
-        foreach (var item in Model.OtherIssues)
-        {
-            <tr>
-                <td><a asp-controller="issue" asp-action="detailed" asp-route-id="@item.Id">@item.Name</a></td>
-                <td>@item.AssigneeName</td>
-                <td>@item.ReporterName</td>
-                <td class="task-priority-@item.PriorityName">@item.PriorityName</td>
-                <td class="task-status-@item.StatusName">@item.StatusName</td>
-            </tr>
+            @if (category.Value != null && category.Value.Count() > 0)
+            {
+                <tr><td class="font-weight-bold text-center" colspan="5">@category.Key</td></tr>
+                foreach (var issue in category.Value)
+                {
+                    <tr>
+                        <td><a asp-controller="issue" asp-action="detailed" asp-route-id="@issue.Id">@issue.Name</a></td>
+                        <td>@issue.AssigneeName</td>
+                        <td>@issue.ReporterName</td>
+                        <td class="task-priority-@issue.PriorityName">@issue.PriorityName</td>
+                        <td class="task-status-@issue.StatusName">@issue.StatusName</td>
+                    </tr>
+                }
+            }
         }
     }
 </table>

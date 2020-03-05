@@ -6,7 +6,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMS.Application.Common.Interfaces;
 using TMS.Application.Issues.Queries.GetIssueList;
-using TMS.Application.Employees.Queries.GetEmployeeList;
 using TMS.Application.Employees.Queries.GetEmployeeDetail;
 
 namespace TMS.WebUI
@@ -24,23 +23,24 @@ namespace TMS.WebUI
             _currentUserService = currentUserService;
         }
 
-        public IEnumerable<IssueDto> AssignedIssues { get; private set; }
-
-        public IEnumerable<IssueDto> ReportedIssues { get; private set; }
-
-        public IEnumerable<IssueDto> OtherIssues { get; private set; }
+        public Dictionary<string, IEnumerable<IssueDto>> IssueCatalog { get; private set; }
 
         public async Task OnGetAsync()
         {
             _issueVm = await _mediator.Send(new GetIssueListQuery());
 
             var currentEmployee = await _mediator.Send(new GetEmployeeByAppUserIdQuery { AppUserId = _currentUserService.UserId });
-            
-            AssignedIssues = _issueVm.Issues.Where(i => i.AssigneeId.Value == currentEmployee.Id);
 
-            ReportedIssues = _issueVm.Issues.Where(i => i.ReporterId.Value == currentEmployee.Id);
+            var assignedIssues = _issueVm.Issues.Where(i => i.AssigneeId.Value == currentEmployee.Id);
+            var reportedIssues = _issueVm.Issues.Where(i => i.ReporterId.Value == currentEmployee.Id);
+            var otherIssues = _issueVm.Issues.Except(assignedIssues).Except(reportedIssues);
 
-            OtherIssues = _issueVm.Issues.Except(AssignedIssues).Except(ReportedIssues);
+            IssueCatalog = new Dictionary<string, IEnumerable<IssueDto>>
+            {
+                {"Task assigned to me:", assignedIssues },
+                {"Task reported by me:", reportedIssues },
+                {"Other tasks:", otherIssues },
+            };
         }
     }
 }
