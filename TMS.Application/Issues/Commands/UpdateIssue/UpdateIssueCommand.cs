@@ -20,9 +20,9 @@ namespace TMS.Application.Issues.Commands.UpdateIssue
 
         public IssueStatus Status { get; set; }
 
-        public int AssigneeId { get; set; }
+        public long AssigneeId { get; set; }
 
-        public int ReporterId { get; set; }
+        public long ReporterId { get; set; }
 
         class UpdateIssueCommandHandler : IRequestHandler<UpdateIssueCommand>
         {
