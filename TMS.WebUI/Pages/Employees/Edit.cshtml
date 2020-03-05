@@ -1,0 +1,54 @@
+﻿@page
+@using TMS.WebUI.Common
+@model TMS.WebUI.Employees.EditModel
+@{
+    ViewData["Title"] = "Employee Info";
+}
+
+<div class="breadcrumbs">
+    <a href="/">Home</a> >
+    <a asp-page="Index">Employees</a> >
+    <span>@Model.Employee.FullName [Edit mode]</span>
+</div>
+
+<h1>Employee Info</h1>
+
+<form asp-page="Edit" method="post">
+    <div>
+        <label asp-for="Employee.ShortName" class="control-label"></label>
+        <input name="ShortName" asp-for="Employee.ShortName" class="form-control" />
+        <span asp-validation-for="Employee.ShortName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Employee.FullName" class="control-label"></label>
+        <input name="FullName" asp-for="Employee.FullName" class="form-control" />
+        <span asp-validation-for="Employee.FullName" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Employee.Email" class="control-label"></label>
+        <input name="Email" asp-for="Employee.Email" class="form-control" />
+        <span asp-validation-for="Employee.Email" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Employee.Password" class="control-label"></label>
+        <input name="Password" asp-for="Employee.Password" class="form-control" />
+        <span asp-validation-for="Employee.Password" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Employee.Active" class="control-label"></label>
+        <input name="Active" asp-for="Employee.Active" class="form-control" />
+        <span asp-validation-for="Employee.Active" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Employee.Role" class="control-label"></label>
+        <select name="Role" asp-for="Employee.Role" asp-items="@Model.Employee.UserRoles.ToSelectList()"></select>
+        <span asp-validation-for="Employee.Role" class="text-danger"></span>
+    </div>
+    <input name="Id" id="Update_Id" asp-for="Employee.Id" />
+    <input class="btn" type="submit" value="Update" />
+</form>
+
+<form asp-page="Edit" method="post">
+    <input name="Id" id="Delete_Id" asp-for="Employee.Id" />
+    <input class="btn" type="submit" value="Remove" asp-page-handler="Delete" />
+</form>

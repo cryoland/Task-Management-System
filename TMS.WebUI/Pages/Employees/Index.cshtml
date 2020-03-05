@@ -1,0 +1,29 @@
+﻿@page
+@model TMS.WebUI.Employees.IndexModel
+@{
+    ViewData["Title"] = "All Employees";
+}
+
+<div class="breadcrumbs">
+    <a href="/">Home</a> >
+    <span>Employee list</span>
+</div>
+
+<h1>Employees</h1>
+
+<table class="table">
+    <tr><td>ShortName</td><td>FullName</td><td>Role</td></tr>
+    @foreach (var item in Model.Employees)
+    {
+        <tr>
+            <td>@item.ShortName</td>
+            <td><a asp-page="Detailed" asp-route-id="@item.Id">@item.FullName</a></td>
+            <td>@item.RoleName</td>
+        </tr>
+    }
+</table>
+
+@if (User.IsInRole("Admin"))
+{
+    <a class="btn task-add noselect" asp-page="Create">New Employee</a>
+}

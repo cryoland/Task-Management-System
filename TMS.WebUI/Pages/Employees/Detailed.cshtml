@@ -1,0 +1,28 @@
+﻿@page
+@model TMS.WebUI.Employees.DetailedModel
+@{
+    ViewData["Title"] = "Detailed";
+}
+
+<div class="breadcrumbs">
+    <a href="/">Home</a> >
+    <a asp-page="Index">Employees</a> >
+    <span>@Model.Employee.FullName</span>
+</div>
+
+<h1>Employee Info</h1>
+
+<div>Employee details</div>
+
+<table class="table">
+    <tr><td>ShortName</td><td>FullName</td><td>Role</td><td>Email</td><td>Active</td></tr>
+    <tr>
+        <td>@Model.Employee.ShortName</td>
+        <td>@Model.Employee.FullName</td>
+        <td>@Model.Employee.RoleName</td>
+        <td>@Model.Employee.Email</td>
+        <td>@Model.Employee.Active</td>
+    </tr>
+</table>
+
+<a class="btn task-add noselect" asp-page="Edit" asp-route-id="@Model.Employee.Id">Edit</a>
