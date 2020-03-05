@@ -39,6 +39,5 @@
         <label asp-for="Issue.Status" class="control-label"></label>
         <select name="Status" asp-for="Issue.Status" asp-items="@Model.Issue.IssueStatuses.ToSelectList(Model.Issue.Status)"></select>
     </div>
-    <input name="Id" asp-for="Issue.Id" />
     <input class="btn" type="submit" value="Create" />
 </form>
