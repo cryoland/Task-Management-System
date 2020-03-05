@@ -1,0 +1,44 @@
+﻿@page
+@using TMS.WebUI.Common;
+@model TMS.WebUI.Issues.CreateModel
+@{
+    ViewData["Title"] = "Add issue";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-page="Index">Issues</a> >
+    <span>Add issue</span>
+</div>
+
+<h1>Add issue</h1>
+
+<form asp-page="Create" method="post">
+    <div>
+        <label asp-for="Issue.Name" class="control-label"></label>
+        <input name="Name" asp-for="Issue.Name" class="form-control" value="@Model.Issue.Name" />
+        <span asp-validation-for="Issue.Name" class="text-danger"></span>
+    </div>
+    <div>
+        <label asp-for="Issue.Description" class="control-label"></label>
+        <input name="Description" asp-for="Issue.Description" class="form-control" value="@Model.Issue.Description" />
+    </div>
+    <div>
+        <label asp-for="Issue.AssigneeId" class="control-label"></label>
+        <select name="AssigneeId" asp-for="Issue.AssigneeId" asp-items="@Model.Issue.Employees.ToSelectList(Model.Issue.AssigneeId)"></select>
+    </div>
+    <div>
+        <label asp-for="Issue.ReporterId" class="control-label"></label>
+        <select name="ReporterId" asp-for="Issue.ReporterId" asp-items="@Model.Issue.Employees.ToSelectList(Model.Issue.ReporterId)"></select>
+    </div>
+    <div>
+        <label asp-for="Issue.Priority" class="control-label"></label>
+        <select name="Priority" asp-for="Issue.Priority" asp-items="@Model.Issue.IssuePriorityLevels.ToSelectList(Model.Issue.Priority)"></select>
+    </div>
+    <div>
+        <label asp-for="Issue.Status" class="control-label"></label>
+        <select name="Status" asp-for="Issue.Status" asp-items="@Model.Issue.IssueStatuses.ToSelectList(Model.Issue.Status)"></select>
+    </div>
+    <input name="Id" asp-for="Issue.Id" />
+    <input class="btn" type="submit" value="Create" />
+</form>

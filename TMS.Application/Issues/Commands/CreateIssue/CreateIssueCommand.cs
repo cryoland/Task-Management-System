@@ -15,9 +15,9 @@ namespace TMS.Application.Issues.Commands.CreateIssue
 
         public PriorityLevel Priority { get; set; }
 
-        public int AssigneeId { get; set; }
+        public long AssigneeId { get; set; }
 
-        public int ReporterId { get; set; }
+        public long ReporterId { get; set; }
 
         class CreateIssueCommandHandler : IRequestHandler<CreateIssueCommand, long>
         {
