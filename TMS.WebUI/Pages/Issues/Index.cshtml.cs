@@ -8,7 +8,7 @@ using TMS.Application.Common.Interfaces;
 using TMS.Application.Issues.Queries.GetIssueList;
 using TMS.Application.Employees.Queries.GetEmployeeDetail;
 
-namespace TMS.WebUI
+namespace TMS.WebUI.Issues
 {
     [Authorize]
     public class IndexModel : PageModel
