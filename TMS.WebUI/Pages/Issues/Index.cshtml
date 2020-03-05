@@ -30,7 +30,7 @@
                 foreach (var issue in category.Value)
                 {
                     <tr>
-                        <td><a asp-controller="issue" asp-action="detailed" asp-route-id="@issue.Id">@issue.Name</a></td>
+                        <td><a asp-page="Detailed" asp-route-id="@issue.Id">@issue.Name</a></td>
                         <td>@issue.AssigneeName</td>
                         <td>@issue.ReporterName</td>
                         <td class="task-priority-@issue.PriorityName">@issue.PriorityName</td>

@@ -1,0 +1,36 @@
+﻿@page
+@model TMS.WebUI.Issues.DetailedModel
+@{
+    ViewData["Title"] = "Issue details";
+}
+
+<div class="breadcrumbs">
+    <a asp-controller="Home" asp-action="Index">Home</a> >
+    <a asp-page="Index">Issues</a> >
+    <span>Issue details</span>
+</div>
+
+<h1>Issue# @Model.Issue.Id</h1>
+
+<div>Issue details</div>
+
+<table class="table">
+    <tr>
+        <th>Title</th>
+        <th>Description</th>
+        <th>Priority</th>
+        <th>Status</th>
+        <th>Assignee</th>
+        <th>Reporter</th>
+    </tr>
+    <tr>
+        <td>@Model.Issue.Name</td>
+        <td>@Model.Issue.Description</td>
+        <td>@Model.Issue.Priority</td>
+        <td>@Model.Issue.Status</td>
+        <td>@Model.Issue.AssigneeName</td>
+        <td>@Model.Issue.ReporterName</td>
+    </tr>
+</table>
+
+<a class="btn task-add noselect" asp-page="Edit" asp-route-id="@Model.Issue.Id">Edit</a>
