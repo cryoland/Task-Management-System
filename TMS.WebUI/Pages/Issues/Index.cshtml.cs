@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using TMS.Application.Common.Interfaces;
 using TMS.Application.Issues.Queries.GetIssueList;
 using TMS.Application.Employees.Queries.GetEmployeeList;
+using TMS.Application.Employees.Queries.GetEmployeeDetail;
 
 namespace TMS.WebUI
 {
@@ -33,9 +34,8 @@ namespace TMS.WebUI
         {
             _issueVm = await _mediator.Send(new GetIssueListQuery());
 
-            //TODO: implement query for 1 employee by AppUserId
-            var currentEmployee = (await _mediator.Send(new GetEmployeeListQuery())).Employees.Where(e => e.AppUserId == _currentUserService.UserId).FirstOrDefault();
-
+            var currentEmployee = await _mediator.Send(new GetEmployeeByAppUserIdQuery { AppUserId = _currentUserService.UserId });
+            
             AssignedIssues = _issueVm.Issues.Where(i => i.AssigneeId.Value == currentEmployee.Id);
 
             ReportedIssues = _issueVm.Issues.Where(i => i.ReporterId.Value == currentEmployee.Id);

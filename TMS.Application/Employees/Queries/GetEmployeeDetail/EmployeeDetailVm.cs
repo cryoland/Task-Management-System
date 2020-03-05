@@ -16,6 +16,8 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         [HiddenInput(DisplayValue = false)]
         public long Id { get; set; }
 
+        public string AppUserId { get; set; }
+
         [Display(Name = "ShortName")]
         [Required(ErrorMessage = "Не указаны инициалы")]
         public string ShortName { get; set; }
