@@ -43,9 +43,11 @@ namespace TMS.WebUI
                 .AddDbContextCheck<ApplicationDbContext>();
 
             services
-                .AddMvc(options => options.EnableEndpointRouting = false)
-                .AddNewtonsoftJson()
-                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>());
+                .AddControllers()
+                .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
+                .AddNewtonsoftJson();
+
+            services.AddRazorPages();
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>
@@ -82,21 +84,10 @@ namespace TMS.WebUI
             app.UseAuthorization();
 
             app.UseUrlRewriterMiddleware();
-            app.UseMvc(routes =>
+            app.UseEndpoints(endpoints =>
             {
-                routes.MapRoute(
-                     name: "default",
-                     template: "{controller}/{action}/{id?}",
-                     defaults: new
-                     {
-                         controller = "Home",
-                         action = "Index"
-                     },
-                     constraints: new
-                     {
-                         id = new RegexRouteConstraint("\\d+")
-                     }
-                );
+                endpoints.MapControllers();
+                endpoints.MapRazorPages();
             });
         }
     }
