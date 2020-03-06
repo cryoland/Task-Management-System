@@ -17,11 +17,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.Common", "TMS.Common\TM
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C25C0AF5-4792-42C1-BFB3-FD65CE305721}"
 	ProjectSection(SolutionItems) = preProject
-		LICENSE.txt = LICENSE.txt
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{3BB2A1D8-D9F2-4EAF-8CA7-63A21D169477}"
-	ProjectSection(SolutionItems) = preProject
+		LICENSE = LICENSE
 		README.md = README.md
 	EndProjectSection
 EndProject
