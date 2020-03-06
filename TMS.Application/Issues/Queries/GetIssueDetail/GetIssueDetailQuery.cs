@@ -1,11 +1,11 @@
-﻿using AutoMapper;
-using AutoMapper.QueryableExtensions;
+﻿using AutoMapper.QueryableExtensions;
+using AutoMapper;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using System.Threading;
 using System.Threading.Tasks;
-using TMS.Application.Common.Interfaces;
+using System.Threading;
 using TMS.Application.Common.Exceptions;
+using TMS.Application.Common.Interfaces;
 using TMS.Domain.Entities;
 
 namespace TMS.Application.Issues.Queries.GetIssueDetail

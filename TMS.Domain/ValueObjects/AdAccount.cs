@@ -1,7 +1,7 @@
-﻿using TMS.Domain.Common;
-using TMS.Domain.Exceptions;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using TMS.Domain.Common;
+using TMS.Domain.Exceptions;
 
 namespace TMS.Domain.ValueObjects
 {

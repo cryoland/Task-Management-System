@@ -1,10 +1,10 @@
-﻿using TMS.Application.Common.Exceptions;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json;
-using System;
 using System.Net;
 using System.Threading.Tasks;
+using System;
+using TMS.Application.Common.Exceptions;
 
 namespace TMS.WebUI.Common
 {

@@ -2,7 +2,6 @@
 using TMS.Application.Common.Mappings;
 using TMS.Domain.Entities;
 
-
 namespace TMS.Application.Issues.Queries.GetIssueList
 {
     public class IssueDto : IMapFrom<Issue>
