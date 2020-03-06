@@ -1,14 +1,12 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using TMS.Application.Common.Interfaces;
 using TMS.Application.Employees.Commands.CreateEmployee;
 using TMS.Application.Employees.Queries.GetEmployeeDetail;
+using TMS.Application.Identity.Commands.AssignAppUserRole;
+using TMS.Application.Identity.Commands.CreateAppUser;
 
 namespace TMS.WebUI.Employees
 {
@@ -28,14 +26,25 @@ namespace TMS.WebUI.Employees
         {
             Employee = await _mediator.Send(new GetEmptyEmployeeQuery());
         }
+
         public async Task<IActionResult> OnPostAsync(CreateEmployeeCommand command)
         {
-            var result = await _mediator.Send(command);
-            if (result > 0)
+            var appUserId = await _mediator.Send(new CreateAppUserCommand { Email = command.Email, Password = command.Password });
+
+            if (!string.IsNullOrEmpty(appUserId))
             {
-                return RedirectToPage("./Detailed", new { id = result });
-            }
-            return BadRequest(result);
+                await _mediator.Send(new AssignAppUserRoleCommand { AppUserId = appUserId, Role = command.Role });
+
+                command.AppUserId = appUserId;
+
+                var result = await _mediator.Send(command);
+
+                if (result > 0)
+                {
+                    return RedirectToPage("./Detailed", new { id = result });
+                }
+            }            
+            return BadRequest();
         }
     }
 }
