@@ -32,9 +32,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TMS.Application\TMS.Application.csproj" />
-    <ProjectReference Include="..\TMS.Common\TMS.Common.csproj" />
-    <ProjectReference Include="..\TMS.Infrastructure\TMS.Infrastructure.csproj" />
+    <ProjectReference Include="..\TMS.Application\TMS_2.Application.csproj" />
+    <ProjectReference Include="..\TMS.Common\TMS_0.Common.csproj" />
+    <ProjectReference Include="..\TMS.Infrastructure\TMS_4.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>

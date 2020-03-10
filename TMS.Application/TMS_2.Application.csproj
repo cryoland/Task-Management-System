@@ -2,11 +2,13 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>TMS.Application</RootNamespace>
+    <AssemblyName>TMS.Application</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TMS.Common\TMS.Common.csproj" />
-    <ProjectReference Include="..\TMS.Domain\TMS.Domain.csproj" />
+    <ProjectReference Include="..\TMS.Common\TMS_0.Common.csproj" />
+    <ProjectReference Include="..\TMS.Domain\TMS_1.Domain.csproj" />
   </ItemGroup>
 
   <ItemGroup>

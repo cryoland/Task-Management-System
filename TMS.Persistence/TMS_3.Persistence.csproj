@@ -2,6 +2,8 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>TMS.Persistence</RootNamespace>
+    <AssemblyName>TMS.Persistence</AssemblyName>
   </PropertyGroup>
 
   <ItemGroup>
@@ -11,8 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TMS.Application\TMS.Application.csproj" />
-    <ProjectReference Include="..\TMS.Common\TMS.Common.csproj" />
+    <ProjectReference Include="..\TMS.Application\TMS_2.Application.csproj" />
+    <ProjectReference Include="..\TMS.Common\TMS_0.Common.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,15 +5,15 @@ VisualStudioVersion = 16.0.29709.97
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Src", "Src", "{73711721-A2C0-4129-92F5-849551D24AF5}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.Domain", "TMS.Domain\TMS.Domain.csproj", "{03441B04-5689-4462-B1D2-AD45924DCEAD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_1.Domain", "TMS.Domain\TMS_1.Domain.csproj", "{03441B04-5689-4462-B1D2-AD45924DCEAD}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.Application", "TMS.Application\TMS.Application.csproj", "{BE1F2408-3193-4FF3-97AD-82F0E1D27F05}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_2.Application", "TMS.Application\TMS_2.Application.csproj", "{BE1F2408-3193-4FF3-97AD-82F0E1D27F05}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.Infrastructure", "TMS.Infrastructure\TMS.Infrastructure.csproj", "{ED3CC52F-9CF0-4886-9AA9-72A5C86DC18F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_4.Infrastructure", "TMS.Infrastructure\TMS_4.Infrastructure.csproj", "{ED3CC52F-9CF0-4886-9AA9-72A5C86DC18F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.WebUI", "TMS.WebUI\TMS.WebUI.csproj", "{A8E1CDA0-D2F5-46C8-8B2E-392615D84CB0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_5.WebUI", "TMS.WebUI\TMS_5.WebUI.csproj", "{A8E1CDA0-D2F5-46C8-8B2E-392615D84CB0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.Common", "TMS.Common\TMS.Common.csproj", "{7600102F-CFD0-4A25-AE7D-75282F7ED3E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_0.Common", "TMS.Common\TMS_0.Common.csproj", "{7600102F-CFD0-4A25-AE7D-75282F7ED3E8}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C25C0AF5-4792-42C1-BFB3-FD65CE305721}"
 	ProjectSection(SolutionItems) = preProject
@@ -21,7 +21,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{C25C0AF5-4
 		README.md = README.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.Persistence", "TMS.Persistence\TMS.Persistence.csproj", "{0370DD6D-B3E6-442F-BA8B-D5B9D865623A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_3.Persistence", "TMS.Persistence\TMS_3.Persistence.csproj", "{0370DD6D-B3E6-442F-BA8B-D5B9D865623A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

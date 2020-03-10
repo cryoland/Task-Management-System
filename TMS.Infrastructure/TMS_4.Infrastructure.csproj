@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <RootNamespace>TMS.Infrastructure</RootNamespace>
+    <AssemblyName>TMS.Infrastructure</AssemblyName>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TMS.Application\TMS_2.Application.csproj" />
+    <ProjectReference Include="..\TMS.Common\TMS_0.Common.csproj" />
+    <ProjectReference Include="..\TMS.Persistence\TMS_3.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
