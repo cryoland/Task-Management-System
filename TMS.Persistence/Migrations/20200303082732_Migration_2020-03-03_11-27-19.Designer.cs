@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using TMS.Infrastructure.Persistence;
+using TMS.Persistence;
 
-namespace TMS.Infrastructure.Persistence.Migrations
+namespace TMS.Persistence.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     [Migration("20200303082732_Migration_2020-03-03_11-27-19")]

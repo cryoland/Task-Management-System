@@ -6,8 +6,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using TMS.Infrastructure.Identity;
-using TMS.Infrastructure.Persistence;
+using TMS.Persistence.Identity;
+using TMS.Persistence;
 
 namespace TMS.WebUI
 {

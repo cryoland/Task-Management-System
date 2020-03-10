@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace TMS.Infrastructure.Persistence.Configurations
+namespace TMS.Persistence.Configurations
 {
     public class IssueConfiguration : IEntityTypeConfiguration<Issue>
     {

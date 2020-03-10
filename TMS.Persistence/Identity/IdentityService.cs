@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using TMS.Application.Common.Models;
 using TMS.Application.Common.Interfaces;
 
-namespace TMS.Infrastructure.Identity
+namespace TMS.Persistence.Identity
 {
     public class IdentityService : IIdentityService
     {

@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using System.Linq;
 
-namespace TMS.Infrastructure.Identity
+namespace TMS.Persistence.Identity
 {
     public static class IdentityResultExtensions
     {

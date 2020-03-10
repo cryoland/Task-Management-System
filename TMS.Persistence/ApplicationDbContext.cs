@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 using TMS.Application.Common.Interfaces;
 using TMS.Domain.Common;
 using TMS.Domain.Entities;
-using TMS.Infrastructure.Identity;
+using TMS.Persistence.Identity;
 
-namespace TMS.Infrastructure.Persistence
+namespace TMS.Persistence
 {
     public class ApplicationDbContext : ApiAuthorizationDbContext<AppUser>, IApplicationDbContext
     {

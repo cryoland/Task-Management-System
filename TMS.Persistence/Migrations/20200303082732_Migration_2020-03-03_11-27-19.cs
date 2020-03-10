@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace TMS.Infrastructure.Persistence.Migrations
+namespace TMS.Persistence.Migrations
 {
     public partial class Migration_20200303_112719 : Migration
     {

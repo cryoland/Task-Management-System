@@ -3,15 +3,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.Routing.Constraints;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using TMS.Application;
 using TMS.Application.Common.Interfaces;
 using TMS.Infrastructure;
-using TMS.Infrastructure.Persistence;
+using TMS.Persistence;
 using TMS.WebUI.Common;
 using TMS.WebUI.Services;
 
@@ -33,7 +31,8 @@ namespace TMS.WebUI
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddApplication();
-            services.AddInfrastructure(Configuration, Environment);
+            services.AddPersistence(Configuration);
+            services.AddInfrastructure(Environment);
 
             services.AddScoped<ICurrentUserService, CurrentUserService>();
 

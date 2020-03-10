@@ -7,12 +7,7 @@
   <ItemGroup>
     <ProjectReference Include="..\TMS.Application\TMS.Application.csproj" />
     <ProjectReference Include="..\TMS.Common\TMS.Common.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="Microsoft.AspNetCore.ApiAuthorization.IdentityServer" Version="3.1.2" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.2" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="3.1.2" />
+    <ProjectReference Include="..\TMS.Persistence\TMS.Persistence.csproj" />
   </ItemGroup>
 
 </Project>

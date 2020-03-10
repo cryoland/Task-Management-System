@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
-using TMS.Infrastructure.Identity;
+using TMS.Persistence.Identity;
 
 namespace TMS.WebUI.Areas.Identity.Pages.Account
 {

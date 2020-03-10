@@ -11,7 +11,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
-using TMS.Infrastructure.Identity;
+using TMS.Persistence.Identity;
 using TMS.Application.Employees.Commands.CreateEmployee;
 
 namespace TMS.WebUI.Areas.Identity.Pages.Account

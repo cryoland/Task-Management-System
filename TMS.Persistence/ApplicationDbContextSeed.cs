@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMS.Domain.Entities;
 using TMS.Domain.Enumerations;
-using TMS.Infrastructure.Identity;
+using TMS.Persistence.Identity;
 
-namespace TMS.Infrastructure.Persistence
+namespace TMS.Persistence
 {
     public sealed class ApplicationDbContextSeed
     {

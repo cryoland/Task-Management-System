@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
 
-namespace TMS.Infrastructure.Identity
+namespace TMS.Persistence.Identity
 {
     public class AppUser : IdentityUser
     {
