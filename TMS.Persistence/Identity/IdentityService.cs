@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using TMS.Application.Common.Models;
 using TMS.Application.Common.Interfaces;
+using System.Collections.Generic;
 
 namespace TMS.Persistence.Identity
 {
@@ -17,7 +18,7 @@ namespace TMS.Persistence.Identity
         }
 
         public async Task<bool> IsUserExistAsync(string email)
-        {            
+        {
             return await _userManager.FindByEmailAsync(email) != null;
         }
 
@@ -34,7 +35,7 @@ namespace TMS.Persistence.Identity
 
             var appUser = await _userManager.Users.FirstAsync(u => u.Id == userId);
 
-            if(appUser != null)
+            if (appUser != null)
             {
                 result = await _userManager.AddToRoleAsync(appUser, role);
             }
@@ -77,6 +78,31 @@ namespace TMS.Persistence.Identity
             var result = await _userManager.DeleteAsync(user);
 
             return result.ToApplicationResult();
+        }
+
+        public async Task<string> GetUserRoleAsync(string userId)
+        {
+            var appUser = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            var result = await _userManager.GetRolesAsync(appUser);
+
+            return result.FirstOrDefault();
+        }
+
+        public async Task<List<(string appUserId, string role)>> FetchUserRolesAsync()
+        {
+            var appUsers = await _userManager.Users.ToArrayAsync();
+
+            var list = new List<(string appUserId, string role)>(appUsers.Count());
+
+            foreach (var user in appUsers)
+            {
+                var role = await _userManager.GetRolesAsync(user);
+
+                list.Add((user.Id, role.FirstOrDefault()));
+            }
+
+            return list;
         }
     }
 }
