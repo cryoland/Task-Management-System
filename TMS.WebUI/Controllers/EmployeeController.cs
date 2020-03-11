@@ -22,7 +22,7 @@ namespace TMS.WebUI.Controllers
             return Ok(await Mediator.Send(new GetEmployeeListQuery()));
         }
 
-        [HttpGet]
+        [HttpGet("{id}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public async Task<ActionResult<EmployeeDetailVm>> Get(long id)
         {
@@ -67,7 +67,7 @@ namespace TMS.WebUI.Controllers
             return NoContent();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public async Task<IActionResult> Delete(long id)
