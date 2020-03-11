@@ -18,11 +18,13 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;
+            private readonly IIdentityService _identityService;
 
-            public GetEmployeeDetailQueryHandler(IApplicationDbContext context, IMapper mapper)
+            public GetEmployeeDetailQueryHandler(IApplicationDbContext context, IMapper mapper, IIdentityService identityService)
             {
                 _context = context;
                 _mapper = mapper;
+                _identityService = identityService;
             }
 
             public async Task<EmployeeDetailVm> Handle(GetEmployeeDetailQuery request, CancellationToken cancellationToken)
@@ -30,6 +32,8 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
                 var vm = await _context.Employees
                     .ProjectTo<EmployeeDetailVm>(_mapper.ConfigurationProvider)
                     .FirstOrDefaultAsync(p => p.Id == request.EmployeeId, cancellationToken);
+
+                vm.RoleName = await _identityService.GetUserRoleAsync(vm.AppUserId);
 
                 if (vm == null)
                 {
