@@ -14,10 +14,12 @@ namespace TMS.Application.Employees.Commands.DeleteEmployee
         class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
         {
             private readonly IApplicationDbContext _context;
+            private readonly IIdentityService _identityService;
 
-            public DeleteEmployeeCommandHandler(IApplicationDbContext context)
+            public DeleteEmployeeCommandHandler(IApplicationDbContext context, IIdentityService identityService)
             {
                 _context = context;
+                _identityService = identityService;
             }
 
             public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
@@ -28,6 +30,8 @@ namespace TMS.Application.Employees.Commands.DeleteEmployee
                 {
                     throw new NotFoundException(nameof(Employee), request.Id);
                 }
+
+                await _identityService.DeleteUserAsync(entity.AppUserId);
 
                 _context.Employees.Remove(entity);
 
