@@ -1,0 +1,26 @@
+﻿{
+    "stryker-config": {
+        "reporters": [
+            "ConsoleProgressBar",
+            "html"
+        ],
+        "log-level": "info",
+        "timeout-ms": 10000,
+        "log-file": true,
+        "project-file": "TMS_1.Domain.csproj",
+        "max-concurrent-test-runners": 4,
+        "threshold-high": 80,
+        "threshold-low": 70,
+        "threshold-break": 60,
+        //"files-to-exclude": [
+        //  "./ExampleClass.cs",
+        //  "./ExampleDirectory/",
+        //  "./ExampleDirectory/ExampleClass2.cs",
+        //  "C:\\ExampleRepo\\ExampleDirectory\\ExampleClass.cs"
+        //],
+        "excluded-mutations": [
+            //"string",
+            //"Logical operators"
+        ]
+    }
+}
