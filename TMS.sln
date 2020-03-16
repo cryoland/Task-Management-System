@@ -25,7 +25,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS_3.Persistence", "TMS.Pe
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{07000437-EA9B-4037-9CA3-599AE3EE92D9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.UnitTests.Domain", "TMS.UnitTests.Domain\TMS.UnitTests.Domain.csproj", "{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.UnitTests.Domain", "TMS.UnitTests.Domain\TMS.UnitTests.Domain.csproj", "{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.UnitTests.Application", "TMS.UnitTests.Application\TMS.UnitTests.Application.csproj", "{ACA51648-530D-4EDC-AA69-7B13E0106D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +63,10 @@ Global
 		{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACA51648-530D-4EDC-AA69-7B13E0106D4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACA51648-530D-4EDC-AA69-7B13E0106D4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACA51648-530D-4EDC-AA69-7B13E0106D4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACA51648-530D-4EDC-AA69-7B13E0106D4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -73,6 +79,7 @@ Global
 		{7600102F-CFD0-4A25-AE7D-75282F7ED3E8} = {73711721-A2C0-4129-92F5-849551D24AF5}
 		{0370DD6D-B3E6-442F-BA8B-D5B9D865623A} = {73711721-A2C0-4129-92F5-849551D24AF5}
 		{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485} = {07000437-EA9B-4037-9CA3-599AE3EE92D9}
+		{ACA51648-530D-4EDC-AA69-7B13E0106D4E} = {07000437-EA9B-4037-9CA3-599AE3EE92D9}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1A857923-D669-41F2-AC87-7D294AB8AF2A}

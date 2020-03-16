@@ -1,0 +1,16 @@
+{
+  "stryker-config": {
+    "reporters": [
+      "ConsoleProgressBar",
+      "html"
+    ],
+    "log-level": "info",
+    "timeout-ms": 10000,
+    "project-file": "TMS_2.Application.csproj",
+    "max-concurrent-test-runners": 4,
+    "threshold-high": 80,
+    "threshold-low": 70,
+    "threshold-break": 60,
+    "excluded-mutations": []
+  }
+}
