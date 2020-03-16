@@ -24,7 +24,7 @@ namespace TMS.Application.Issues.Commands.UpdateIssue
 
         public long ReporterId { get; set; }
 
-        class UpdateIssueCommandHandler : IRequestHandler<UpdateIssueCommand>
+        public class UpdateIssueCommandHandler : IRequestHandler<UpdateIssueCommand>
         {
             private readonly IApplicationDbContext _context;
 

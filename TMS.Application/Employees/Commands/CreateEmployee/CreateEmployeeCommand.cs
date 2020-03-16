@@ -21,7 +21,7 @@ namespace TMS.Application.Employees.Commands.CreateEmployee
 
         public UserRole Role { get; set; }
 
-        class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, long>
+        public class CreateEmployeeCommandHandler : IRequestHandler<CreateEmployeeCommand, long>
         {
             private readonly IApplicationDbContext _context;
 

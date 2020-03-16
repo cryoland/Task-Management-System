@@ -11,7 +11,7 @@ namespace TMS.Application.Issues.Queries.GetIssueList
 {
     public class GetIssueListQuery : IRequest<IssueListVm>
     {
-        class GetIssueListQueryHandler : IRequestHandler<GetIssueListQuery, IssueListVm>
+        public class GetIssueListQueryHandler : IRequestHandler<GetIssueListQuery, IssueListVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;

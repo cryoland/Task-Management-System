@@ -24,7 +24,7 @@ namespace TMS.Application.Employees.Commands.UpdateEmployee
 
         public UserRole Role { get; set; }
 
-        class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
+        public class UpdateEmployeeCommandHandler : IRequestHandler<UpdateEmployeeCommand>
         {
             private readonly IApplicationDbContext _context;
 

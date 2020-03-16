@@ -11,7 +11,7 @@ namespace TMS.Application.Employees.Commands.DeleteEmployee
     {
         public long Id { get; set; }
 
-        class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
+        public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
         {
             private readonly IApplicationDbContext _context;
             private readonly IIdentityService _identityService;

@@ -16,7 +16,7 @@ namespace TMS.Application.Issues.Queries.GetIssueDetail
     {
         public long IssueId { get; set; }
 
-        class GetIssueDetailForEditQueryHandler : IRequestHandler<GetIssueDetailForEditQuery, IssueDetailForUpsertVm>
+        public class GetIssueDetailForEditQueryHandler : IRequestHandler<GetIssueDetailForEditQuery, IssueDetailForUpsertVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;

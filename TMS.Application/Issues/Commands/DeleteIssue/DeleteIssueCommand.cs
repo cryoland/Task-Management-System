@@ -11,7 +11,7 @@ namespace TMS.Application.Issues.Commands.DeleteIssue
     {
         public long Id { get; set; }
 
-        class DeleteIssueCommandHandler : IRequestHandler<DeleteIssueCommand>
+        public class DeleteIssueCommandHandler : IRequestHandler<DeleteIssueCommand>
         {
             private readonly IApplicationDbContext _context;
 

@@ -14,7 +14,7 @@ namespace TMS.Application.Issues.Queries.GetIssueDetail
     {
         public long IssueId { get; set; }
 
-        class GetIssueDetailQueryHandler : IRequestHandler<GetIssueDetailQuery, IssueDetailVm>
+        public class GetIssueDetailQueryHandler : IRequestHandler<GetIssueDetailQuery, IssueDetailVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;

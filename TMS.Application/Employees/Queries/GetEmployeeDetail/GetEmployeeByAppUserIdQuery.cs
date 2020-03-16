@@ -14,7 +14,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
     {
         public string AppUserId { get; set; }
 
-        class GetEmployeeDetailQueryHandler : IRequestHandler<GetEmployeeByAppUserIdQuery, EmployeeDetailVm>
+        public class GetEmployeeDetailQueryHandler : IRequestHandler<GetEmployeeByAppUserIdQuery, EmployeeDetailVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;

@@ -11,7 +11,7 @@ namespace TMS.Application.Issues.Queries.GetIssueDetail
 {
     public class GetEmptyIssueQuery : IRequest<IssueDetailForUpsertVm>
     {
-        class GetEmptyIssueQueryHandler : IRequestHandler<GetEmptyIssueQuery, IssueDetailForUpsertVm>
+        public class GetEmptyIssueQueryHandler : IRequestHandler<GetEmptyIssueQuery, IssueDetailForUpsertVm>
         {
             private readonly IApplicationDbContext _context;
             private readonly IMapper _mapper;

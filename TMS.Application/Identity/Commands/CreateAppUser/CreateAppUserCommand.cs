@@ -13,7 +13,7 @@ namespace TMS.Application.Identity.Commands.CreateAppUser
 
         public string Password { get; set; }
 
-        class CreateAppUserCommandHandler : IRequestHandler<CreateAppUserCommand, string>
+        public class CreateAppUserCommandHandler : IRequestHandler<CreateAppUserCommand, string>
         {
             private readonly IIdentityService _identityService;
 

@@ -13,7 +13,7 @@ namespace TMS.Application.Identity.Commands.AssignAppUserRole
 
         public UserRole Role { get; set; }
 
-        class CreateAppUserCommandHandler : IRequestHandler<AssignAppUserRoleCommand, Result>
+        public class CreateAppUserCommandHandler : IRequestHandler<AssignAppUserRoleCommand, Result>
         {
             private readonly IIdentityService _identityService;
 

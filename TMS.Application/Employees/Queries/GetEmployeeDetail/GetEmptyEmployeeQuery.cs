@@ -6,7 +6,7 @@ namespace TMS.Application.Employees.Queries.GetEmployeeDetail
 {
     public class GetEmptyEmployeeQuery : IRequest<EmployeeDetailVm>
     {
-        class GetEmptyEmployeeQueryHandler : IRequestHandler<GetEmptyEmployeeQuery, EmployeeDetailVm>
+        public class GetEmptyEmployeeQueryHandler : IRequestHandler<GetEmptyEmployeeQuery, EmployeeDetailVm>
         {
             public async Task<EmployeeDetailVm> Handle(GetEmptyEmployeeQuery request, CancellationToken cancellationToken)
             {
