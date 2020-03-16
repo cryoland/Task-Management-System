@@ -7,22 +7,20 @@ using TMS.Domain.Entities;
 
 namespace TMS.Application.Employees.Commands.DeleteEmployee
 {
-    public class DeleteEmployeeCommand : IRequest
+    public class DeleteEmployeeCommand : IRequest<string>>
     {
         public long Id { get; set; }
 
-        public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand>
+        public class DeleteEmployeeCommandHandler : IRequestHandler<DeleteEmployeeCommand, string>
         {
             private readonly IApplicationDbContext _context;
-            private readonly IIdentityService _identityService;
 
-            public DeleteEmployeeCommandHandler(IApplicationDbContext context, IIdentityService identityService)
+            public DeleteEmployeeCommandHandler(IApplicationDbContext context)
             {
                 _context = context;
-                _identityService = identityService;
             }
 
-            public async Task<Unit> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
+            public async Task<string> Handle(DeleteEmployeeCommand request, CancellationToken cancellationToken)
             {
                 var entity = await _context.Employees.FindAsync(request.Id);
 
@@ -31,13 +29,11 @@ namespace TMS.Application.Employees.Commands.DeleteEmployee
                     throw new NotFoundException(nameof(Employee), request.Id);
                 }
 
-                await _identityService.DeleteUserAsync(entity.AppUserId);
-
                 _context.Employees.Remove(entity);
 
                 await _context.SaveChangesAsync(cancellationToken);
 
-                return Unit.Value;
+                return entity.AppUserId;
             }
         }
     }

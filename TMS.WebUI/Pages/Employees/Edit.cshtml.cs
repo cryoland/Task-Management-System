@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using TMS.Application.Employees.Commands.DeleteEmployee;
 using TMS.Application.Employees.Commands.UpdateEmployee;
 using TMS.Application.Employees.Queries.GetEmployeeDetail;
+using TMS.Application.Identity.Commands.DeleteAppUser;
 
 namespace TMS.WebUI.Employees
 {
@@ -40,7 +41,8 @@ namespace TMS.WebUI.Employees
 
         public async Task<IActionResult> OnPostDeleteAsync(long id)
         {
-            await _mediator.Send(new DeleteEmployeeCommand { Id = id });
+            var appUserId = await _mediator.Send(new DeleteEmployeeCommand { Id = id });
+            await _mediator.Send(new DeleteAppUserCommand { AppUserId = appUserId });
 
             return RedirectToPage("./Index");
         }
