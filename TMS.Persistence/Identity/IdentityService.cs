@@ -29,6 +29,13 @@ namespace TMS.Persistence.Identity
             return user.UserName;
         }
 
+        public async Task<string> GetUserEmailAsync(string userId)
+        {
+            var user = await _userManager.Users.FirstAsync(u => u.Id == userId);
+
+            return user.Email;
+        }
+
         public async Task<Result> AddRoleToUserAsync(string userId, string role)
         {
             IdentityResult result;

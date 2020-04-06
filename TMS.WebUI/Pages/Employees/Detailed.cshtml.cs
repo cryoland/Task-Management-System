@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using TMS.Application.Employees.Queries.GetEmployeeDetail;
+using TMS.Application.Identity.Queries.GeAppUserDetail;
 
 namespace TMS.WebUI.Employees
 {
@@ -21,6 +22,7 @@ namespace TMS.WebUI.Employees
         public async Task OnGetAsync(long id)
         {
             Employee = await _mediator.Send(new GetEmployeeDetailQuery { EmployeeId = id });
+            Employee.Email = await _mediator.Send(new GetUserAppDetailQuery { AppUserId = Employee.AppUserId });
         }
     }
 }

@@ -6,7 +6,9 @@ namespace TMS.Application.Common.Interfaces
 {
     public interface IIdentityService
     {
-        Task<string> GetUserNameAsync(string userId);
+        Task<string> GetUserNameAsync(string userId); 
+
+        Task<string> GetUserEmailAsync(string userId);
 
         Task<string> GetUserRoleAsync(string userId);
 
