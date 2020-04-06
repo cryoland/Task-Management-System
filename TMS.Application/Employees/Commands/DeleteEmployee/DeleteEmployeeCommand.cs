@@ -7,7 +7,7 @@ using TMS.Domain.Entities;
 
 namespace TMS.Application.Employees.Commands.DeleteEmployee
 {
-    public class DeleteEmployeeCommand : IRequest<string>>
+    public class DeleteEmployeeCommand : IRequest<string>
     {
         public long Id { get; set; }
 
