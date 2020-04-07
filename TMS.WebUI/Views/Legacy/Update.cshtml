@@ -1,0 +1,49 @@
+﻿@model TMS.Application.Issues.Queries.GetIssueDetail.IssueDetailForUpsertVm
+@{
+    ViewData["Title"] = "Edit issue";
+}
+<div class="breadcrumbs">
+    <a href="/">Home</a> >
+    <a asp-controller="Legacy" asp-action="Index">Legacy</a> >
+    <span>Edit issue</span>
+</div>
+
+<h1>@Model.Name</h1>
+
+<form method="post" asp-controller="Legacy" asp-action="Update">
+    <div class="form-section">
+        <label asp-for="Name" class="control-label"></label>
+        <input name="Name" asp-for="Name" class="form-control w3-input w3-border" value="@Model.Name" />
+        <span asp-validation-for="Name" class="text-danger"></span>
+    </div>
+    <div class="form-section">
+        <label asp-for="Description" class="control-label"></label>
+        <textarea name="Description" asp-for="Description" class="form-control w3-input w3-border">@Model.Description</textarea>
+    </div>
+    <div class="form-section">
+        <label asp-for="AssigneeId" class="control-label"></label>
+        <select class="w3-select" name="AssigneeId" asp-for="AssigneeId" asp-items="@Model.Employees.ToSelectList(Model.AssigneeId)"></select>
+    </div>
+    <div class="form-section">
+        <label asp-for="ReporterId" class="control-label"></label>
+        <select class="w3-select" name="ReporterId" asp-for="ReporterId" asp-items="@Model.Employees.ToSelectList(Model.ReporterId)"></select>
+    </div>
+    <div class="form-section">
+        <label asp-for="Priority" class="control-label"></label>
+        <select class="w3-select" name="Priority" asp-for="Priority" asp-items="@Model.IssuePriorityLevels.ToSelectList(Model.Priority)"></select>
+    </div>
+    <div class="form-section">
+        <label asp-for="Status" class="control-label"></label>
+        <select class="w3-select" name="Status" asp-for="Status" asp-items="@Model.IssueStatuses.ToSelectList(Model.Status)"></select>
+    </div>
+    <div class="form-section">
+        <input asp-for="Id" />
+        <input class="w3-btn w3-padding w3-teal" type="submit" value="Update" />
+    </div>
+</form>
+
+<form asp-controller="Legacy" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+    <div>
+        <input class="w3-btn w3-padding w3-red" type="submit" value="Delete" />
+    </div>
+</form>

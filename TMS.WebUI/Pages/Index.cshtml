@@ -1,9 +1,14 @@
 ﻿@page
 @model TMS.WebUI.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "TMS Homepage";
 }
 
-<h1>TMS Homepage</h1>
-<div><a href="/Issues">Задачи</a></div>
+<h1>Task management system</h1>
+
+<h2>EF Core section (Auth required)</h2>
+<div><a href="/Issues">Список задач</a></div>
 <div><a href="/Employees">Сотрудники</a></div>
+
+<h2>Legacy section (ADO.NET)</h2>
+<div><a href="/Legacy">Список задач</a></div>

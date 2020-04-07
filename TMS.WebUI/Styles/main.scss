@@ -18,6 +18,7 @@
     font-size: 14px;
     height: 30px;
     text-decoration: none;
+    padding: 10px;
 
     &:hover {
         background-color: #eeeeee;
@@ -96,5 +97,164 @@ td[class^="task"] {
         content: '\2713';
         color: rgba(0, 0, 180, 0.5);
         border-color: rgba(0, 0, 180, 0.5);
+    }
+}
+
+.text-danger
+{
+    color:red;
+}
+
+
+.w3-top ul li,
+.w3-sidebar ul li {
+    list-style: none;
+    width: 100%;
+    padding: 0;
+}
+
+.w3-sidebar ul {
+    padding: 0;
+}
+
+.w3-sidebar .identity-block .w3-button {
+    margin-top: 10px;
+    border: 1px #ccc solid;
+    box-sizing: border-box;
+}
+
+.w3-sidebar .identity-block .w3-button {
+    margin-top: 10px;
+    border: 1px #ccc solid;
+    box-sizing: border-box;
+}
+
+.w3-top .identity-block .w3-navbar-nav {
+    padding: 0 16px;
+    margin: 0;
+}
+
+.w3-top .identity-block .w3-nav-item {
+    display: inline-block;
+    width: auto;
+    margin-right: 10px;
+}
+
+.w3-top .identity-block .w3-nav-item a,
+.w3-top .identity-block .w3-nav-item button {
+    text-transform: uppercase;
+    text-decoration: none;
+    display: block;
+}
+
+.container {
+    margin: 0 auto;
+    width: 90%;
+}
+
+.main-cont {
+    margin-top: 70px;
+    margin-bottom: 300px;
+}
+
+@media (max-width: 600px) {
+    footer.w3-bottom {
+        position: inherit;
+    }
+
+    .main-cont {
+        margin-bottom: 20px;
+    }
+}
+
+.w3-btn
+{
+    margin:10px 0;
+}
+
+.form-section
+{
+    margin:15px auto;
+}
+
+
+
+
+.issue-row {
+    border: 1px #000 solid;
+    margin: 20px 0;
+    padding: 15px;
+    border-radius: 5px;
+    display: table;
+    width: 100%
+}
+
+.issue-row .title {
+    font-weight: bold;
+}
+
+.issue-basic {
+    position: relative;
+}
+
+.issue-basic a {
+    position: absolute;
+    right: 15px;
+    top: 0px;
+    border: 1px #ccc solid;
+}
+
+.issue-row .w3-half {
+    width: 50%;
+}
+
+.issue-aux a {
+    font-size: 12px;
+}
+
+.priority-Major span {
+    color: red;
+}
+
+.priority-Default span {
+    color: blue;
+}
+
+.status-New span {
+    color: rgb(0, 155, 155)
+}
+
+.status-InProgress span {
+    color: rgb(155, 155, 0)
+}
+
+.status-Done span {
+    color: rgb(0, 155, 0)
+}
+
+.issue-description {
+    margin: 30px 0 15px;
+}
+
+@media (min-width:601px) {
+    .issue-row {
+        height: 200px;
+    }
+
+    .issue-row .w3-third {
+        height: inherit;
+    }
+
+    .issue-description {
+        margin: 0;
+        height: 80px;
+        overflow-y: scroll;
+    }
+
+    .issue-basic a {
+        right: auto;
+        top: auto;
+        left: 15px;
+        bottom: 30px;
     }
 }

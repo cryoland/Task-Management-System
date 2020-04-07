@@ -1,0 +1,44 @@
+﻿@model IEnumerable<TMS.Domain.Entities.Issue>;
+@{
+    ViewData["Title"] = "Homepage (Legacy)";
+}
+<div class="breadcrumbs">
+    <a href="/">Home</a> >
+    <span>Legacy</span>
+</div>
+
+<h1>@ViewData["Title"]</h1>
+
+<h3><a asp-controller="Legacy" asp-action="Create" class="w3-btn w3-pale-green">Create</a></h3>
+
+<div class="issues-list">
+    @if (Model == null)
+    {
+       <span>No data</span>
+    }
+    else
+    {
+        @foreach (var row in Model)
+        {
+            <div class="issue-row issue-id-@row.IssueId">
+                <div class="issue-basic w3-third w3-container">
+                    <div class="issue-name title">@row.Name</div>
+                    <div class="issue-description">@row.Description</div>
+                    <a class="w3-button" asp-controller="Legacy" asp-action="Update" asp-route-id="@row.IssueId">Update</a>
+                </div>
+                <div class="issue-aux w3-twothird">
+                    <div class="issue-team w3-half w3-container">
+                        <span class="title">Team</span>
+                        <div class="issue-reporter">Reporter: <br/><a href="mailto:@row.Reporter.FullName"><span class="value">@row.Reporter.ShortName</span></a></div>
+                        <div class="issue-assignee">Assignee: <br/><a href="mailto:@row.Assignee.FullName"><span class="value">@row.Assignee.ShortName</span></a></div>
+                    </div>
+                    <div class="issue-state w3-half w3-container">
+                        <span class="title">Issue state</span>
+                        <div class="issue-status status-@row.Status">Status: <span class="value">@row.Status</span></div>
+                        <div class="issue-priority priority-@row.Priority">Priority: <span class="value">@row.Priority</span></div>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>

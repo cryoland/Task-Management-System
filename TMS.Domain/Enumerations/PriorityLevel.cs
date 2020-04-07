@@ -2,7 +2,6 @@
 {
     public enum PriorityLevel
     {
-        None,
         Default,
         Major,
     }

@@ -41,12 +41,12 @@ namespace TMS.WebUI
             services.AddHealthChecks()
                 .AddDbContextCheck<ApplicationDbContext>();
 
+            services.AddMvc();
+
             services
                 .AddControllers()
                 .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<IApplicationDbContext>())
                 .AddNewtonsoftJson();
-
-            services.AddRazorPages();
 
             // Customise default API behaviour
             services.Configure<ApiBehaviorOptions>(options =>

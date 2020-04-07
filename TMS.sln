@@ -27,7 +27,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{07000437
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.UnitTests.Domain", "TMS.UnitTests.Domain\TMS.UnitTests.Domain.csproj", "{B08E34A4-CDCC-4E2A-8FBE-B75EB9C02485}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TMS.UnitTests.Application", "TMS.UnitTests.Application\TMS.UnitTests.Application.csproj", "{ACA51648-530D-4EDC-AA69-7B13E0106D4E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TMS.UnitTests.Application", "TMS.UnitTests.Application\TMS.UnitTests.Application.csproj", "{ACA51648-530D-4EDC-AA69-7B13E0106D4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

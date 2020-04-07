@@ -2,7 +2,6 @@
 {
     public enum IssueStatus
     {
-        None,
         New,
         InProgress,
         Done
