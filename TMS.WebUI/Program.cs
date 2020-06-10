@@ -28,9 +28,8 @@ namespace TMS.WebUI
                     
                     var userManager = services.GetRequiredService<UserManager<AppUser>>();
                     var roleManager = services.GetRequiredService<RoleManager<IdentityRole>>();
-                    var dbContext = services.GetRequiredService<ApplicationDbContext>();
 
-                    await ApplicationDbContextSeed.SeedAsync(userManager, roleManager, dbContext);
+                    await ApplicationDbContextSeed.SeedAsync(userManager, roleManager, context);
                 }
                 catch (Exception ex)
                 {
